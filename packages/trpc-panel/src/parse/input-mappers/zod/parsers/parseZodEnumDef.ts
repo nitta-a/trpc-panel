@@ -1,7 +1,8 @@
 import { nodePropertiesFromRef } from "@src/parse/utils";
 import { EnumNode, ParseFunction } from "../../../parseNodeTypes";
+import { ZodEnumDef } from "../zod-def-types";
 
-export const parseZodEnumDef: ParseFunction<any, EnumNode> = (
+export const parseZodEnumDef: ParseFunction<ZodEnumDef, EnumNode> = (
   def,
   refs
 ) => {

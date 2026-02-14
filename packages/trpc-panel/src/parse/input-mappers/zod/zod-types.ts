@@ -1,1 +1,3 @@
-export type ZodDefWithType = any & { type: string };
+import { AnyZodDef } from './zod-def-types';
+
+export type ZodDefWithType = AnyZodDef;

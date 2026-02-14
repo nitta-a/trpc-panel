@@ -1,4 +1,5 @@
 import { nodePropertiesFromRef, getShapeFromDef, getChildDef } from "@src/parse/utils";
+import { ZodObjectDef } from "../zod-def-types";
 import {
   ObjectNode,
   ParsedInputNode,
@@ -7,8 +8,8 @@ import {
 } from "../../../parseNodeTypes";
 import { zodSelectorFunction } from "../selector";
 
-export const parseZodObjectDef: ParseFunction<
-  any,
+export const parseZodObjectDef: ParseFunction<ZodObjectDef,
+
   ObjectNode | UnsupportedNode
 > = (def, refs) => {
   const shape = getShapeFromDef(def);

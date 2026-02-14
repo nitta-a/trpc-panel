@@ -30,7 +30,7 @@ export const zodSelectorFunction: ParserSelectorFunction<ZodDefWithType> = (
   // const unwrappedOptional = optional ? zodAny._def.innerType : zodAny;
   // Please keep these in alphabetical order
   // In Zod v4, typeName was changed to type and uses lowercase strings
-  const typeKey = (def as any).type || (def as any).typeName;
+  const typeKey = def.type || def.typeName;
   let normalizedType: string;
   if (typeof typeKey === 'string') {
     normalizedType = typeKey.toLowerCase();
@@ -57,19 +57,19 @@ export const zodSelectorFunction: ParserSelectorFunction<ZodDefWithType> = (
       );
     case 'zodenum':
     case 'enum':
-      return parseZodEnumDef(def as any, references);
+      return parseZodEnumDef(def, references);
     case 'zodliteral':
     case 'literal':
       return parseZodLiteralDef(def as any, references);
     case 'zodnumber':
     case 'number':
-      return parseZodNumberDef(def as any, references);
+      return parseZodNumberDef(def, references);
     case 'zodobject':
     case 'object':
       return parseZodObjectDef(def as any, references);
     case 'zodoptional':
     case 'optional':
-      return parseZodOptionalDef(def as any, references);
+      return parseZodOptionalDef(def, references);
     case 'zodstring':
     case 'string':
       return parseZodStringDef(def as any, references);
@@ -96,7 +96,7 @@ export const zodSelectorFunction: ParserSelectorFunction<ZodDefWithType> = (
       return parseZodNullDef(def as any, references);
     case 'zodpromise':
     case 'promise':
-      return parseZodPromiseDef(def as any, references);
+      return parseZodPromiseDef(def, references);
     case 'zodundefined':
     case 'undefined':
       return parseZodUndefinedDef(def as any, references);

@@ -1,8 +1,9 @@
 import { ParsedInputNode, ParseReferences } from "@src/parse/parseNodeTypes";
 import { nodePropertiesFromRef } from "@src/parse/utils";
+import { ZodBigIntDef } from "../zod-def-types";
 
 export function parseZodBigIntDef(
-  def: any,
+  def: ZodBigIntDef,
   refs: ParseReferences
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs);

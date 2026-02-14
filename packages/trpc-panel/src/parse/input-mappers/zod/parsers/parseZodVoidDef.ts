@@ -1,7 +1,8 @@
 import { LiteralNode, ParseReferences } from "@src/parse/parseNodeTypes";
+import { ZodVoidDef } from "../zod-def-types";
 
 export function parseZodVoidDef(
-  _: any,
+  _: ZodVoidDef,
   refs: ParseReferences
 ): LiteralNode {
   return {
