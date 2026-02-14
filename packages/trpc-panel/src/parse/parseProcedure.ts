@@ -10,7 +10,7 @@ import {
   TrpcPanelExtraOptions,
 } from "./parseRouter";
 
-import { AnyZodObject, z } from "zod";
+import { z } from "zod";
 import { zodSelectorFunction } from "./input-mappers/zod/selector";
 import {
   ParseReferences,
@@ -65,7 +65,7 @@ function nodeAndInputSchemaFromInputs(
   if (!inputs.length) {
     return {
       parseInputResult: "success",
-      schema: zodToJsonSchema(emptyZodObject, {
+      schema: zodToJsonSchema(emptyZodObject as any, {
         errorMessages: true,
         $refStrategy: "none",
       }),

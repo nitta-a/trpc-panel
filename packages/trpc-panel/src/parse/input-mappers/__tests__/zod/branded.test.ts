@@ -1,7 +1,7 @@
 import { defaultReferences } from "../../defaultReferences";
 import { ParsedInputNode } from "../../../parseNodeTypes";
-import { z, ZodBrandedDef, ZodType } from "zod";
-import { parseZodBrandedDef } from "../../zod/parsers/parseZodBrandedDef";
+import { z, ZodType } from "zod";
+import { zodSelectorFunction } from "../../zod/selector";
 
 describe("Parsed ZodBranded", () => {
   it("should parse branded nodes as their base zod type", () => {
@@ -25,8 +25,10 @@ describe("Parsed ZodBranded", () => {
       },
     ];
     for (var testCase of testCases) {
-      const parsed = parseZodBrandedDef(
-        testCase.zodType._def as unknown as ZodBrandedDef<any>,
+      // In Zod v4, branded types don't have a special _def structure
+      // They just have the base type's _def, so we use the selector
+      const parsed = zodSelectorFunction(
+        testCase.zodType._def as any,
         defaultReferences()
       );
       expect(parsed).toStrictEqual(testCase.node);
