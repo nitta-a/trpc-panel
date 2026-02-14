@@ -1,15 +1,15 @@
 import { nodePropertiesFromRef } from "@src/parse/utils";
-import { ZodLiteralDef } from "zod";
 import { LiteralNode, ParseFunction } from "../../../parseNodeTypes";
 
-export const parseZodLiteralDef: ParseFunction<ZodLiteralDef, LiteralNode> = (
+export const parseZodLiteralDef: ParseFunction<any, LiteralNode> = (
   def,
   refs
 ) => {
   refs.addDataFunctions.addDescriptionIfExists(def, refs);
+  const value = def.values ? def.values[0] : def.value;
   return {
     type: "literal",
-    value: def.value,
+    value: value,
     ...nodePropertiesFromRef(refs),
   };
 };

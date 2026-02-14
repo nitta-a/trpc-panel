@@ -1,23 +1,3 @@
-import {
-  ZodArrayDef,
-  ZodBigIntDef,
-  ZodBooleanDef,
-  ZodBrandedDef,
-  ZodDefaultDef,
-  ZodEffectsDef,
-  ZodEnumDef,
-  ZodFirstPartyTypeKind,
-  ZodLiteralDef,
-  ZodNullableDef,
-  ZodNullDef,
-  ZodNumberDef,
-  ZodObjectDef,
-  ZodOptionalDef,
-  ZodPromiseDef,
-  ZodStringDef,
-  ZodUndefinedDef,
-  ZodVoidDef,
-} from "zod";
 import { parseZodStringDef } from "./parsers/parseZodStringDef";
 import { ParserSelectorFunction } from "../../parseNodeTypes";
 import { ZodDefWithType } from "./zod-types";
@@ -49,48 +29,73 @@ export const zodSelectorFunction: ParserSelectorFunction<ZodDefWithType> = (
   // const optional = isZodOptional(zodAny);
   // const unwrappedOptional = optional ? zodAny._def.innerType : zodAny;
   // Please keep these in alphabetical order
-  switch (def.typeName) {
-    case ZodFirstPartyTypeKind.ZodArray:
-      return parseZodArrayDef(def as ZodArrayDef, references);
-    case ZodFirstPartyTypeKind.ZodBoolean:
-      return parseZodBooleanFieldDef(def as ZodBooleanDef, references);
-    case ZodFirstPartyTypeKind.ZodDiscriminatedUnion:
+  // In Zod v4, typeName was changed to type and uses lowercase strings
+  const typeKey = (def as any).type || (def as any).typeName;
+  const normalizedType = typeof typeKey === 'string' ? typeKey.toLowerCase() : typeKey;
+  
+  switch (normalizedType) {
+    case 'zodarray':
+    case 'array':
+      return parseZodArrayDef(def as any, references);
+    case 'zodboolean':
+    case 'boolean':
+      return parseZodBooleanFieldDef(def as any, references);
+    case 'zoddiscriminatedunion':
+    case 'discriminatedunion':
+    case 'zodunion':
+    case 'union':
       return parseZodDiscriminatedUnionDef(
-        // Zod had some type changes between 3.19 -> 3.20 and we want to support both, not sure there's a way
-        // to avoid this.
         def as unknown as ZodDiscriminatedUnionDefUnversioned,
         references
       );
-    case ZodFirstPartyTypeKind.ZodEnum:
-      return parseZodEnumDef(def as ZodEnumDef, references);
-    case ZodFirstPartyTypeKind.ZodLiteral:
-      return parseZodLiteralDef(def as ZodLiteralDef, references);
-    case ZodFirstPartyTypeKind.ZodNumber:
-      return parseZodNumberDef(def as ZodNumberDef, references);
-    case ZodFirstPartyTypeKind.ZodObject:
-      return parseZodObjectDef(def as ZodObjectDef, references);
-    case ZodFirstPartyTypeKind.ZodOptional:
-      return parseZodOptionalDef(def as ZodOptionalDef, references);
-    case ZodFirstPartyTypeKind.ZodString:
-      return parseZodStringDef(def as ZodStringDef, references);
-    case ZodFirstPartyTypeKind.ZodNullable:
-      return parseZodNullableDef(def as ZodNullableDef, references);
-    case ZodFirstPartyTypeKind.ZodBigInt:
-      return parseZodBigIntDef(def as ZodBigIntDef, references);
-    case ZodFirstPartyTypeKind.ZodBranded:
-      return parseZodBrandedDef(def as ZodBrandedDef<any>, references);
-    case ZodFirstPartyTypeKind.ZodDefault:
-      return parseZodDefaultDef(def as ZodDefaultDef, references);
-    case ZodFirstPartyTypeKind.ZodEffects:
-      return parseZodEffectsDef(def as ZodEffectsDef, references);
-    case ZodFirstPartyTypeKind.ZodNull:
-      return parseZodNullDef(def as ZodNullDef, references);
-    case ZodFirstPartyTypeKind.ZodPromise:
-      return parseZodPromiseDef(def as ZodPromiseDef, references);
-    case ZodFirstPartyTypeKind.ZodUndefined:
-      return parseZodUndefinedDef(def as ZodUndefinedDef, references);
-    case ZodFirstPartyTypeKind.ZodVoid:
-      return parseZodVoidDef(def as ZodVoidDef, references);
+    case 'zodenum':
+    case 'enum':
+      return parseZodEnumDef(def as any, references);
+    case 'zodliteral':
+    case 'literal':
+      return parseZodLiteralDef(def as any, references);
+    case 'zodnumber':
+    case 'number':
+      return parseZodNumberDef(def as any, references);
+    case 'zodobject':
+    case 'object':
+      return parseZodObjectDef(def as any, references);
+    case 'zodoptional':
+    case 'optional':
+      return parseZodOptionalDef(def as any, references);
+    case 'zodstring':
+    case 'string':
+      return parseZodStringDef(def as any, references);
+    case 'zodnullable':
+    case 'nullable':
+      return parseZodNullableDef(def as any, references);
+    case 'zodbigint':
+    case 'bigint':
+      return parseZodBigIntDef(def as any, references);
+    case 'zodbranded':
+    case 'branded':
+      return parseZodBrandedDef(def as any, references);
+    case 'zoddefault':
+    case 'default':
+      return parseZodDefaultDef(def as any, references);
+    case 'zodeffects':
+    case 'effects':
+    case 'zodpipe':
+    case 'pipe':
+    case 'transform':
+      return parseZodEffectsDef(def as any, references);
+    case 'zodnull':
+    case 'null':
+      return parseZodNullDef(def as any, references);
+    case 'zodpromise':
+    case 'promise':
+      return parseZodPromiseDef(def as any, references);
+    case 'zodundefined':
+    case 'undefined':
+      return parseZodUndefinedDef(def as any, references);
+    case 'zodvoid':
+    case 'void':
+      return parseZodVoidDef(def as any, references);
   }
   return { type: "unsupported", path: references.path };
 };

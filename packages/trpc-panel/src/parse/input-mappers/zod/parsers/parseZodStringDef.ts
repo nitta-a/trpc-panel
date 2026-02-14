@@ -1,8 +1,7 @@
 import { ParseFunction, StringNode } from "../../../parseNodeTypes";
-import { ZodStringDef } from "zod";
 import { nodePropertiesFromRef } from "@src/parse/utils";
 
-export const parseZodStringDef: ParseFunction<ZodStringDef, StringNode> = (
+export const parseZodStringDef: ParseFunction<any, StringNode> = (
   def,
   refs
 ) => {
