@@ -1,11 +1,12 @@
 import { zodSelectorFunction } from "@src/parse/input-mappers/zod/selector";
 import { ParsedInputNode, ParseReferences } from "@src/parse/parseNodeTypes";
+import { getChildDef } from "@src/parse/utils";
 
 export function parseZodDefaultDef(
   def: any,
   refs: ParseReferences
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs);
-  const innerDef = def.innerType?.def || def.innerType?._def;
+  const innerDef = getChildDef(def.innerType);
   return zodSelectorFunction(innerDef, refs);
 }

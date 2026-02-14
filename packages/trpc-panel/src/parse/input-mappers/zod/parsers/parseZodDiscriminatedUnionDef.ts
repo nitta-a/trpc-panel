@@ -1,4 +1,4 @@
-import { nodePropertiesFromRef } from "@src/parse/utils";
+import { nodePropertiesFromRef, getShapeFromDef, getChildDef } from "@src/parse/utils";
 import { DiscriminatedUnionNode, ParseFunction } from "../../../parseNodeTypes";
 import { zodSelectorFunction } from "../selector";
 
@@ -45,10 +45,10 @@ function makeDefConsistent(def: ZodDiscriminatedUnionDefUnversioned): {
 } {
   if (isZodV4(def)) {
     const entries: Array<[string, any]> = def.options.map((option: any) => {
-      const optionDef = option.def || option._def;
-      const shape = typeof optionDef.shape === 'function' ? optionDef.shape() : optionDef.shape;
+      const optionDef = getChildDef(option);
+      const shape = getShapeFromDef(optionDef);
       const discriminatorField = shape[def.discriminator];
-      const discriminatorDef = discriminatorField?.def || discriminatorField?._def;
+      const discriminatorDef = getChildDef(discriminatorField);
       const value = discriminatorDef?.values?.[0] ?? discriminatorDef?.value;
       return [value, option];
     });
@@ -70,7 +70,7 @@ export const parseZodDiscriminatedUnionDef: ParseFunction<
 > = (def, refs) => {
   const defConsistent = makeDefConsistent(def);
   const nodeEntries = defConsistent.entries.map(([discriminatorValue, zodObj]) => {
-    const zodObjDef = zodObj.def || zodObj._def;
+    const zodObjDef = getChildDef(zodObj);
     return [
       discriminatorValue,
       zodSelectorFunction(zodObjDef, refs),
