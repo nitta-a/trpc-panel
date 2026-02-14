@@ -62,7 +62,7 @@ let cache: {
   val: null,
 };
 
-export function renderTrpcPanel(router: Router<any>, options: RenderOptions) {
+export function renderTrpcPanel(router: Router, options: RenderOptions) {
   if (options.cache === true && cache.val) return cache.val;
 
   const bundleInjectionParams: InjectionParam[] = [
