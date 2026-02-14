@@ -4,6 +4,8 @@ import { zodSelectorFunction } from "../selector";
 
 type OptionsMap = Map<string, any>;
 
+type DiscriminatorEntry = [string, any];
+
 type ZodDiscriminatedUnionV4 = {
   options: any[];
   discriminator: string;
@@ -41,10 +43,10 @@ function isZodThreePointTwenty(
 
 function makeDefConsistent(def: ZodDiscriminatedUnionDefUnversioned): {
   discriminator: string;
-  entries: Array<[string, any]>;
+  entries: DiscriminatorEntry[];
 } {
   if (isZodV4(def)) {
-    const entries: Array<[string, any]> = def.options.map((option: any) => {
+    const entries: DiscriminatorEntry[] = def.options.map((option: any) => {
       const optionDef = getChildDef(option);
       const shape = getShapeFromDef(optionDef);
       const discriminatorField = shape[def.discriminator];
@@ -60,7 +62,7 @@ function makeDefConsistent(def: ZodDiscriminatedUnionDefUnversioned): {
   const optionsMap = isZodThreePointTwenty(def) ? def.optionsMap : def.options;
   return {
     discriminator: def.discriminator,
-    entries: Array.from(optionsMap.entries()) as Array<[string, any]>,
+    entries: Array.from(optionsMap.entries()) as DiscriminatorEntry[],
   };
 }
 

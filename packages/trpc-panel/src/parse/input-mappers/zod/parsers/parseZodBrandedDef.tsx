@@ -11,5 +11,5 @@ export function parseZodBrandedDef(
     const innerDef = getChildDef(def.type);
     return zodSelectorFunction(innerDef, refs);
   }
-  return zodSelectorFunction(def, refs);
+  return { type: "unsupported", path: refs.path };
 }

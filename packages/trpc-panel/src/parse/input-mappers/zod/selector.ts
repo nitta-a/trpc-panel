@@ -31,9 +31,14 @@ export const zodSelectorFunction: ParserSelectorFunction<ZodDefWithType> = (
   // Please keep these in alphabetical order
   // In Zod v4, typeName was changed to type and uses lowercase strings
   const typeKey = (def as any).type || (def as any).typeName;
-  const normalizedType = typeof typeKey === 'string' 
-    ? typeKey.toLowerCase() 
-    : String(typeKey).replace('Symbol(', '').replace(')', '').toLowerCase();
+  let normalizedType: string;
+  if (typeof typeKey === 'string') {
+    normalizedType = typeKey.toLowerCase();
+  } else if (typeof typeKey === 'symbol') {
+    normalizedType = typeKey.toString().replace('Symbol(', '').replace(')', '').toLowerCase();
+  } else {
+    normalizedType = String(typeKey).toLowerCase();
+  }
   
   switch (normalizedType) {
     case 'zodarray':
