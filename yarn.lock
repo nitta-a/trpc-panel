@@ -1175,32 +1175,22 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
   integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
 
-"@trpc/client@^11.0.0":
+"@trpc/client@^11.10.0":
   version "11.10.0"
   resolved "https://registry.yarnpkg.com/@trpc/client/-/client-11.10.0.tgz#f8e7e74b8bf072fcd7144b95d4da18b87000334e"
   integrity sha512-h0s2AwDtuhS8INRb4hlo4z3RKCkarWqlOy+3ffJgrlDxzzW6aLUN+9nDrcN4huPje1Em15tbCOqhIc6oaKYTRw==
 
-"@trpc/next@^11.0.0":
+"@trpc/next@^11.10.0":
   version "11.10.0"
   resolved "https://registry.yarnpkg.com/@trpc/next/-/next-11.10.0.tgz#05ea89f3bb918589cadbae5f9b2202c835889574"
   integrity sha512-IhyJKmXCkImGbvrfUi/TtCWYR+cLylJiWXVLqtkJs/byWK7nA0K+zmCUmbnPgr60gv3qp+X2YZpdapD7fyc5Mg==
 
-"@trpc/react-query@11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-11.0.0.tgz#6fb849baf715fb33d2eb6a417d7e75fc00307ae6"
-  integrity sha512-HeE9bBLA6nqC2xk5wlNZIPQ5vmyli3tgNNab8fTE489+ksNMKxaIx66pZKsMJIorDcP1wS0rWNV+GroU0iR98g==
-
-"@trpc/react-query@^11.0.0":
+"@trpc/react-query@11.10.0", "@trpc/react-query@^11.10.0":
   version "11.10.0"
   resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-11.10.0.tgz#344a15f9a8f0d3c554d1be9032c51a48b66073c0"
   integrity sha512-SKLpwEMU32mpDTCc3msMxb0fx113x4Jsiw0/t+ENY6AtyvhvDMRF1bpWtoNyY6zpX5wN4JCQMhHef8k0T1rJIw==
 
-"@trpc/server@11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-11.0.0.tgz#5a49758fa3c052a83314c328155d68027164f077"
-  integrity sha512-xY9q/b/wR/tWGYTm5xmRjivkYD2EZZXmOKmHuNJRYZuLbieeNUsdfQRjJC409WB1pjKWInomhHwuA8bahZJ4lQ==
-
-"@trpc/server@^11.0.0":
+"@trpc/server@11.10.0", "@trpc/server@^11.10.0":
   version "11.10.0"
   resolved "https://registry.yarnpkg.com/@trpc/server/-/server-11.10.0.tgz#962ea785240e0ba0183fb72d9aacf880675214eb"
   integrity sha512-zZjTrR6He61e5TiT7e/bQqab/jRcXBZM8Fg78Yoo8uh5pz60dzzbYuONNUCOkafv5ppXVMms4NHYfNZgzw50vg==

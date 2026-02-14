@@ -1,4 +1,4 @@
-import { Router } from "@trpc/server";
+import { AnyRouter as Router } from "@trpc/server";
 import fs from "fs";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
