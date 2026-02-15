@@ -66,7 +66,7 @@ export type TrpcPanelExtraOptions = {
 }
 
 export function parseRouterWithOptions(
-  router: TRPCRouter<any>,
+  router: TRPCRouter,
   parseRouterOptions: TrpcPanelExtraOptions,
 ) {
   if (!isRouter(router)) {
