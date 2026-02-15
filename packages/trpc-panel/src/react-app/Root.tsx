@@ -15,7 +15,6 @@ import { type ReactNode, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import superjson from 'superjson'
 import type { ParsedRouter } from '../parse/parseRouter'
-import { type TRPCClient, trpc } from './trpc'
 import { RouterContainer } from './components/RouterContainer'
 import { SideNav } from './components/SideNav'
 import { TopBar } from './components/TopBar'
@@ -27,7 +26,8 @@ export function RootComponent({
 }: {
   rootRouter: ParsedRouter
   options: RenderOptions
-  trpc: TRPCClient
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  trpc: any
 }) {
   return (
     <HeadersContextProvider>
@@ -53,7 +53,8 @@ function ClientProviders({
   children,
   options,
 }: {
-  trpc: TRPCClient
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  trpc: any
   children: ReactNode
   options: RenderOptions
 }) {

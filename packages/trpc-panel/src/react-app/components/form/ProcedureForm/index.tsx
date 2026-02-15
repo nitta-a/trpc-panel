@@ -57,7 +57,8 @@ export function ProcedureForm({
   const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
   const [queryInput, setQueryInput] = useState<unknown>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
-  const context = trpc.useContext()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const context = (trpc as any).useContext()
 
   function getProcedure() {
     // Use Record for dynamic property access - more type-safe than 'any'
@@ -116,7 +117,8 @@ export function ProcedureForm({
     handleSubmit,
   } = useForm<ProcedureFormData>({
     // Type assertion needed due to incompatibility between ajv-formats and react-hook-form types
-    resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as unknown) as unknown, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as any) as any, {
       formats: fullFormats,
     }),
     defaultValues: {
