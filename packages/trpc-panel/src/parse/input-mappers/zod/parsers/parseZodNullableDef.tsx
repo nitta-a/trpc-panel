@@ -1,6 +1,6 @@
 import { zodSelectorFunction } from "@src/parse/input-mappers/zod/selector";
 import { ParsedInputNode, ParseReferences } from "@src/parse/parseNodeTypes";
-import { ZodNullableDef } from "zod";
+import { ZodNullableDef } from 'zod/v3';
 
 export function parseZodNullableDef(
   def: ZodNullableDef,

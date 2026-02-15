@@ -1,7 +1,7 @@
 import { defaultReferences } from "@src/parse/input-mappers/defaultReferences";
 import { parseZodObjectDef } from "@src/parse/input-mappers/zod/parsers/parseZodObjectDef";
 import { ObjectNode } from "@src/parse/parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Parse ZodObject", () => {
   it("should parse an empty zod object", () => {

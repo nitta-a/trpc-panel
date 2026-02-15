@@ -5,7 +5,7 @@ import { ajvResolver } from "@hookform/resolvers/ajv";
 import { defaultFormValuesForNode } from "@src/react-app/components/form/utils";
 import { trpc } from "@src/react-app/trpc";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { z } from "zod";
+import { z } from 'zod/v3';
 import { ProcedureFormButton } from "./ProcedureFormButton";
 import { Response } from "./Response";
 import { FormSection } from "./FormSection";

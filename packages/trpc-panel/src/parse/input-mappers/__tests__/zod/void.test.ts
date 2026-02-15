@@ -2,7 +2,7 @@ import { defaultReferences } from "../../defaultReferences";
 import { parseZodVoidDef } from "../../zod/parsers/parseZodVoidDef";
 import { zodSelectorFunction } from "../../zod/selector";
 import { LiteralNode } from "../../../parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Parse ZodVoid", () => {
   it("should parse a void def as a literal node with undefined value", () => {

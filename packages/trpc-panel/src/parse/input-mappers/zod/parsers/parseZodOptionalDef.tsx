@@ -1,4 +1,4 @@
-import { ZodOptionalDef } from "zod";
+import { ZodOptionalDef } from 'zod/v3';
 import { ParsedInputNode, ParseFunction } from "../../../parseNodeTypes";
 import { zodSelectorFunction } from "../selector";
 

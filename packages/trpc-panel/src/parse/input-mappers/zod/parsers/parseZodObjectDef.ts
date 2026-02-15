@@ -1,5 +1,5 @@
 import { nodePropertiesFromRef } from "@src/parse/utils";
-import { ZodObjectDef } from "zod";
+import { ZodObjectDef } from 'zod/v3';
 import {
   ObjectNode,
   ParsedInputNode,

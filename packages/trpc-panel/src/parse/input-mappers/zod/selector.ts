@@ -17,7 +17,7 @@ import {
   ZodStringDef,
   ZodUndefinedDef,
   ZodVoidDef,
-} from "zod";
+} from 'zod/v3';
 import { parseZodStringDef } from "./parsers/parseZodStringDef";
 import { ParserSelectorFunction } from "../../parseNodeTypes";
 import { ZodDefWithType } from "./zod-types";

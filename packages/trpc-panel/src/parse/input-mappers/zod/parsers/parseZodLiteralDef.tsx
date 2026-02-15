@@ -1,5 +1,5 @@
 import { nodePropertiesFromRef } from "@src/parse/utils";
-import { ZodLiteralDef } from "zod";
+import { ZodLiteralDef } from 'zod/v3';
 import { LiteralNode, ParseFunction } from "../../../parseNodeTypes";
 
 export const parseZodLiteralDef: ParseFunction<ZodLiteralDef, LiteralNode> = (

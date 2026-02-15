@@ -1,7 +1,7 @@
 import { defaultReferences } from "@src/parse/input-mappers/defaultReferences";
 import { parseZodNullDef } from "@src/parse/input-mappers/zod/parsers/parseZodNullDef";
 import { LiteralNode } from "@src/parse/parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Parse ZodNull", () => {
   it("should parse a zod nullable as a literal with value null", () => {

@@ -1,6 +1,6 @@
 import { defaultReferences } from "../../defaultReferences";
 import { ParsedInputNode } from "../../../parseNodeTypes";
-import { z, ZodBrandedDef, ZodType } from "zod";
+import { z, ZodBrandedDef, ZodType } from 'zod/v3';
 import { parseZodBrandedDef } from "../../zod/parsers/parseZodBrandedDef";
 
 describe("Parsed ZodBranded", () => {

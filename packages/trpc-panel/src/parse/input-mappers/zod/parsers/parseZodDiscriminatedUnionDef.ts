@@ -1,5 +1,5 @@
 import { nodePropertiesFromRef } from "@src/parse/utils";
-import { AnyZodObject, ZodFirstPartyTypeKind } from "zod";
+import { AnyZodObject, ZodFirstPartyTypeKind } from 'zod/v3';
 import { DiscriminatedUnionNode, ParseFunction } from "../../../parseNodeTypes";
 import { zodSelectorFunction } from "../selector";
 
