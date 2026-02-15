@@ -10,6 +10,21 @@ The repo is configured to work with yarn v1 workspaces. To install dependencies,
 yarn
 ```
 
+### Code Quality
+
+This project uses [Biome](https://biomejs.dev/) for linting and formatting. You can run the following commands:
+
+```sh
+# Check code for issues
+yarn lint
+
+# Format code
+yarn format
+
+# Check and apply safe fixes
+yarn check
+```
+
 ### Development App
 
 Included in this repo there is a development app that makes it easy to work on `trpc-panel` locally. It is a `next.js` app that will render the router included in the dev app. To run it, do:

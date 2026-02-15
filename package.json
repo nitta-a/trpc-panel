@@ -9,14 +9,17 @@
     "build:docs": "yarn && npx nx build --project docs",
     "cpy:readme": "cp README.MD packages/trpc-panel/README.md",
     "start:test-app": "node ./packages/test-app/lib/server.js",
-    "start:docs": "cd packages/docs && yarn serve"
+    "start:docs": "cd packages/docs && yarn serve",
+    "lint": "npx @biomejs/biome check .",
+    "format": "npx @biomejs/biome format --write .",
+    "check": "npx @biomejs/biome check --write ."
   },
   "private": true,
   "devDependencies": {
+    "@biomejs/biome": "^2.3.15",
     "@nrwl/nx-cloud": "latest",
     "@tsconfig/docusaurus": "^1.0.6",
     "nx": "15.2.4",
-    "prettier": "^2.6.2",
     "typescript": "^5.9.3"
   },
   "workspaces": {
@@ -25,9 +28,6 @@
       "packages/test-app",
       "packages/dev-app"
     ],
-    "nohoist": [
-      "**/zod-to-json-schema",
-      "**/zod-to-json-schema/**"
-    ]
+    "nohoist": ["**/zod-to-json-schema", "**/zod-to-json-schema/**"]
   }
 }

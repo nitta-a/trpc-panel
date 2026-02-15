@@ -1,11 +1,11 @@
-import { initTRPC } from "@trpc/server";
-import { ObjectNode } from "@src/parse/parseNodeTypes";
-import { z } from 'zod/v3';
-import { TRPCPanelMeta } from "@src/meta";
-import { zodToJsonSchema } from "zod-to-json-schema";
-import { ParsedProcedure } from "@src/parse/parseProcedure";
+import type { TRPCPanelMeta } from '@src/meta'
+import type { ObjectNode } from '@src/parse/parseNodeTypes'
+import type { ParsedProcedure } from '@src/parse/parseProcedure'
+import { initTRPC } from '@trpc/server'
+import { z } from 'zod/v3'
+import { zodToJsonSchema } from 'zod-to-json-schema'
 
-export const testTrpcInstance = initTRPC.meta<TRPCPanelMeta>().create({});
+export const testTrpcInstance = initTRPC.meta<TRPCPanelMeta>().create({})
 
 export const parseTestRouterInputSchema = z.object({
   id: z.string(),
@@ -14,112 +14,112 @@ export const parseTestRouterInputSchema = z.object({
   object: z.object({
     nestedId: z.string(),
   }),
-  du: z.discriminatedUnion("d", [
+  du: z.discriminatedUnion('d', [
     z.object({
-      d: z.literal("one"),
+      d: z.literal('one'),
       oneProps: z.string(),
     }),
     z.object({
-      d: z.literal("two"),
+      d: z.literal('two'),
     }),
   ]),
-});
+})
 
 export const expectedTestRouterInputParsedNode: ObjectNode = {
-  type: "object",
+  type: 'object',
   path: [],
   children: {
     id: {
-      type: "string",
-      path: ["id"],
+      type: 'string',
+      path: ['id'],
     },
     age: {
-      type: "number",
-      path: ["age"],
+      type: 'number',
+      path: ['age'],
     },
     expectedAgeOfDeath: {
-      type: "number",
+      type: 'number',
       optional: true,
-      path: ["expectedAgeOfDeath"],
+      path: ['expectedAgeOfDeath'],
     },
     object: {
-      type: "object",
-      path: ["object"],
+      type: 'object',
+      path: ['object'],
       children: {
         nestedId: {
-          type: "string",
-          path: ["object", "nestedId"],
+          type: 'string',
+          path: ['object', 'nestedId'],
         },
       },
     },
     du: {
-      type: "discriminated-union",
-      path: ["du"],
-      discriminatorName: "d",
-      discriminatedUnionValues: ["one", "two"],
+      type: 'discriminated-union',
+      path: ['du'],
+      discriminatorName: 'd',
+      discriminatedUnionValues: ['one', 'two'],
       discriminatedUnionChildrenMap: {
         one: {
-          type: "object",
-          path: ["du"],
+          type: 'object',
+          path: ['du'],
           children: {
             d: {
-              type: "literal",
-              value: "one",
-              path: ["du", "d"],
+              type: 'literal',
+              value: 'one',
+              path: ['du', 'd'],
             },
             oneProps: {
-              type: "string",
-              path: ["du", "oneProps"],
+              type: 'string',
+              path: ['du', 'oneProps'],
             },
           },
         },
         two: {
-          type: "object",
-          path: ["du"],
+          type: 'object',
+          path: ['du'],
           children: {
             d: {
-              type: "literal",
-              value: "two",
-              path: ["du", "d"],
+              type: 'literal',
+              value: 'two',
+              path: ['du', 'd'],
             },
           },
         },
       },
     },
   },
-};
+}
 
 export const testQueryExpectedParseResult: ParsedProcedure = {
-  nodeType: "procedure",
+  nodeType: 'procedure',
   node: expectedTestRouterInputParsedNode,
   inputSchema: zodToJsonSchema(parseTestRouterInputSchema),
-  procedureType: "query",
-  pathFromRootRouter: ["testQuery"],
+  procedureType: 'query',
+  pathFromRootRouter: ['testQuery'],
   extraData: {
-    parameterDescriptions: {}
+    parameterDescriptions: {},
   },
-};
+}
 
 export const testMutationExpectedParseResult: ParsedProcedure = {
-  nodeType: "procedure",
+  nodeType: 'procedure',
   node: expectedTestRouterInputParsedNode,
   inputSchema: zodToJsonSchema(parseTestRouterInputSchema),
-  procedureType: "mutation",
-  pathFromRootRouter: ["testMutation"],
+  procedureType: 'mutation',
+  pathFromRootRouter: ['testMutation'],
   extraData: {
-    parameterDescriptions: {}
+    parameterDescriptions: {},
   },
-};
+}
 
 export const testQuery = testTrpcInstance.procedure
   .input(parseTestRouterInputSchema)
-  .query(() => "Nada");
+  .query(() => 'Nada')
 
 export const testMutation = testTrpcInstance.procedure
   .input(parseTestRouterInputSchema)
-  .mutation(() => "Nope");
+  .mutation(() => 'Nope')
 
 export const parseTestRouter = testTrpcInstance.router({
   testQuery,
   testMutation,
-});
+})

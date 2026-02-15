@@ -1,32 +1,32 @@
-import React, { ReactNode, useState } from "react";
-import { RouterContainer } from "./components/RouterContainer";
-import type { ParsedRouter } from "../parse/parseRouter";
-import { RenderOptions } from "@src/render";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createTRPCReact, httpBatchLink } from "@trpc/react-query";
+import { AllPathsContextProvider } from '@src/react-app/components/contexts/AllPathsContext'
 import {
   HeadersContextProvider,
   useHeaders,
-} from "@src/react-app/components/contexts/HeadersContext";
-import { useLocalStorage } from "@src/react-app/components/hooks/useLocalStorage";
-import { HeadersPopup } from "@src/react-app/components/HeadersPopup";
-import { Toaster } from "react-hot-toast";
-import { SiteNavigationContextProvider } from "@src/react-app/components/contexts/SiteNavigationContext";
-import { SideNav } from "./components/SideNav";
-import { TopBar } from "./components/TopBar";
-import superjson from "superjson";
-import { AllPathsContextProvider } from "@src/react-app/components/contexts/AllPathsContext";
-import { HotKeysContextProvider } from "@src/react-app/components/contexts/HotKeysContext";
-import { SearchOverlay } from "@src/react-app/components/SearchInputOverlay";
+} from '@src/react-app/components/contexts/HeadersContext'
+import { HotKeysContextProvider } from '@src/react-app/components/contexts/HotKeysContext'
+import { SiteNavigationContextProvider } from '@src/react-app/components/contexts/SiteNavigationContext'
+import { HeadersPopup } from '@src/react-app/components/HeadersPopup'
+import { useLocalStorage } from '@src/react-app/components/hooks/useLocalStorage'
+import { SearchOverlay } from '@src/react-app/components/SearchInputOverlay'
+import type { RenderOptions } from '@src/render'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { type createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import { type ReactNode, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
+import superjson from 'superjson'
+import type { ParsedRouter } from '../parse/parseRouter'
+import { RouterContainer } from './components/RouterContainer'
+import { SideNav } from './components/SideNav'
+import { TopBar } from './components/TopBar'
 
 export function RootComponent({
   rootRouter,
   options,
   trpc,
 }: {
-  rootRouter: ParsedRouter;
-  options: RenderOptions;
-  trpc: ReturnType<typeof createTRPCReact>;
+  rootRouter: ParsedRouter
+  options: RenderOptions
+  trpc: ReturnType<typeof createTRPCReact>
 }) {
   return (
     <HeadersContextProvider>
@@ -44,7 +44,7 @@ export function RootComponent({
         </SiteNavigationContextProvider>
       </AllPathsContextProvider>
     </HeadersContextProvider>
-  );
+  )
 }
 
 function ClientProviders({
@@ -52,11 +52,11 @@ function ClientProviders({
   children,
   options,
 }: {
-  trpc: ReturnType<typeof createTRPCReact>;
-  children: ReactNode;
-  options: RenderOptions;
+  trpc: ReturnType<typeof createTRPCReact>
+  children: ReactNode
+  options: RenderOptions
 }) {
-  const headers = useHeaders();
+  const headers = useHeaders()
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
@@ -66,25 +66,25 @@ function ClientProviders({
         }),
       ],
       transformer: (() => {
-        if (options.transformer === "superjson") return superjson;
-        return undefined;
+        if (options.transformer === 'superjson') return superjson
+        return undefined
       })(),
-    })
-  );
-  const [queryClient] = useState(() => new QueryClient());
+    }),
+  )
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
     <trpc.Provider queryClient={queryClient} client={trpcClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </trpc.Provider>
-  );
+  )
 }
 
 function AppInnards({ rootRouter }: { rootRouter: ParsedRouter }) {
   const [sidebarOpen, setSidebarOpen] = useLocalStorage(
-    "trpc-panel.show-minimap",
-    true
-  );
+    'trpc-panel.show-minimap',
+    true,
+  )
 
   return (
     <div className="flex flex-col flex-1 relative">
@@ -98,7 +98,7 @@ function AppInnards({ rootRouter }: { rootRouter: ParsedRouter }) {
         <div
           className="flex flex-col flex-1 items-center overflow-scroll"
           style={{
-            maxHeight: "calc(100vh - 4rem)",
+            maxHeight: 'calc(100vh - 4rem)',
           }}
         >
           <div className="container max-w-6xl p-4 pt-8">
@@ -109,5 +109,5 @@ function AppInnards({ rootRouter }: { rootRouter: ParsedRouter }) {
       <HeadersPopup />
       <Toaster />
     </div>
-  );
+  )
 }

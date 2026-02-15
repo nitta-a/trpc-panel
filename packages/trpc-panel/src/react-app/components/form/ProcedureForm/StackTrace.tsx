@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { ChevronIcon } from "../../icons/ChevronIcon";
+import { useState } from 'react'
+import { ChevronIcon } from '../../icons/ChevronIcon'
 
 export function StackTrace({ text }: { text: string }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <div className="flex flex-col bg-gray-50 rounded-md border border-gray-500 overflow-hidden shadow-sm">
       <button
@@ -10,9 +10,9 @@ export function StackTrace({ text }: { text: string }) {
         onClick={() => setOpen((val) => !val)}
         type="button"
       >
-        Stack Trace{" "}
+        Stack Trace{' '}
         <ChevronIcon
-          className={"ml-2 w-4 h-4 " + (!open ? "rotate-180" : "-rotate-90")}
+          className={`ml-2 w-4 h-4 ${!open ? 'rotate-180' : '-rotate-90'}`}
         />
       </button>
       {open && (
@@ -21,5 +21,5 @@ export function StackTrace({ text }: { text: string }) {
         </div>
       )}
     </div>
-  );
+  )
 }

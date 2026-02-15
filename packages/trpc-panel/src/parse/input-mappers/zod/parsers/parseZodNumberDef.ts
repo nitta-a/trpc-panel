@@ -1,14 +1,14 @@
-import { NumberNode, ParseFunction } from "../../../parseNodeTypes";
-import { ZodNumberDef } from 'zod/v3';
-import { nodePropertiesFromRef } from "@src/parse/utils";
+import { nodePropertiesFromRef } from '@src/parse/utils'
+import type { ZodNumberDef } from 'zod/v3'
+import type { NumberNode, ParseFunction } from '../../../parseNodeTypes'
 
 export const parseZodNumberDef: ParseFunction<ZodNumberDef, NumberNode> = (
   def,
-  refs
+  refs,
 ) => {
-  refs.addDataFunctions.addDescriptionIfExists(def, refs);
+  refs.addDataFunctions.addDescriptionIfExists(def, refs)
   return {
-    type: "number",
+    type: 'number',
     ...nodePropertiesFromRef(refs),
-  };
-};
+  }
+}

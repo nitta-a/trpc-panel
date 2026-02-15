@@ -1,16 +1,16 @@
-import { defaultReferences } from "@src/parse/input-mappers/defaultReferences";
-import { parseZodDefaultDef } from "@src/parse/input-mappers/zod/parsers/parseZodDefaultDef";
-import { ParsedInputNode } from "@src/parse/parseNodeTypes";
-import { z } from 'zod/v3';
+import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
+import { parseZodDefaultDef } from '@src/parse/input-mappers/zod/parsers/parseZodDefaultDef'
+import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import { z } from 'zod/v3'
 
-describe("Parse ZodDefault", () => {
-  it("should parse zod number with default as number", () => {
+describe('Parse ZodDefault', () => {
+  it('should parse zod number with default as number', () => {
     const expected: ParsedInputNode = {
-      type: "number",
+      type: 'number',
       path: [],
-    };
-    const zodSchema = z.number().default(5);
-    const parsed = parseZodDefaultDef(zodSchema._def, defaultReferences());
-    expect(parsed).toStrictEqual(expected);
-  });
-});
+    }
+    const zodSchema = z.number().default(5)
+    const parsed = parseZodDefaultDef(zodSchema._def, defaultReferences())
+    expect(parsed).toStrictEqual(expected)
+  })
+})

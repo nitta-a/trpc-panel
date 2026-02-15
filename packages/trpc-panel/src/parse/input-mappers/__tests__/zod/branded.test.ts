@@ -1,35 +1,35 @@
-import { defaultReferences } from "../../defaultReferences";
-import { ParsedInputNode } from "../../../parseNodeTypes";
-import { z, ZodBrandedDef, ZodType } from 'zod/v3';
-import { parseZodBrandedDef } from "../../zod/parsers/parseZodBrandedDef";
+import { type ZodBrandedDef, type ZodType, z } from 'zod/v3'
+import type { ParsedInputNode } from '../../../parseNodeTypes'
+import { defaultReferences } from '../../defaultReferences'
+import { parseZodBrandedDef } from '../../zod/parsers/parseZodBrandedDef'
 
-describe("Parsed ZodBranded", () => {
-  it("should parse branded nodes as their base zod type", () => {
+describe('Parsed ZodBranded', () => {
+  it('should parse branded nodes as their base zod type', () => {
     const testCases: {
-      node: ParsedInputNode;
-      zodType: ZodType;
+      node: ParsedInputNode
+      zodType: ZodType
     }[] = [
       {
         node: {
-          type: "number",
+          type: 'number',
           path: [],
         },
-        zodType: z.number().brand("number"),
+        zodType: z.number().brand('number'),
       },
       {
         node: {
-          type: "string",
+          type: 'string',
           path: [],
         },
-        zodType: z.string().brand("string"),
+        zodType: z.string().brand('string'),
       },
-    ];
+    ]
     for (var testCase of testCases) {
       const parsed = parseZodBrandedDef(
         testCase.zodType._def as unknown as ZodBrandedDef<any>,
-        defaultReferences()
-      );
-      expect(parsed).toStrictEqual(testCase.node);
+        defaultReferences(),
+      )
+      expect(parsed).toStrictEqual(testCase.node)
     }
-  });
-});
+  })
+})

@@ -1,8 +1,7 @@
-import React from "react";
-import { Control, useController } from "react-hook-form";
-import type { ParsedInputNode } from "@src/parse/parseNodeTypes";
-import { BaseCheckboxField } from "@src/react-app/components/form/fields/base/BaseCheckboxField";
-import { FormLabel } from "@src/react-app/components/form/FormLabel";
+import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import { FormLabel } from '@src/react-app/components/form/FormLabel'
+import { BaseCheckboxField } from '@src/react-app/components/form/fields/base/BaseCheckboxField'
+import { type Control, useController } from 'react-hook-form'
 
 export function BooleanField({
   name,
@@ -10,29 +9,29 @@ export function BooleanField({
   control,
   node,
 }: {
-  name: string;
-  label: string;
-  control: Control<any>;
-  node: ParsedInputNode;
+  name: string
+  label: string
+  control: Control<any>
+  node: ParsedInputNode
 }) {
-  const { field, fieldState } = useController({ name, control });
-  const path = node.path.join(".");
+  const { field, fieldState } = useController({ name, control })
+  const path = node.path.join('.')
   return (
     <>
       <FormLabel>{label}</FormLabel>
       <BaseCheckboxField
-        fieldId={path + "false"}
-        label={"False"}
+        fieldId={`${path}false`}
+        label={'False'}
         onChange={() => field.onChange(false)}
         value={field.value === false}
       />
       <BaseCheckboxField
-        fieldId={path + "true"}
-        label={"True"}
+        fieldId={`${path}true`}
+        label={'True'}
         onChange={() => field.onChange(true)}
         value={field.value === true}
         errorMessage={fieldState.error?.message}
       />
     </>
-  );
+  )
 }

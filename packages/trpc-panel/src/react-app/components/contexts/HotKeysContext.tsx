@@ -1,74 +1,74 @@
-import { useSearch } from "@src/react-app/components/contexts/SearchStore";
-import React, {
+import { useSearch } from '@src/react-app/components/contexts/SearchStore'
+import {
   createContext,
-  MutableRefObject,
-  ReactNode,
+  type MutableRefObject,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
-} from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+} from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 interface HotKeysContext {
-  attachEventListeners: (element: Node | null) => void;
-  removeEventListeners: (element: Node | null) => void;
+  attachEventListeners: (element: Node | null) => void
+  removeEventListeners: (element: Node | null) => void
 }
 
-const HotKeysContext = createContext<HotKeysContext | null>(null);
+const HotKeysContext = createContext<HotKeysContext | null>(null)
 
 export function HotKeysContextProvider({ children }: { children: ReactNode }) {
-  const searchOpen = useSearch((s) => s.searchOpen);
-  const setSearchOpen = useSearch((s) => s.setSearchOpen);
+  const searchOpen = useSearch((s) => s.searchOpen)
+  const setSearchOpen = useSearch((s) => s.setSearchOpen)
 
   const toggleSearch = useCallback(
     () => setSearchOpen(!searchOpen),
-    [searchOpen]
-  );
-  useHotkeys("ctrl+p, meta+p", toggleSearch, {
+    [searchOpen, setSearchOpen],
+  )
+  useHotkeys('ctrl+p, meta+p', toggleSearch, {
     preventDefault: true,
-  });
+  })
 
   const keydownHandler = useCallback(
     (e: KeyboardEvent) => {
-      const ctrlOrMeta = e.ctrlKey || e.metaKey;
-      if (e.key.toUpperCase() === "P" && ctrlOrMeta) {
-        toggleSearch();
+      const ctrlOrMeta = e.ctrlKey || e.metaKey
+      if (e.key.toUpperCase() === 'P' && ctrlOrMeta) {
+        toggleSearch()
       }
     },
-    [toggleSearch]
-  );
+    [toggleSearch],
+  )
 
   return (
     <HotKeysContext.Provider
       value={{
         attachEventListeners: (element) => {
-          element?.addEventListener("keydown", keydownHandler);
+          element?.addEventListener('keydown', keydownHandler)
         },
         removeEventListeners: (element) => {
-          element?.removeEventListener("keydown", keydownHandler);
+          element?.removeEventListener('keydown', keydownHandler)
         },
       }}
     >
       {children}
     </HotKeysContext.Provider>
-  );
+  )
 }
 
 export function useHotKeysContext() {
-  const ctx = useContext(HotKeysContext);
-  if (!ctx) throw new Error("No HotKeysContextProvider found.");
-  return ctx;
+  const ctx = useContext(HotKeysContext)
+  if (!ctx) throw new Error('No HotKeysContextProvider found.')
+  return ctx
 }
 
 export function useEnableInputGlobalHotkeys(
   ref: MutableRefObject<null | HTMLInputElement>,
-  deps?: any[]
+  deps?: any[],
 ) {
-  const { attachEventListeners, removeEventListeners } = useHotKeysContext();
+  const { attachEventListeners, removeEventListeners } = useHotKeysContext()
   useEffect(() => {
-    attachEventListeners(ref.current);
+    attachEventListeners(ref.current)
     return () => {
-      removeEventListeners(ref.current);
-    };
-  }, deps);
+      removeEventListeners(ref.current)
+    }
+  }, deps)
 }

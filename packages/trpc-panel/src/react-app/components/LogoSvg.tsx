@@ -1,5 +1,3 @@
-import React from "react";
-
 export function LogoSvg({ className }: { className?: string }) {
   return (
     <svg
@@ -648,5 +646,5 @@ M220.909103,325.530334
 z"
       />
     </svg>
-  );
+  )
 }

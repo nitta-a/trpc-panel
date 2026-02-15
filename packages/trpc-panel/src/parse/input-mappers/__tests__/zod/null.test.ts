@@ -1,18 +1,18 @@
-import { defaultReferences } from "@src/parse/input-mappers/defaultReferences";
-import { parseZodNullDef } from "@src/parse/input-mappers/zod/parsers/parseZodNullDef";
-import { LiteralNode } from "@src/parse/parseNodeTypes";
-import { z } from 'zod/v3';
+import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
+import { parseZodNullDef } from '@src/parse/input-mappers/zod/parsers/parseZodNullDef'
+import type { LiteralNode } from '@src/parse/parseNodeTypes'
+import { z } from 'zod/v3'
 
-describe("Parse ZodNull", () => {
-  it("should parse a zod nullable as a literal with value null", () => {
+describe('Parse ZodNull', () => {
+  it('should parse a zod nullable as a literal with value null', () => {
     const expected: LiteralNode = {
-      type: "literal",
+      type: 'literal',
       value: null,
       path: [],
-    };
-    const schema = z.null();
+    }
+    const schema = z.null()
     expect(parseZodNullDef(schema._def, defaultReferences())).toStrictEqual(
-      expected
-    );
-  });
-});
+      expected,
+    )
+  })
+})

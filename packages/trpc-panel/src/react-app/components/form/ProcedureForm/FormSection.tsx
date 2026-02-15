@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { FormSectionHeader } from "@src/react-app/components/form/ProcedureForm/FormSectionHeader";
+import { FormSectionHeader } from '@src/react-app/components/form/ProcedureForm/FormSectionHeader'
+import type { ReactNode } from 'react'
 
 export function FormSection({
   children,
@@ -7,10 +7,10 @@ export function FormSection({
   topRightElement,
   titleClassName,
 }: {
-  children: ReactNode;
-  title: string;
-  topRightElement?: ReactNode;
-  titleClassName?: string;
+  children: ReactNode
+  title: string
+  topRightElement?: ReactNode
+  titleClassName?: string
 }) {
   return (
     <div className="flex flex-col">
@@ -22,5 +22,5 @@ export function FormSection({
       </div>
       <div className="flex flex-col space-y-2 p-4"> {children}</div>
     </div>
-  );
+  )
 }
