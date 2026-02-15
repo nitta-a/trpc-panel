@@ -23,14 +23,13 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "trpc-panel": "*",
-    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
     "ws": "^8.19.0",
     "zod": "^4.3.6",
     "zod-to-json-schema": "^3.25.1"
   },
   "scripts": {
-    "dev": "nodemon --exec \"node --loader ts-node/esm\" ./src/server.ts",
+    "dev": "nodemon --exec \"node --experimental-strip-types\" ./src/server.ts",
     "build": "npx tsc --project tsconfig.json",
     "start": "node ./lib/server"
   },
