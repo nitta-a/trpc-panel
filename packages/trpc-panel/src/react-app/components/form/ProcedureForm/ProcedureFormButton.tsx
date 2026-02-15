@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from '../../Button'
 import type { ColorSchemeType } from '../../CollapsableSection'
 import { SendIcon } from '../../icons/SendIcon'
@@ -21,9 +20,7 @@ export function ProcedureFormButton({
       disabled={loading}
     >
       <div
-        className={
-          'flex flex-row' + (loading ? ' opacity-0 pointer-events-none' : '')
-        }
+        className={`flex flex-row${loading ? ' opacity-0 pointer-events-none' : ''}`}
       >
         {text}
         <SendIcon className="w-5 h-5 ml-2" />

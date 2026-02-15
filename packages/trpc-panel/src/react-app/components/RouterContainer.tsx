@@ -1,6 +1,5 @@
 import { CollapsableSection } from '@src/react-app/components/CollapsableSection'
 import { ProcedureForm } from '@src/react-app/components/form/ProcedureForm'
-import React from 'react'
 import type { ParsedRouter } from '../../parse/parseRouter'
 
 export function RouterContainer({
@@ -10,7 +9,7 @@ export function RouterContainer({
   router: ParsedRouter
   name?: string
 }) {
-  const isRoot = router.path.length == 0
+  const isRoot = router.path.length === 0
   return (
     <CollapsableSection
       fullPath={router.path}
@@ -25,15 +24,13 @@ export function RouterContainer({
       isRoot={isRoot}
     >
       <div
-        className={
-          'space-y-3' + (!isRoot ? `border-l-grey-400 space-y-1 p-1` : '')
-        }
+        className={`space-y-3${!isRoot ? `border-l-grey-400 space-y-1 p-1` : ''}`}
       >
         {Object.entries(router.children).map(
           ([childName, routerOrProcedure]) => {
             return (
               <div key={childName}>
-                {routerOrProcedure.nodeType == 'router' ? (
+                {routerOrProcedure.nodeType === 'router' ? (
                   <RouterContainer
                     name={childName}
                     router={routerOrProcedure}

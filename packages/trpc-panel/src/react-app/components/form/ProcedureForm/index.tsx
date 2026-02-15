@@ -11,7 +11,7 @@ import { CloseIcon } from '@src/react-app/components/icons/CloseIcon'
 import { trpc } from '@src/react-app/trpc'
 import type { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { fullFormats } from 'ajv-formats/dist/formats'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { type Control, useForm, useFormState } from 'react-hook-form'
 import { z } from 'zod/v3'
 import { Error } from './Error'
@@ -134,7 +134,7 @@ export function ProcedureForm({
       )
       setShouldReset(false)
     }
-  }, [shouldReset])
+  }, [shouldReset, procedure.node, resetForm])
   function reset() {
     setShouldReset(true)
     setQueryEnabled(false)
@@ -143,7 +143,7 @@ export function ProcedureForm({
   const data =
     procedure.procedureType === 'query' ? query.data : mutationResponse
   const error =
-    procedure.procedureType == 'query' ? query.error : mutation.error
+    procedure.procedureType === 'query' ? query.error : mutation.error
 
   const fieldName = procedure.node.path.join('.')
 
@@ -238,7 +238,7 @@ function XButton({
 }
 
 function wrapJsonSchema(jsonSchema: any) {
-  delete jsonSchema['$schema']
+  delete jsonSchema.$schema
 
   return {
     type: 'object',

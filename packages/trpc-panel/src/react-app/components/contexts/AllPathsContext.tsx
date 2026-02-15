@@ -2,12 +2,7 @@ import type { ParsedProcedure } from '@src/parse/parseProcedure'
 import type { ParsedRouter } from '@src/parse/parseRouter'
 import type { ColorSchemeType } from '@src/react-app/components/CollapsableSection'
 import { colorSchemeForNode } from '@src/react-app/components/style-utils'
-import React, {
-  createContext,
-  type ReactNode,
-  useContext,
-  useMemo,
-} from 'react'
+import { createContext, type ReactNode, useContext, useMemo } from 'react'
 
 const Context = createContext<{
   pathsArray: string[]
@@ -36,11 +31,14 @@ export function AllPathsContextProvider({
   rootRouter: ParsedRouter
   children: ReactNode
 }) {
-  const flattened = useMemo(() => flatten(rootRouter), [])
+  const flattened = useMemo(() => flatten(rootRouter), [rootRouter])
   const pathsArray = useMemo(() => {
     return flattened.map((e) => e[0])
-  }, [])
-  const colorSchemeForNode = useMemo(() => Object.fromEntries(flattened), [])
+  }, [flattened.map])
+  const colorSchemeForNode = useMemo(
+    () => Object.fromEntries(flattened),
+    [flattened],
+  )
   return (
     <Context.Provider
       value={{

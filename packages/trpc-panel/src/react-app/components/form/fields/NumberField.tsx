@@ -1,5 +1,5 @@
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { type Control, useController } from 'react-hook-form'
 import { BaseTextField } from './base/BaseTextField'
 
@@ -27,12 +27,12 @@ export function NumberField({
 
   useEffect(() => {
     const parsed = parseFloat(stringValue)
-    if (isNaN(parsed)) {
+    if (Number.isNaN(parsed)) {
       field.onChange(undefined)
       return
     }
     field.onChange(parseFloat(stringValue))
-  }, [stringValue])
+  }, [stringValue, field.onChange])
 
   return (
     <BaseTextField

@@ -16,7 +16,7 @@ const liveReload = process.env.LIVE_RELOAD === 'true'
 const simulateDelay = process.env.SIMULATE_DELAY === 'true'
 
 async function createContext(opts: trpcExpress.CreateExpressContextOptions) {
-  const authHeader = opts.req.headers['authorization']
+  const authHeader = opts.req.headers.authorization
   return {
     authorized: !!authHeader,
   }
@@ -31,7 +31,7 @@ if (liveReload) {
 
 if (simulateDelay) {
   console.log('Simulating delay...')
-  expressApp.use((req, res, next) => {
+  expressApp.use((_req, _res, next) => {
     setTimeout(() => {
       next()
       console.log('Next in timeout')

@@ -9,12 +9,7 @@ import {
   solidColorBg,
   solidColorBorder,
 } from '@src/react-app/components/style-utils'
-import React, {
-  type MutableRefObject,
-  type ReactNode,
-  useEffect,
-  useRef,
-} from 'react'
+import { type MutableRefObject, type ReactNode, useEffect, useRef } from 'react'
 
 export type ColorSchemeType =
   | 'query'
@@ -46,8 +41,7 @@ export function CollapsableSection({
       if (scrollToPathIfMatches(fullPath, containerRef.current)) {
         // timeout or it'll immediately submit the form (which shows error messages)
         const firstChild =
-          focusOnScrollRef &&
-          focusOnScrollRef.current &&
+          focusOnScrollRef?.current &&
           findFirstFormChildInput(focusOnScrollRef.current)
         if (firstChild) {
           setTimeout(() => {
@@ -56,7 +50,7 @@ export function CollapsableSection({
         }
       }
     }
-  }, [shown])
+  }, [shown, focusOnScrollRef, fullPath, scrollToPathIfMatches])
 
   // deals with root router. If it's not collapsable we **simply** render the title element and children
   const collapsable = fullPath.length > 0

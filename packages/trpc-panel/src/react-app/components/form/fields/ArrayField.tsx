@@ -6,7 +6,7 @@ import { FieldError } from '@src/react-app/components/form/fields/FieldError'
 import { ROOT_VALS_PROPERTY_NAME } from '@src/react-app/components/form/ProcedureForm'
 import { defaultFormValuesForNode } from '@src/react-app/components/form/utils'
 import { InputGroupContainer } from '@src/react-app/components/InputGroupContainer'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { type Control, useController, useWatch } from 'react-hook-form'
 import { Field } from '../Field'
 
@@ -39,7 +39,7 @@ export function ArrayField({
   function getValueFromWatch() {
     var r = watch
     for (var p of [ROOT_VALS_PROPERTY_NAME].concat(
-      node.path.map((e) => e + ''),
+      node.path.map((e) => `${e}`),
     )) {
       r = r[p]
     }
@@ -47,7 +47,7 @@ export function ArrayField({
   }
 
   function onAddClick() {
-    setTextFieldKeys((old) => old.concat([currentKeyCount++ + '']))
+    setTextFieldKeys((old) => old.concat([`${currentKeyCount++}`]))
     field.onChange(
       getValueFromWatch().concat([defaultFormValuesForNode(node.childType)]),
     )
@@ -67,7 +67,7 @@ export function ArrayField({
       title={label}
     >
       {field.value.map((_: ParsedInputNode, i: number) => (
-        <span key={i + ''} className="flex flex-row items-start">
+        <span key={`${i}`} className="flex flex-row items-start">
           <span className="flex flex-1 flex-col">
             <Field
               key={textFieldKeys[i]}

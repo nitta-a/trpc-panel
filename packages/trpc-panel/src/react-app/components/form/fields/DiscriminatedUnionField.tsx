@@ -6,7 +6,6 @@ import { FieldError } from '@src/react-app/components/form/fields/FieldError'
 import { ObjectField } from '@src/react-app/components/form/fields/ObjectField'
 import { defaultFormValuesForNode } from '@src/react-app/components/form/utils'
 import { InputGroupContainer } from '@src/react-app/components/InputGroupContainer'
-import React from 'react'
 import { type Control, useController } from 'react-hook-form'
 
 export function DiscriminatedUnionField({

@@ -1,4 +1,3 @@
-import React from 'react'
 import { FormSection } from './FormSection'
 
 export function Response({ children }: { children: string }) {

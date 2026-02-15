@@ -1,5 +1,4 @@
 import { ChevronIcon } from '@src/react-app/components/icons/ChevronIcon'
-import React from 'react'
 
 export function Chevron({
   className,

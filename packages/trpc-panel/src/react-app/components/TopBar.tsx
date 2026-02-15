@@ -20,7 +20,6 @@ export function TopBar({
       <div className="flex flex-row items-center gap-4">
         <button
           type="button"
-          role="button"
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle sidebar"
           aria-pressed={open}

@@ -1,4 +1,4 @@
-import React, { type LabelHTMLAttributes } from 'react'
+import type { LabelHTMLAttributes } from 'react'
 
 export function FieldLabel({
   children,

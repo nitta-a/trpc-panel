@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   type ReactNode,
   useContext,
@@ -26,9 +26,9 @@ const storage =
   typeof window !== 'undefined'
     ? localStorage
     : {
-        getItem: (v: string) => null,
-        setItem: (s: string) => {},
-        removeItem: (v: string) => {},
+        getItem: (_v: string) => null,
+        setItem: (_s: string) => {},
+        removeItem: (_v: string) => {},
       }
 
 const storedHeaders = storage.getItem(headersLocalStorageKey)

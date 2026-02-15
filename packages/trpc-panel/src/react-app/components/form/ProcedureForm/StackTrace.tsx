@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ChevronIcon } from '../../icons/ChevronIcon'
 
 export function StackTrace({ text }: { text: string }) {
@@ -12,7 +12,7 @@ export function StackTrace({ text }: { text: string }) {
       >
         Stack Trace{' '}
         <ChevronIcon
-          className={'ml-2 w-4 h-4 ' + (!open ? 'rotate-180' : '-rotate-90')}
+          className={`ml-2 w-4 h-4 ${!open ? 'rotate-180' : '-rotate-90'}`}
         />
       </button>
       {open && (

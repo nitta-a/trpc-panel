@@ -1,7 +1,7 @@
 import { useEnableInputGlobalHotkeys } from '@src/react-app/components/contexts/HotKeysContext'
 import { FieldError } from '@src/react-app/components/form/fields/FieldError'
 import { useProcedureFormContext } from '@src/react-app/components/form/ProcedureForm/ProcedureFormContext'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 
 export function BaseCheckboxField({
   value,
@@ -19,7 +19,7 @@ export function BaseCheckboxField({
   const inputRef = useRef<HTMLInputElement | null>(null)
   useEnableInputGlobalHotkeys(inputRef, [])
   const { path: procedurePath } = useProcedureFormContext()
-  const id = procedurePath + '.' + fieldId
+  const id = `${procedurePath}.${fieldId}`
   return (
     <div className="flex flex-col">
       <label htmlFor={id} className="flex flex-row items-center">

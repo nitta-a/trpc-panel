@@ -1,5 +1,5 @@
 import { useAllPaths } from '@src/react-app/components/contexts/AllPathsContext'
-import React, {
+import {
   createContext,
   type ReactNode,
   useContext,
@@ -94,7 +94,7 @@ export const collapsables = (() => {
 export function useCollapsableIsShowing(path: string[]) {
   const p = useMemo(() => {
     return path.join('.')
-  }, [])
+  }, [path.join])
   return collapsablesStore.current!((s) => (s as any)[p])
 }
 

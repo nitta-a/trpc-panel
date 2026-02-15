@@ -1,5 +1,4 @@
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
-import React from 'react'
 import { type Control, useController } from 'react-hook-form'
 import { BaseTextField } from './base/BaseTextField'
 

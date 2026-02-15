@@ -1,8 +1,7 @@
+import { EventEmitter } from 'node:events'
 import { type inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
-
 import type * as trpcExpress from '@trpc/server/adapters/express'
 import { observable } from '@trpc/server/observable'
-import { EventEmitter } from 'events'
 import superjson from 'superjson'
 import { z } from 'zod'
 
@@ -16,7 +15,7 @@ const t = initTRPC
   .create({ transformer: superjson, isServer: true })
 
 async function createContext(opts: trpcExpress.CreateExpressContextOptions) {
-  const authHeader = opts.req.headers['authorization']
+  const authHeader = opts.req.headers.authorization
   console.log('Request headers: ')
   console.log(authHeader)
   return {
@@ -61,7 +60,7 @@ const fakeData: {
 }
 
 const userRouter = t.router({
-  getUserById: t.procedure.input(IDSchema).query((old) => {
+  getUserById: t.procedure.input(IDSchema).query((_old) => {
     return fakeData.user
   }),
   updateUser: t.procedure.input(UserSchema).mutation(({ input }) => {
@@ -128,7 +127,7 @@ const multiRouter = {
 }
 
 const ee = new EventEmitter()
-const subscriptionRouter = t.router({
+const _subscriptionRouter = t.router({
   onAdd: t.procedure.subscription(() => {
     // `resolve()` is triggered for each client when they start subscribing `onAdd`
     // return an `observable` with a callback which is triggered immediately
@@ -216,7 +215,7 @@ export const testRouter = t.router({
           ]),
         }),
       )
-      .query(({ input }) => {
+      .query(({ input: _input }) => {
         return "It's an input"
       }),
     emailTextInput: t.procedure
@@ -225,7 +224,7 @@ export const testRouter = t.router({
           email: z.string().email("That's an invalid email (custom message)"),
         }),
       )
-      .query(({ input }) => {
+      .query(({ input: _input }) => {
         return "It's good"
       }),
     voidInput: t.procedure.input(z.void()).query(() => {

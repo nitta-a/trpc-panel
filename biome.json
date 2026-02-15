@@ -6,19 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "experimentalScannerIgnores": [
-      "**/node_modules/**",
-      "**/lib/**",
-      "**/dist/**",
-      "**/build/**",
-      "**/.next/**",
-      "**/coverage/**",
-      "**/out-tsc/**",
-      "**/tmp/**",
-      "**/.cache/**",
-      "**/stats.html"
-    ]
+    "ignoreUnknown": false
   },
   "formatter": {
     "enabled": true,
@@ -42,15 +30,26 @@
         "noNonNullAssertion": "off"
       },
       "correctness": {
-        "noUnusedVariables": "warn"
+        "noUnusedVariables": "warn",
+        "useHookAtTopLevel": "off",
+        "useExhaustiveDependencies": "warn"
+      },
+      "complexity": {
+        "noBannedTypes": "warn"
+      },
+      "performance": {
+        "noAccumulatingSpread": "warn"
       },
       "suspicious": {
         "noExplicitAny": "off",
         "noArrayIndexKey": "off",
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noShadowRestrictedNames": "warn"
       },
       "a11y": {
-        "noSvgWithoutTitle": "off"
+        "noSvgWithoutTitle": "off",
+        "useButtonType": "warn",
+        "noLabelWithoutControl": "warn"
       }
     }
   },

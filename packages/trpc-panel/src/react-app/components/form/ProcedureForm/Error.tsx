@@ -1,4 +1,3 @@
-import React from 'react'
 import { ErrorRow } from './ErrorRow'
 import { FormSection } from './FormSection'
 import type { TRPCErrorType } from './index'
@@ -19,7 +18,7 @@ export function Error({ error }: { error: TRPCErrorType }) {
       <ErrorRow title="Code" text={error.data.code} padTitleTo={padTo} />
       <ErrorRow
         title="HTTP Status Code"
-        text={error.data.httpStatus + ''}
+        text={`${error.data.httpStatus}`}
         padTitleTo={padTo}
       />
       {error.data.stack && <StackTrace text={error.data.stack} />}

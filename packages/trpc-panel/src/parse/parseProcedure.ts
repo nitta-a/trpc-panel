@@ -68,7 +68,7 @@ function nodeAndInputSchemaFromInputs(
         errorMessages: true,
         $refStrategy: 'none',
       }),
-      node: inputParserMap['zod'](emptyZodObject, {
+      node: inputParserMap.zod(emptyZodObject, {
         path: [],
         options,
         addDataFunctions,
@@ -80,7 +80,7 @@ function nodeAndInputSchemaFromInputs(
   }
   const input = inputs[0]
   const iType = inputType(input)
-  if (iType == 'unsupported') {
+  if (iType === 'unsupported') {
     return { parseInputResult: 'failure' }
   }
 

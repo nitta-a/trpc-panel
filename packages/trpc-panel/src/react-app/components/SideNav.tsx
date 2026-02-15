@@ -7,7 +7,7 @@ import {
 } from '@src/react-app/components/contexts/SiteNavigationContext'
 import { ItemTypeIcon } from '@src/react-app/components/ItemTypeIcon'
 import { colorSchemeForNode } from '@src/react-app/components/style-utils'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import type { ParsedRouter } from '../../parse/parseRouter'
 export function SideNav({
   rootRouter,
@@ -38,10 +38,13 @@ function SideNavItem({
   const { markForScrollTo } = useSiteNavigationContext()
   const shown = useCollapsableIsShowing(path) || path.length === 0
 
-  const onClick = useCallback(function onClick() {
-    collapsables.toggle(path)
-    markForScrollTo(path)
-  }, [])
+  const onClick = useCallback(
+    function onClick() {
+      collapsables.toggle(path)
+      markForScrollTo(path)
+    },
+    [markForScrollTo, path],
+  )
 
   return (
     <>

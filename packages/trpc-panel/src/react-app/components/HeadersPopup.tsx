@@ -5,7 +5,7 @@ import { Button } from '@src/react-app/components/Button'
 import { useHeadersContext } from '@src/react-app/components/contexts/HeadersContext'
 import { BaseTextField } from '@src/react-app/components/form/fields/base/BaseTextField'
 import { FieldError } from '@src/react-app/components/form/fields/FieldError'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 export function HeadersPopup() {
@@ -34,7 +34,7 @@ export function HeadersPopup() {
   function update(index: number, value: string, type: 'key' | 'value') {
     const newHeaders = [...headers]
     const newValue = newHeaders[index]!
-    newValue[type == 'key' ? 0 : 1] = value
+    newValue[type === 'key' ? 0 : 1] = value
     newHeaders[index] = newValue
     setHeaders(newHeaders)
     clearErrorIfNecessary(index)
@@ -75,7 +75,7 @@ export function HeadersPopup() {
     if (headersPopupShown) {
       setHeaders(Object.entries(getHeaders()))
     }
-  }, [headersPopupShown])
+  }, [headersPopupShown, getHeaders])
   if (!headersPopupShown) return null
   return (
     <div className="fixed flex left-0 right-0 top-0 bottom-0 items-center border border-panelBorder drop-shadow-lg justify-center bg-overlayBackground bg-opacity-70">
@@ -94,7 +94,7 @@ export function HeadersPopup() {
         </div>
         <div className="px-4 py-2 flex flex-col space-y-2">
           {headers.map(([headerKey, headerValue], i) => (
-            <div className="flex flex-col" key={i + ''}>
+            <div className="flex flex-col" key={`${i}`}>
               <div className="flex flex-row items-start">
                 <BaseTextField
                   className="flex-1"

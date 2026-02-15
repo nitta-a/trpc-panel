@@ -4,7 +4,7 @@ import { useSearch } from '@src/react-app/components/contexts/SearchStore'
 import { useSiteNavigationContext } from '@src/react-app/components/contexts/SiteNavigationContext'
 import { ItemTypeIcon } from '@src/react-app/components/ItemTypeIcon'
 import fuzzysort from 'fuzzysort'
-import React, {
+import {
   type FocusEventHandler,
   type ReactNode,
   useEffect,
@@ -27,7 +27,7 @@ export function useFuzzySort({
       limit,
       all: true,
     })
-  }, [paths, searchingFor])
+  }, [paths, searchingFor, limit])
 }
 
 export function SearchOverlay({ children }: { children: ReactNode }) {
@@ -93,7 +93,7 @@ function SearchInput() {
     return () => {
       document.removeEventListener('keydown', arrowKeyListener)
     }
-  }, [])
+  }, [results.length])
 
   useEnableInputGlobalHotkeys(inputRef, [])
 
@@ -107,10 +107,10 @@ function SearchInput() {
     return () => {
       inputRef.current?.removeEventListener('keydown', inputEventListener)
     }
-  }, [selectedResultIndex, results])
+  }, [selectedResultIndex, pathSelectedHandler])
 
   useEffect(() => {
-    const node = document.getElementById('search-result-' + selectedResultIndex)
+    const node = document.getElementById(`search-result-${selectedResultIndex}`)
     node?.scrollIntoView({
       block: 'nearest',
       inline: 'nearest',
@@ -166,7 +166,7 @@ function SearchInput() {
                 }
                 type="button"
                 // seems easier than an array of refs?
-                id={'search-result-' + i}
+                id={`search-result-${i}`}
                 onClick={() => pathSelectedHandler(i)}
               >
                 <ItemTypeIcon

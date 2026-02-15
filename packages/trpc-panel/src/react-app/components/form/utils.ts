@@ -18,8 +18,8 @@ export function defaultFormValuesForNode(node: ParsedInputNode): any {
     // return node.enumValues[0];
     case 'object': {
       const obj: any = {}
-      for (var [name, node] of Object.entries(node.children)) {
-        obj[name] = defaultFormValuesForNode(node)
+      for (var [name, childNode] of Object.entries(node.children)) {
+        obj[name] = defaultFormValuesForNode(childNode)
       }
       return obj
     }

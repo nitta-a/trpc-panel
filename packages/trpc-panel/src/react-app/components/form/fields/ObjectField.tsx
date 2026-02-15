@@ -1,7 +1,7 @@
 import ObjectIcon from '@mui/icons-material/DataObjectOutlined'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
 import { Field } from '@src/react-app/components/form/Field'
-import React, { type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import type { Control } from 'react-hook-form'
 import { InputGroupContainer } from '../../InputGroupContainer'
 

@@ -1,6 +1,6 @@
+import fs from 'node:fs'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import fs from 'fs'
 import {
   parseRouterWithOptions,
   type TrpcPanelExtraOptions,
@@ -21,9 +21,9 @@ const javascriptReplaceSymbol = '{{js}}'
 const cssReplaceSymbol = '{{css}}'
 const routerReplaceSymbol = '"{{parsed_router}}"'
 const optionsReplaceSymbol = '"{{options}}"'
-const bundlePath = __dirname + '/react-app/bundle.js'
-const indexPath = __dirname + '/react-app/index.html'
-const cssPath = __dirname + '/react-app/index.css'
+const bundlePath = `${__dirname}/react-app/bundle.js`
+const indexPath = `${__dirname}/react-app/index.html`
+const cssPath = `${__dirname}/react-app/index.css`
 const bundleJs = fs.readFileSync(bundlePath).toString()
 const indexHtml = fs.readFileSync(indexPath).toString()
 const indexCss = fs.readFileSync(cssPath).toString()
