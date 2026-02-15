@@ -9,7 +9,8 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "build": "npx rollup --bundleConfigAsCjs --config rollup.config.js",
-    "dev": "rollup --config rollup.config.js --watch --bundleConfigAsCjs"
+    "dev": "rollup --config rollup.config.js --watch --bundleConfigAsCjs",
+    "typecheck": "tsc --noEmit"
   },
   "author": "",
   "license": "ISC",

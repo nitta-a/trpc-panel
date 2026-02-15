@@ -12,7 +12,8 @@
     "start:docs": "cd packages/docs && yarn serve",
     "lint": "npx @biomejs/biome check .",
     "format": "npx @biomejs/biome format --write .",
-    "check": "npx @biomejs/biome check --write ."
+    "check": "npx @biomejs/biome check --write .",
+    "typecheck": "yarn workspaces run typecheck"
   },
   "private": true,
   "devDependencies": {

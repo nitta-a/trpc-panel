@@ -6,7 +6,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "npx @biomejs/biome check .",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.80.3",

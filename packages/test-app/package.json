@@ -32,7 +32,8 @@
   "scripts": {
     "dev": "nodemon --exec \"tsx\" ./src/server.ts",
     "build": "npx tsc --project tsconfig.json",
-    "start": "node ./lib/server"
+    "start": "node ./lib/server",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
