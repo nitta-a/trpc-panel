@@ -41,13 +41,15 @@ function parseRouter(
   
   for (const [fullPath, procedure] of procedureEntries) {
     const pathParts = fullPath.split('.')
-    const firstSegment = pathParts[0]!
+    // Every procedure path should have at least one segment
+    if (pathParts.length === 0) continue
+    const firstSegment = pathParts[0] as string
     
     if (!groupedProcedures[firstSegment]) {
       groupedProcedures[firstSegment] = []
     }
     
-    groupedProcedures[firstSegment]!.push({
+    groupedProcedures[firstSegment].push({
       fullPath,
       pathParts,
       procedure,
@@ -62,7 +64,8 @@ function parseRouter(
     const allDirect = procedures.every(p => p.pathParts.length === 1)
     
     if (allDirect) {
-      // Direct procedure
+      // Direct procedure - should always have at least one procedure in the group
+      if (procedures.length === 0) continue
       const proc = procedures[0].procedure
       const parsedNode = parseProcedure(proc, newPath, options)
       if (!parsedNode) {
