@@ -46,3 +46,5 @@ testem.log
 Thumbs.db
 
 stats.html
+.nx/cache
+.nx/workspace-data
