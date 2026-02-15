@@ -54,6 +54,7 @@ export default [
           [
             '@babel/preset-react',
             {
+              runtime: 'automatic',
               development: isWatching,
             },
           ],
