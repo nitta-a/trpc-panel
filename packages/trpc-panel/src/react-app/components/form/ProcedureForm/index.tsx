@@ -49,48 +49,62 @@ export function ProcedureForm({
 }) {
   // null => request was never sent
   // undefined => request successful but nothing returned from procedure
-  const [mutationResponse, setMutationResponse] = useState<any>(null)
+  const [mutationResponse, setMutationResponse] = useState<unknown>(null)
   const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
-  const [queryInput, setQueryInput] = useState<any>(null)
+  const [queryInput, setQueryInput] = useState<unknown>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
-  // @ts-ignore - trpc context type inference issue with generic any router
   const context = trpc.useContext()
 
   function getProcedure() {
-    var cur: any = trpc
-    for (var p of procedure.pathFromRootRouter) {
-      // TODO - Maybe figure out these typings?
-      cur = cur[p]
+    // Use Record for dynamic property access - more type-safe than 'any'
+    let cur: Record<string, unknown> = trpc as unknown as Record<string, unknown>
+    for (const p of procedure.pathFromRootRouter) {
+      cur = cur[p] as Record<string, unknown>
     }
     return cur
   }
 
   const query = (() => {
     const router = getProcedure()
-    // @ts-ignore - dynamic router type
-    return router.useQuery(queryInput, {
+    // Type assertion for dynamic procedure access
+    const useQuery = (router as Record<string, unknown>).useQuery as (
+      input: unknown,
+      options: {
+        enabled: boolean
+        initialData: null
+        retry: boolean
+        refetchOnWindowFocus: boolean
+      },
+    ) => UseQueryResult<unknown>
+    
+    return useQuery(queryInput, {
       enabled: queryEnabled,
       initialData: null,
       retry: false,
       refetchOnWindowFocus: false,
     })
-  })() as UseQueryResult<any>
+  })() as UseQueryResult<unknown>
 
-  function invalidateQuery(input: any) {
-    var cur: any = context
-    for (var p of procedure.pathFromRootRouter) {
-      cur = cur[p]
+  function invalidateQuery(input: unknown) {
+    let cur: Record<string, unknown> = context as unknown as Record<string, unknown>
+    for (const p of procedure.pathFromRootRouter) {
+      cur = cur[p] as Record<string, unknown>
     }
-    cur.invalidate(input)
+    const invalidate = (cur as Record<string, unknown>).invalidate as (input: unknown) => void
+    invalidate(input)
   }
 
   const mutation = (() => {
     const router = getProcedure()
-    // @ts-ignore - dynamic router type
-    return router.useMutation({
+    // Type assertion for dynamic procedure access  
+    const useMutation = (router as Record<string, unknown>).useMutation as (options: {
+      retry: boolean
+    }) => UseMutationResult<unknown>
+    
+    return useMutation({
       retry: false,
     })
-  })() as UseMutationResult<any>
+  })() as UseMutationResult<unknown>
 
   const {
     control,
@@ -98,7 +112,7 @@ export function ProcedureForm({
     handleSubmit,
   } = useForm({
     // Type assertion needed due to incompatibility between ajv-formats and react-hook-form types
-    resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as any) as any, {
+    resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as unknown) as unknown, {
       formats: fullFormats,
     }),
     defaultValues: {
@@ -106,7 +120,7 @@ export function ProcedureForm({
     },
   })
 
-  function onSubmit(data: { [ROOT_VALS_PROPERTY_NAME]: any }) {
+  function onSubmit(data: { [ROOT_VALS_PROPERTY_NAME]: unknown }) {
     if (procedure.procedureType === 'query') {
       const newData = { ...data }
       setQueryInput(newData[ROOT_VALS_PROPERTY_NAME])
@@ -218,7 +232,7 @@ function XButton({
   control,
   reset,
 }: {
-  control: Control<any>
+  control: Control<Record<string, unknown>>
   reset: () => void
 }) {
   const { isDirty } = useFormState({ control: control })
@@ -238,7 +252,7 @@ function XButton({
   )
 }
 
-function wrapJsonSchema(jsonSchema: any) {
+function wrapJsonSchema(jsonSchema: Record<string, unknown>) {
   delete jsonSchema.$schema
 
   return {

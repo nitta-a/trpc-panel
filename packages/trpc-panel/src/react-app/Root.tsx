@@ -10,11 +10,12 @@ import { useLocalStorage } from '@src/react-app/components/hooks/useLocalStorage
 import { SearchOverlay } from '@src/react-app/components/SearchInputOverlay'
 import type { RenderOptions } from '@src/render'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { type createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import { httpBatchLink } from '@trpc/react-query'
 import { type ReactNode, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import superjson from 'superjson'
 import type { ParsedRouter } from '../parse/parseRouter'
+import { type TRPCClient, trpc } from './trpc'
 import { RouterContainer } from './components/RouterContainer'
 import { SideNav } from './components/SideNav'
 import { TopBar } from './components/TopBar'
@@ -22,17 +23,17 @@ import { TopBar } from './components/TopBar'
 export function RootComponent({
   rootRouter,
   options,
-  trpc,
+  trpc: trpcClient,
 }: {
   rootRouter: ParsedRouter
   options: RenderOptions
-  trpc: ReturnType<typeof createTRPCReact>
+  trpc: TRPCClient
 }) {
   return (
     <HeadersContextProvider>
       <AllPathsContextProvider rootRouter={rootRouter}>
         <SiteNavigationContextProvider>
-          <ClientProviders trpc={trpc} options={options}>
+          <ClientProviders trpc={trpcClient} options={options}>
             <HotKeysContextProvider>
               <SearchOverlay>
                 <div className="flex flex-col w-full h-full flex-1 relative">
@@ -48,18 +49,17 @@ export function RootComponent({
 }
 
 function ClientProviders({
-  trpc,
+  trpc: trpcClient,
   children,
   options,
 }: {
-  trpc: ReturnType<typeof createTRPCReact>
+  trpc: TRPCClient
   children: ReactNode
   options: RenderOptions
 }) {
   const headers = useHeaders()
-  const [trpcClient] = useState(() =>
-    // @ts-ignore - trpc client type inference issue with generic any router
-    trpc.createClient({
+  const [trpcClientInstance] = useState(() =>
+    trpcClient.createClient({
       links: [
         httpBatchLink({
           url: options.url,
@@ -74,13 +74,10 @@ function ClientProviders({
   )
   const [queryClient] = useState(() => new QueryClient())
 
-  // Cast to any to work around generic router type inference issues
-  const TrpcProvider = (trpc as any).Provider
-
   return (
-    <TrpcProvider queryClient={queryClient} client={trpcClient}>
+    <trpcClient.Provider queryClient={queryClient} client={trpcClientInstance}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </TrpcProvider>
+    </trpcClient.Provider>
   )
 }
 
