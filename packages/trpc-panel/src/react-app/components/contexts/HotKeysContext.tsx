@@ -45,7 +45,10 @@ export function HotKeysContextProvider({ children }: { children: ReactNode }) {
           element?.addEventListener('keydown', keydownHandler as EventListener)
         },
         removeEventListeners: (element) => {
-          element?.removeEventListener('keydown', keydownHandler as EventListener)
+          element?.removeEventListener(
+            'keydown',
+            keydownHandler as EventListener,
+          )
         },
       }}
     >

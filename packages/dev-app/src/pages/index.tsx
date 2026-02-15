@@ -6,7 +6,9 @@ import { trpc } from 'trpc-panel/react-app/trpc'
 import { appRouter } from '~/router'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-const parse = parseRouterWithOptions(appRouter as any, { transformer: 'superjson' })
+const parse = parseRouterWithOptions(appRouter as any, {
+  transformer: 'superjson',
+})
 
 const App = dynamic(
   Promise.resolve(() => (
