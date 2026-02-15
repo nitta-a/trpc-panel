@@ -1,5 +1,5 @@
 import { ParsedInputNode } from "@src/parse/parseNodeTypes";
-import { z, ZodSchema } from "zod";
+import { z, ZodSchema } from 'zod/v3';
 
 export const testEnumValues = ["a", "b", "c"] as const;
 export const testSchemas: {schema: ZodSchema, parsed: ParsedInputNode}[] = [

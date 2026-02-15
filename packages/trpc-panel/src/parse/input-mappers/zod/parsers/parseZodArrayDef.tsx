@@ -1,5 +1,5 @@
 import { nodePropertiesFromRef } from "@src/parse/utils";
-import { ZodArrayDef } from "zod";
+import { ZodArrayDef } from 'zod/v3';
 import { ArrayNode, ParseFunction } from "../../../parseNodeTypes";
 import { zodSelectorFunction } from "../selector";
 

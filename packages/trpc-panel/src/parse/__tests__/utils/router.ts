@@ -1,6 +1,6 @@
 import { initTRPC } from "@trpc/server";
 import { ObjectNode } from "@src/parse/parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 import { TRPCPanelMeta } from "@src/meta";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { ParsedProcedure } from "@src/parse/parseProcedure";

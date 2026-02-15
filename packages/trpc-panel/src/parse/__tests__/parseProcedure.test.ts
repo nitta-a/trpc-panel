@@ -8,7 +8,7 @@ import {
   testTrpcInstance,
 } from "@src/parse/__tests__/utils/router";
 import { testSchemas } from "@src/parse/__tests__/utils/schemas";
-import { z } from "zod";
+import { z } from 'zod/v3';
 import zodToJsonSchema from "zod-to-json-schema";
 
 describe("Parse TRPC Procedure", () => {

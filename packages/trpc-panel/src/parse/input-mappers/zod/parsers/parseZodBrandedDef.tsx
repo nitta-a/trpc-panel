@@ -1,6 +1,6 @@
 import { zodSelectorFunction } from "@src/parse/input-mappers/zod/selector";
 import { ParsedInputNode, ParseReferences } from "@src/parse/parseNodeTypes";
-import { AnyZodObject, ZodBrandedDef } from "zod";
+import { AnyZodObject, ZodBrandedDef } from 'zod/v3';
 
 export function parseZodBrandedDef(
   def: ZodBrandedDef<AnyZodObject>,

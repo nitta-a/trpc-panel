@@ -1,7 +1,7 @@
 import { defaultReferences } from "@src/parse/input-mappers/defaultReferences";
 import { parseZodOptionalDef } from "@src/parse/input-mappers/zod/parsers/parseZodOptionalDef";
 import { NumberNode, ObjectNode } from "@src/parse/parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Parse ZodOptional", () => {
   it("should return it's parsed inner type with optional true", () => {

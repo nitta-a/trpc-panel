@@ -1,7 +1,7 @@
 import { defaultReferences } from "../../defaultReferences";
 import { parseZodBigIntDef } from "../../zod/parsers/parseZodBigIntDef";
 import { NumberNode } from "../../../parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Zod BigInt", () => {
   it("should parse a big end as a number node", () => {

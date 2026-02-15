@@ -1,6 +1,6 @@
 import { ParsedInputNode, ParseReferences } from "@src/parse/parseNodeTypes";
 import { nodePropertiesFromRef } from "@src/parse/utils";
-import { ZodUndefinedDef } from "zod";
+import { ZodUndefinedDef } from 'zod/v3';
 
 export function parseZodUndefinedDef(
   def: ZodUndefinedDef,

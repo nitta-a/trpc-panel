@@ -10,7 +10,7 @@ import {
   TrpcPanelExtraOptions,
 } from "./parseRouter";
 
-import { AnyZodObject, z } from "zod";
+import { AnyZodObject, z } from 'zod/v3';
 import { zodSelectorFunction } from "./input-mappers/zod/selector";
 import {
   ParseReferences,

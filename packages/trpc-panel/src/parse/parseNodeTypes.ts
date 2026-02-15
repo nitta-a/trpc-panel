@@ -1,4 +1,4 @@
-import { ZodTypeDef } from "zod";
+import { ZodTypeDef } from 'zod/v3';
 import { ZodDiscriminatedUnionDefUnversioned } from "./input-mappers/zod/parsers/parseZodDiscriminatedUnionDef";
 import { TrpcPanelExtraOptions } from "./parseRouter";
 

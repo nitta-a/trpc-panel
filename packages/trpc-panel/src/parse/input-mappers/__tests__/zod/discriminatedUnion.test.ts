@@ -4,7 +4,7 @@ import {
   ZodDiscriminatedUnionDefUnversioned,
 } from "@src/parse/input-mappers/zod/parsers/parseZodDiscriminatedUnionDef";
 import { DiscriminatedUnionNode } from "@src/parse/parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Parse Zod Discriminated Union", () => {
   //write test

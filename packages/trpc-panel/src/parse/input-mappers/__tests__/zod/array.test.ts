@@ -2,7 +2,7 @@ import { defaultReferences } from "../../defaultReferences";
 import { parseZodArrayDef } from "../../zod/parsers/parseZodArrayDef";
 import { parseZodObjectDef } from "../../zod/parsers/parseZodObjectDef";
 import { ArrayNode, ObjectNode } from "../../../parseNodeTypes";
-import { z } from "zod";
+import { z } from 'zod/v3';
 
 describe("Parse Zod Array", () => {
   it("should parse a string array schema", () => {
