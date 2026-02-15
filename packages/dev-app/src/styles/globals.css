@@ -1,6 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source "../../app/**/*.{js,ts,jsx,tsx}";
+@source "../../pages/**/*.{js,ts,jsx,tsx}";
+@source "../../components/**/*.{js,ts,jsx,tsx}";
+@source "../../src/**/*.{js,ts,jsx,tsx}";
+@source "../../../trpc-panel/src/**/*.{js,ts,jsx,tsx}";
+
+@theme {
+  --color-querySolid: #22c55e;
+  --color-queryBg: #f0fdf4;
+  --color-queryBgDark: #dcfce7;
+  --color-queryText: #16a34a;
+  --color-mutationSolid: #3b82f6;
+  --color-mutationBg: #eff6ff;
+  --color-mutationText: #2563eb;
+  --color-mutationBgDark: #dbeafe;
+  --color-routerSolid: #8b5cf6;
+  --color-routerBg: #faf5ffaa;
+  --color-routerBgDark: #f3e8ff;
+  --color-routerText: #9333ea;
+  --color-subscriptionSolid: #F34213;
+  --color-subscriptionBg: #FEF0EC;
+  --color-subscriptionBgDark: #FCD1C5;
+  --color-subscriptionText: #E93C0C;
+  --color-neutralSolid: #52525b;
+  --color-neutralSolidTransparent: #64748b;
+  --color-selectedListItem: #063352;
+  --color-neutralBg: #f1f5f922;
+  --color-neutralBgDark: #e2e8f0;
+  --color-neutralBgVeryDark: #3f3f46;
+  --color-neutralText: #0f172a;
+  --color-light: #f8fafc;
+  --color-white: #fcfcfc;
+  --color-whiteTransparent: #ffffff77;
+  --color-whiteLessTransparent: #ffffffcc;
+  --color-actuallyWhite: #ffffff;
+  --color-error: #ef4444;
+  --color-mainBackground: #f9fafb;
+  --color-panelBorder: #d4d4d8;
+  --color-overlayBackground: #999a9b88;
+  --color-separatorLine: #d4d4d888;
+}
 
 html,
 body {
