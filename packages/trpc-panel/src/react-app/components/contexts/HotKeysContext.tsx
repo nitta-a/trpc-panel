@@ -65,7 +65,7 @@ export function useHotKeysContext() {
 
 export function useEnableInputGlobalHotkeys(
   ref: MutableRefObject<null | HTMLInputElement>,
-  deps?: any[],
+  deps?: React.DependencyList,
 ) {
   const { attachEventListeners, removeEventListeners } = useHotKeysContext()
   useEffect(() => {
