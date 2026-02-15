@@ -1,5 +1,6 @@
 import ObjectIcon from '@mui/icons-material/DataObjectOutlined'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { Field } from '@src/react-app/components/form/Field'
 import type { ReactNode } from 'react'
 import type { Control } from 'react-hook-form'
@@ -13,7 +14,7 @@ export function ObjectField({
   overrideIconElement,
 }: {
   label: string
-  control: Control<any>
+  control: Control<ProcedureFormData>
   node: ParsedInputNode & { type: 'object' }
   topLevel?: boolean
   overrideIconElement?: ReactNode

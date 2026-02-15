@@ -1,12 +1,12 @@
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
 
 // TODO - Use an actual type instead of any? Not sure if it's really worth it or not.
-export function defaultFormValuesForNode(node: ParsedInputNode): any {
+export function defaultFormValuesForNode(node: ParsedInputNode): unknown {
   switch (node.type) {
     case 'array':
       return []
     case 'boolean':
-      return
+      return undefined
     case 'discriminated-union': {
       const firstValue = node.discriminatedUnionValues[0]!
       return defaultFormValuesForNode(
@@ -14,11 +14,11 @@ export function defaultFormValuesForNode(node: ParsedInputNode): any {
       )
     }
     case 'enum':
-      return
+      return undefined
     // return node.enumValues[0];
     case 'object': {
-      const obj: any = {}
-      for (var [name, childNode] of Object.entries(node.children)) {
+      const obj: Record<string, unknown> = {}
+      for (const [name, childNode] of Object.entries(node.children)) {
         obj[name] = defaultFormValuesForNode(childNode)
       }
       return obj
@@ -29,6 +29,8 @@ export function defaultFormValuesForNode(node: ParsedInputNode): any {
     case 'number':
       // Seems it's more natural for these to have no value
       // as a default
-      return
+      return undefined
+    case 'unsupported':
+      return undefined
   }
 }

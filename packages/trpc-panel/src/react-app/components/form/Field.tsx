@@ -1,4 +1,4 @@
-import { ROOT_VALS_PROPERTY_NAME } from '@src/react-app/components/form/ProcedureForm'
+import { type ProcedureFormData, ROOT_VALS_PROPERTY_NAME } from '@src/react-app/components/form/types'
 import type { Control } from 'react-hook-form'
 import type { ParsedInputNode } from '../../../parse/parseNodeTypes'
 import { ArrayField } from './fields/ArrayField'
@@ -15,7 +15,7 @@ export function Field({
   control,
 }: {
   inputNode: ParsedInputNode
-  control: Control<any>
+  control: Control<ProcedureFormData>
 }) {
   const label = inputNode.path.join('.')
   const path = `${ROOT_VALS_PROPERTY_NAME}.${label}`

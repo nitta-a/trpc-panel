@@ -1,6 +1,7 @@
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
 import type { ParsedProcedure } from '@src/parse/parseProcedure'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { CollapsableSection } from '@src/react-app/components/CollapsableSection'
 import { Field } from '@src/react-app/components/form/Field'
 import { ObjectField } from '@src/react-app/components/form/fields/ObjectField'
@@ -39,6 +40,9 @@ function isTrpcError(error: unknown): error is TRPCErrorType {
 }
 
 export const ROOT_VALS_PROPERTY_NAME = 'vals'
+
+// Re-export from types for backward compatibility
+export type { ProcedureFormData } from '../types'
 
 export function ProcedureForm({
   procedure,
@@ -110,13 +114,13 @@ export function ProcedureForm({
     control,
     reset: resetForm,
     handleSubmit,
-  } = useForm({
+  } = useForm<ProcedureFormData>({
     // Type assertion needed due to incompatibility between ajv-formats and react-hook-form types
     resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as unknown) as unknown, {
       formats: fullFormats,
     }),
     defaultValues: {
-      [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node),
+      [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node) as Record<string, unknown> | undefined,
     },
   })
 
@@ -212,7 +216,7 @@ export function ProcedureForm({
           </div>
         </form>
         <div className="flex flex-col space-y-4">
-          {data && <RequestResult result={data} />}
+          {data !== undefined && data !== null && <RequestResult result={data} />}
           {!data && data !== null && (
             <Response>Successful request but no data was returned</Response>
           )}

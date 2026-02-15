@@ -1,3 +1,4 @@
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { type Control, useController } from 'react-hook-form'
 import { BaseSelectField } from './base/BaseSelectField'
 
@@ -9,7 +10,7 @@ export function EnumField({
 }: {
   name: string
   label: string
-  control: Control<any>
+  control: Control<ProcedureFormData>
   options: string[]
 }) {
   const { field, fieldState } = useController({
@@ -19,7 +20,7 @@ export function EnumField({
   return (
     <BaseSelectField
       options={options}
-      value={field.value}
+      value={field.value as string}
       onChange={field.onChange}
       errorMessage={fieldState.error?.message}
       label={label}

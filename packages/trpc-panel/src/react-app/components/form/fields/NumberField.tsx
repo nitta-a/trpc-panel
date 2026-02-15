@@ -1,4 +1,5 @@
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { useEffect, useState } from 'react'
 import { type Control, useController } from 'react-hook-form'
 import { BaseTextField } from './base/BaseTextField'
@@ -11,7 +12,7 @@ export function NumberField({
 }: {
   name: string
   label: string
-  control: Control<any>
+  control: Control<ProcedureFormData>
   node: ParsedInputNode
 }) {
   const [stringValue, setStringValue] = useState('')

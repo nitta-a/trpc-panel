@@ -1,6 +1,7 @@
 import MoonIcon from '@mui/icons-material/Brightness2'
 import CirclesIcon from '@mui/icons-material/JoinRight'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { BaseSelectField } from '@src/react-app/components/form/fields/base/BaseSelectField'
 import { FieldError } from '@src/react-app/components/form/fields/FieldError'
 import { ObjectField } from '@src/react-app/components/form/fields/ObjectField'
@@ -16,7 +17,7 @@ export function DiscriminatedUnionField({
 }: {
   name: string
   label: string
-  control: Control<any>
+  control: Control<ProcedureFormData>
   node: ParsedInputNode
 }) {
   // TODO figure out why this wasn't working in the props type
@@ -30,14 +31,15 @@ export function DiscriminatedUnionField({
   function onDiscriminatorChange(value: string | undefined) {
     if (!value) return
     const newObj = nodeTypecast.discriminatedUnionChildrenMap[value]!
+    const defaultValues = defaultFormValuesForNode(newObj)
     const newDefaultValues = {
-      ...defaultFormValuesForNode(newObj),
+      ...(typeof defaultValues === 'object' && defaultValues !== null ? defaultValues : {}),
       [nodeTypecast.discriminatorName]: value,
     }
     field.onChange(newDefaultValues)
   }
   const children = nodeTypecast.discriminatedUnionChildrenMap[
-    field.value[nodeTypecast.discriminatorName]
+    (field.value as Record<string, unknown>)[nodeTypecast.discriminatorName] as string
   ]! as ParsedInputNode & { type: 'object' }
   return (
     <InputGroupContainer
@@ -46,7 +48,7 @@ export function DiscriminatedUnionField({
     >
       <BaseSelectField
         onChange={onDiscriminatorChange}
-        value={field.value[nodeTypecast.discriminatorName]}
+        value={(field.value as Record<string, unknown>)[nodeTypecast.discriminatorName] as string}
         label="Name"
         options={nodeTypecast.discriminatedUnionValues}
       />

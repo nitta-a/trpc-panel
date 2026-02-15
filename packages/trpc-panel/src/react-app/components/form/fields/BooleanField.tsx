@@ -1,4 +1,5 @@
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { FormLabel } from '@src/react-app/components/form/FormLabel'
 import { BaseCheckboxField } from '@src/react-app/components/form/fields/base/BaseCheckboxField'
 import { type Control, useController } from 'react-hook-form'
@@ -11,7 +12,7 @@ export function BooleanField({
 }: {
   name: string
   label: string
-  control: Control<any>
+  control: Control<ProcedureFormData>
   node: ParsedInputNode
 }) {
   const { field, fieldState } = useController({ name, control })
