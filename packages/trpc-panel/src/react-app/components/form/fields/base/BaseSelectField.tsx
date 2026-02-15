@@ -1,9 +1,9 @@
-import React from "react";
-import { FieldError } from "../FieldError";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import React from 'react'
+import { FieldError } from '../FieldError'
 
 export function BaseSelectField({
   value,
@@ -12,24 +12,24 @@ export function BaseSelectField({
   errorMessage,
   label,
 }: {
-  value?: string;
-  onChange: (value: string | undefined) => void;
-  options: string[];
-  errorMessage?: string;
-  label: string;
+  value?: string
+  onChange: (value: string | undefined) => void
+  options: string[]
+  errorMessage?: string
+  label: string
 }) {
   return (
     <FormControl fullWidth>
       <InputLabel size="small">{label}</InputLabel>
       <Select
-        value={value ? value : ""}
+        value={value ? value : ''}
         onChange={(e) => onChange(e.target.value)}
         size="small"
         label={label}
         placeholder={label}
         sx={{
           div: {
-            backgroundColor: "white",
+            backgroundColor: 'white',
           },
         }}
         error={!!errorMessage}
@@ -42,5 +42,5 @@ export function BaseSelectField({
       </Select>
       {errorMessage && <FieldError errorMessage={errorMessage} />}
     </FormControl>
-  );
+  )
 }

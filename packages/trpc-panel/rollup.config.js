@@ -1,20 +1,21 @@
-import typescript from "@rollup/plugin-typescript";
-import json from "@rollup/plugin-json";
-import babel from "@rollup/plugin-babel";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import copy from "rollup-plugin-copy";
-import replace from "@rollup/plugin-replace";
-import terser from "@rollup/plugin-terser";
-import postcss from "rollup-plugin-postcss";
-import path from "path";
-const isWatching = process.env.ROLLUP_WATCH;
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import replace from '@rollup/plugin-replace'
+import terser from '@rollup/plugin-terser'
+import typescript from '@rollup/plugin-typescript'
+import path from 'path'
+import copy from 'rollup-plugin-copy'
+import postcss from 'rollup-plugin-postcss'
+
+const isWatching = process.env.ROLLUP_WATCH
 
 export default [
   {
-    input: "src/index.ts",
+    input: 'src/index.ts',
     plugins: [
-      typescript({ tsconfig: "tsconfig.buildPanel.json" }),
+      typescript({ tsconfig: 'tsconfig.buildPanel.json' }),
       json(),
       // resolve(),
       // babel({
@@ -24,34 +25,34 @@ export default [
       // commonjs(),
     ],
     output: [
-      { file: "lib/index.js", format: "cjs" },
-      { file: "lib/index.mjs", format: "es" },
+      { file: 'lib/index.js', format: 'cjs' },
+      { file: 'lib/index.mjs', format: 'es' },
     ],
   },
   {
-    input: "src/react-app/index.tsx",
+    input: 'src/react-app/index.tsx',
     output: {
-      file: "lib/react-app/bundle.js",
-      format: "umd",
+      file: 'lib/react-app/bundle.js',
+      format: 'umd',
       sourcemap: true,
-      name: "trpc-panel",
+      name: 'trpc-panel',
     },
     plugins: [
       postcss({
-        extract: path.resolve("lib/react-app/index.css"),
+        extract: path.resolve('lib/react-app/index.css'),
       }),
       nodeResolve({
-        extensions: [".js", ".ts", ".tsx", "ts"],
+        extensions: ['.js', '.ts', '.tsx', 'ts'],
       }),
-      typescript({ tsconfig: "tsconfig.buildReactApp.json" }),
+      typescript({ tsconfig: 'tsconfig.buildReactApp.json' }),
       replace({
-        "process.env.NODE_ENV": JSON.stringify("production"),
+        'process.env.NODE_ENV': JSON.stringify('production'),
         preventAssignment: false,
       }),
       babel({
         presets: [
           [
-            "@babel/preset-react",
+            '@babel/preset-react',
             {
               development: isWatching,
             },
@@ -62,12 +63,12 @@ export default [
       copy({
         targets: [
           {
-            src: "src/react-app/index.html",
-            dest: "lib/react-app",
+            src: 'src/react-app/index.html',
+            dest: 'lib/react-app',
           },
         ],
       }),
       !isWatching && terser(),
     ],
   },
-];
+]

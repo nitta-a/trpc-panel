@@ -1,141 +1,140 @@
-import {
-  Procedure,
-  isQueryDef,
-  isMutationDef,
-  isSubscriptionDef,
-} from "./routerType";
-import {
+import type {
+  AddDataFunctions,
+  ParsedInputNode,
+  ParseReferences,
+} from '@src/parse/parseNodeTypes'
+import { type AnyZodObject, z } from 'zod/v3'
+import { zodToJsonSchema } from 'zod-to-json-schema'
+import { zodSelectorFunction } from './input-mappers/zod/selector'
+import type {
   JSON7SchemaType,
   ProcedureType,
   TrpcPanelExtraOptions,
-} from "./parseRouter";
-
-import { AnyZodObject, z } from 'zod/v3';
-import { zodSelectorFunction } from "./input-mappers/zod/selector";
+} from './parseRouter'
 import {
-  ParseReferences,
-  ParsedInputNode,
-  AddDataFunctions,
-} from "@src/parse/parseNodeTypes";
-import { zodToJsonSchema } from "zod-to-json-schema";
+  isMutationDef,
+  isQueryDef,
+  isSubscriptionDef,
+  type Procedure,
+} from './routerType'
 
 export type ProcedureExtraData = {
-  parameterDescriptions: { [path: string]: string };
-  description?: string;
-};
+  parameterDescriptions: { [path: string]: string }
+  description?: string
+}
 
 export type ParsedProcedure = {
-  inputSchema: JSON7SchemaType;
-  node: ParsedInputNode;
-  nodeType: "procedure";
-  procedureType: ProcedureType;
-  pathFromRootRouter: string[];
-  extraData: ProcedureExtraData;
-};
+  inputSchema: JSON7SchemaType
+  node: ParsedInputNode
+  nodeType: 'procedure'
+  procedureType: ProcedureType
+  pathFromRootRouter: string[]
+  extraData: ProcedureExtraData
+}
 
-type SupportedInputType = "zod";
+type SupportedInputType = 'zod'
 
 const inputParserMap = {
   zod: (zodObject: AnyZodObject, refs: ParseReferences) => {
-    return zodSelectorFunction(zodObject._def, refs);
+    return zodSelectorFunction(zodObject._def, refs)
   },
-};
+}
 
-function inputType(_: unknown): SupportedInputType | "unsupported" {
-  return "zod";
+function inputType(_: unknown): SupportedInputType | 'unsupported' {
+  return 'zod'
 }
 
 type NodeAndInputSchemaFromInputs =
   | {
-      node: ParsedInputNode;
-      schema: ReturnType<typeof zodToJsonSchema>;
-      parseInputResult: "success";
+      node: ParsedInputNode
+      schema: ReturnType<typeof zodToJsonSchema>
+      parseInputResult: 'success'
     }
   | {
-      parseInputResult: "failure";
-    };
+      parseInputResult: 'failure'
+    }
 
-const emptyZodObject = z.object({});
+const emptyZodObject = z.object({})
 function nodeAndInputSchemaFromInputs(
   inputs: unknown[],
   _routerPath: string[],
   options: TrpcPanelExtraOptions,
-  addDataFunctions: AddDataFunctions
+  addDataFunctions: AddDataFunctions,
 ): NodeAndInputSchemaFromInputs {
   if (!inputs.length) {
     return {
-      parseInputResult: "success",
+      parseInputResult: 'success',
       schema: zodToJsonSchema(emptyZodObject, {
         errorMessages: true,
-        $refStrategy: "none",
+        $refStrategy: 'none',
       }),
-      node: inputParserMap["zod"](emptyZodObject, {
+      node: inputParserMap['zod'](emptyZodObject, {
         path: [],
         options,
         addDataFunctions,
       }),
-    };
+    }
   }
   if (inputs.length !== 1) {
-    return { parseInputResult: "failure" };
+    return { parseInputResult: 'failure' }
   }
-  const input = inputs[0];
-  const iType = inputType(input);
-  if (iType == "unsupported") {
-    return { parseInputResult: "failure" };
+  const input = inputs[0]
+  const iType = inputType(input)
+  if (iType == 'unsupported') {
+    return { parseInputResult: 'failure' }
   }
 
   return {
-    parseInputResult: "success",
+    parseInputResult: 'success',
     schema: zodToJsonSchema(input as any, {
       errorMessages: true,
-      $refStrategy: "none",
+      $refStrategy: 'none',
     }), //
     node: zodSelectorFunction((input as any)._def, {
       path: [],
       options,
       addDataFunctions,
     }),
-  };
+  }
 }
 
 export function parseProcedure(
   procedure: Procedure,
   path: string[],
-  options: TrpcPanelExtraOptions
+  options: TrpcPanelExtraOptions,
 ): ParsedProcedure | null {
-  const { _def } = procedure;
-  const { inputs } = _def;
+  const { _def } = procedure
+  const { inputs } = _def
   const parseExtraData: ProcedureExtraData = {
     parameterDescriptions: {},
-  };
+  }
   const nodeAndInput = nodeAndInputSchemaFromInputs(inputs, path, options, {
     addDescriptionIfExists: (def, refs) => {
       if (def.description) {
-        parseExtraData.parameterDescriptions[refs.path.join(".")] =
-          def.description;
+        parseExtraData.parameterDescriptions[refs.path.join('.')] =
+          def.description
       }
     },
-  });
-  if (nodeAndInput.parseInputResult === "failure") {
-    return null;
+  })
+  if (nodeAndInput.parseInputResult === 'failure') {
+    return null
   }
 
   const t = (() => {
-    if (isQueryDef(_def)) return "query";
-    if (isMutationDef(_def)) return "mutation";
-    if (isSubscriptionDef(_def)) return "subscription";
-    return null;
-  })();
+    if (isQueryDef(_def)) return 'query'
+    if (isMutationDef(_def)) return 'mutation'
+    if (isSubscriptionDef(_def)) return 'subscription'
+    return null
+  })()
 
   if (!t) {
-    return null;
+    return null
   }
 
   return {
     inputSchema: nodeAndInput.schema,
     node: nodeAndInput.node,
-    nodeType: "procedure",
+    nodeType: 'procedure',
     procedureType: t,
     pathFromRootRouter: path,
     extraData: {
@@ -144,5 +143,5 @@ export function parseProcedure(
         description: procedure._def.meta.description,
       }),
     },
-  };
+  }
 }

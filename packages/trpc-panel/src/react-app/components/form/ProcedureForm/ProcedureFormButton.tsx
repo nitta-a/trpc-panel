@@ -1,17 +1,17 @@
-import React from "react";
-import { SendIcon } from "../../icons/SendIcon";
-import { Button } from "../../Button";
-import { LoadingSpinner } from "./LoadingSpinner";
-import { ColorSchemeType } from "../../CollapsableSection";
+import React from 'react'
+import { Button } from '../../Button'
+import type { ColorSchemeType } from '../../CollapsableSection'
+import { SendIcon } from '../../icons/SendIcon'
+import { LoadingSpinner } from './LoadingSpinner'
 
 export function ProcedureFormButton({
   text,
-  colorScheme: colorScheme,
+  colorScheme,
   loading,
 }: {
-  text: string;
-  colorScheme: ColorSchemeType;
-  loading: boolean;
+  text: string
+  colorScheme: ColorSchemeType
+  loading: boolean
 }) {
   return (
     <Button
@@ -22,7 +22,7 @@ export function ProcedureFormButton({
     >
       <div
         className={
-          "flex flex-row" + (loading ? " opacity-0 pointer-events-none" : "")
+          'flex flex-row' + (loading ? ' opacity-0 pointer-events-none' : '')
         }
       >
         {text}
@@ -30,5 +30,5 @@ export function ProcedureFormButton({
       </div>
       {loading && <LoadingSpinner />}
     </Button>
-  );
+  )
 }

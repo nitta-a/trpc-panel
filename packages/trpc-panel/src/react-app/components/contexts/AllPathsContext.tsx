@@ -1,42 +1,46 @@
-import React, { useContext } from "react";
-import { ParsedProcedure } from "@src/parse/parseProcedure";
-import { ParsedRouter } from "@src/parse/parseRouter";
-import { createContext, ReactNode, useMemo } from "react";
-import { ColorSchemeType } from "@src/react-app/components/CollapsableSection";
-import { colorSchemeForNode } from "@src/react-app/components/style-utils";
+import type { ParsedProcedure } from '@src/parse/parseProcedure'
+import type { ParsedRouter } from '@src/parse/parseRouter'
+import type { ColorSchemeType } from '@src/react-app/components/CollapsableSection'
+import { colorSchemeForNode } from '@src/react-app/components/style-utils'
+import React, {
+  createContext,
+  type ReactNode,
+  useContext,
+  useMemo,
+} from 'react'
 
 const Context = createContext<{
-  pathsArray: string[];
-  colorSchemeForNode: { [path: string]: ColorSchemeType };
-} | null>(null);
+  pathsArray: string[]
+  colorSchemeForNode: { [path: string]: ColorSchemeType }
+} | null>(null)
 
 function flatten(
-  node: ParsedRouter | ParsedProcedure
+  node: ParsedRouter | ParsedProcedure,
 ): [string, ColorSchemeType][] {
-  let r: [string, ColorSchemeType][] = [];
-  const colorSchemeType = colorSchemeForNode(node);
-  if (node.nodeType === "router") {
+  const r: [string, ColorSchemeType][] = []
+  const colorSchemeType = colorSchemeForNode(node)
+  if (node.nodeType === 'router') {
     const o = Object.values(node.children)
       .map(flatten)
-      .reduce((a, b) => [...a, ...b]);
-    return [...r, ...o, [node.path.join("."), colorSchemeType]];
+      .reduce((a, b) => [...a, ...b])
+    return [...r, ...o, [node.path.join('.'), colorSchemeType]]
   }
 
-  return [...r, [node.pathFromRootRouter.join("."), colorSchemeType]];
+  return [...r, [node.pathFromRootRouter.join('.'), colorSchemeType]]
 }
 
 export function AllPathsContextProvider({
   rootRouter,
   children,
 }: {
-  rootRouter: ParsedRouter;
-  children: ReactNode;
+  rootRouter: ParsedRouter
+  children: ReactNode
 }) {
-  const flattened = useMemo(() => flatten(rootRouter), []);
+  const flattened = useMemo(() => flatten(rootRouter), [])
   const pathsArray = useMemo(() => {
-    return flattened.map((e) => e[0]);
-  }, []);
-  const colorSchemeForNode = useMemo(() => Object.fromEntries(flattened), []);
+    return flattened.map((e) => e[0])
+  }, [])
+  const colorSchemeForNode = useMemo(() => Object.fromEntries(flattened), [])
   return (
     <Context.Provider
       value={{
@@ -46,11 +50,11 @@ export function AllPathsContextProvider({
     >
       {children}
     </Context.Provider>
-  );
+  )
 }
 
 export function useAllPaths() {
-  const ctx = useContext(Context);
-  if (ctx === null) throw new Error("AllPathsContextProvider not found.");
-  return ctx;
+  const ctx = useContext(Context)
+  if (ctx === null) throw new Error('AllPathsContextProvider not found.')
+  return ctx
 }

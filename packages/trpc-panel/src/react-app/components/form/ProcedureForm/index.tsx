@@ -1,24 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Control, useForm, useFormState } from "react-hook-form";
-import type { ParsedProcedure } from "@src/parse/parseProcedure";
-import { ajvResolver } from "@hookform/resolvers/ajv";
-import { defaultFormValuesForNode } from "@src/react-app/components/form/utils";
-import { trpc } from "@src/react-app/trpc";
-import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { z } from 'zod/v3';
-import { ProcedureFormButton } from "./ProcedureFormButton";
-import { Response } from "./Response";
-import { FormSection } from "./FormSection";
-import { Error } from "./Error";
-import { RequestResult } from "./RequestResult";
-import { CollapsableSection } from "@src/react-app/components/CollapsableSection";
-import { CloseIcon } from "@src/react-app/components/icons/CloseIcon";
-import { ObjectField } from "@src/react-app/components/form/fields/ObjectField";
-import { fullFormats } from "ajv-formats/dist/formats";
-import type { ParsedInputNode } from "@src/parse/parseNodeTypes";
-import { DocumentationSection } from "@src/react-app/components/form/ProcedureForm/DescriptionSection";
-import { Field } from "@src/react-app/components/form/Field";
-import { ProcedureFormContextProvider } from "@src/react-app/components/form/ProcedureForm/ProcedureFormContext";
+import { ajvResolver } from '@hookform/resolvers/ajv'
+import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import type { ParsedProcedure } from '@src/parse/parseProcedure'
+import { CollapsableSection } from '@src/react-app/components/CollapsableSection'
+import { Field } from '@src/react-app/components/form/Field'
+import { ObjectField } from '@src/react-app/components/form/fields/ObjectField'
+import { DocumentationSection } from '@src/react-app/components/form/ProcedureForm/DescriptionSection'
+import { ProcedureFormContextProvider } from '@src/react-app/components/form/ProcedureForm/ProcedureFormContext'
+import { defaultFormValuesForNode } from '@src/react-app/components/form/utils'
+import { CloseIcon } from '@src/react-app/components/icons/CloseIcon'
+import { trpc } from '@src/react-app/trpc'
+import type { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
+import { fullFormats } from 'ajv-formats/dist/formats'
+import React, { useEffect, useRef, useState } from 'react'
+import { type Control, useForm, useFormState } from 'react-hook-form'
+import { z } from 'zod/v3'
+import { Error } from './Error'
+import { FormSection } from './FormSection'
+import { ProcedureFormButton } from './ProcedureFormButton'
+import { RequestResult } from './RequestResult'
+import { Response } from './Response'
 
 const TRPCErrorSchema = z.object({
   shape: z.object({
@@ -29,68 +29,68 @@ const TRPCErrorSchema = z.object({
     httpStatus: z.number(),
     stack: z.string().optional(),
   }),
-});
+})
 
-export type TRPCErrorType = z.infer<typeof TRPCErrorSchema>;
+export type TRPCErrorType = z.infer<typeof TRPCErrorSchema>
 
 function isTrpcError(error: unknown): error is TRPCErrorType {
-  const parse = TRPCErrorSchema.safeParse(error);
-  return parse.success;
+  const parse = TRPCErrorSchema.safeParse(error)
+  return parse.success
 }
 
-export const ROOT_VALS_PROPERTY_NAME = "vals";
+export const ROOT_VALS_PROPERTY_NAME = 'vals'
 
 export function ProcedureForm({
   procedure,
   name,
 }: {
-  procedure: ParsedProcedure;
-  name: string;
+  procedure: ParsedProcedure
+  name: string
 }) {
   // null => request was never sent
   // undefined => request successful but nothing returned from procedure
-  const [mutationResponse, setMutationResponse] = useState<any>(null);
-  const [queryEnabled, setQueryEnabled] = useState<boolean>(false);
-  const [queryInput, setQueryInput] = useState<any>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const context = trpc.useContext();
+  const [mutationResponse, setMutationResponse] = useState<any>(null)
+  const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
+  const [queryInput, setQueryInput] = useState<any>(null)
+  const formRef = useRef<HTMLFormElement | null>(null)
+  const context = trpc.useContext()
 
   function getProcedure() {
-    var cur: typeof trpc | typeof trpc[string] = trpc;
+    var cur: typeof trpc | (typeof trpc)[string] = trpc
     for (var p of procedure.pathFromRootRouter) {
       // TODO - Maybe figure out these typings?
-      //@ts-ignore
-      cur = cur[p];
+      //@ts-expect-error
+      cur = cur[p]
     }
-    return cur;
+    return cur
   }
 
   const query = (() => {
-    const router = getProcedure();
-    //@ts-ignore
+    const router = getProcedure()
+    //@ts-expect-error
     return router.useQuery(queryInput, {
       enabled: queryEnabled,
       initialData: null,
       retry: false,
       refetchOnWindowFocus: false,
-    });
-  })() as UseQueryResult<any>;
+    })
+  })() as UseQueryResult<any>
 
   function invalidateQuery(input: any) {
-    var cur: any = context;
+    var cur: any = context
     for (var p of procedure.pathFromRootRouter) {
-      cur = cur[p];
+      cur = cur[p]
     }
-    cur.invalidate(input);
+    cur.invalidate(input)
   }
 
   const mutation = (() => {
-    const router = getProcedure();
-    //@ts-ignore
+    const router = getProcedure()
+    //@ts-expect-error
     return router.useMutation({
       retry: false,
-    });
-  })() as UseMutationResult<any>;
+    })
+  })() as UseMutationResult<any>
 
   const {
     control,
@@ -103,25 +103,25 @@ export function ProcedureForm({
     defaultValues: {
       [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node),
     },
-  });
+  })
 
   function onSubmit(data: { [ROOT_VALS_PROPERTY_NAME]: any }) {
-    if (procedure.procedureType === "query") {
-      const newData = { ...data };
-      setQueryInput(newData[ROOT_VALS_PROPERTY_NAME]);
-      setQueryEnabled(true);
-      invalidateQuery(data.vals);
+    if (procedure.procedureType === 'query') {
+      const newData = { ...data }
+      setQueryInput(newData[ROOT_VALS_PROPERTY_NAME])
+      setQueryEnabled(true)
+      invalidateQuery(data.vals)
     } else {
       mutation
         .mutateAsync(data[ROOT_VALS_PROPERTY_NAME])
         .then(setMutationResponse)
-        .catch();
+        .catch()
     }
   }
 
   // I've seen stuff online saying form reset should happen in useEffect hook only
   // not really sure though, gonna just leave it for now
-  const [shouldReset, setShouldReset] = useState(false);
+  const [shouldReset, setShouldReset] = useState(false)
   useEffect(() => {
     if (shouldReset) {
       resetForm(
@@ -130,25 +130,25 @@ export function ProcedureForm({
           keepValues: false,
           keepDirtyValues: false,
           keepDefaultValues: false,
-        }
-      );
-      setShouldReset(false);
+        },
+      )
+      setShouldReset(false)
     }
-  }, [shouldReset]);
+  }, [shouldReset])
   function reset() {
-    setShouldReset(true);
-    setQueryEnabled(false);
+    setShouldReset(true)
+    setQueryEnabled(false)
   }
 
   const data =
-    procedure.procedureType === "query" ? query.data : mutationResponse;
+    procedure.procedureType === 'query' ? query.data : mutationResponse
   const error =
-    procedure.procedureType == "query" ? query.error : mutation.error;
+    procedure.procedureType == 'query' ? query.error : mutation.error
 
-  const fieldName = procedure.node.path.join(".");
+  const fieldName = procedure.node.path.join('.')
 
   return (
-    <ProcedureFormContextProvider path={procedure.pathFromRootRouter.join(".")}>
+    <ProcedureFormContextProvider path={procedure.pathFromRootRouter.join('.')}>
       <CollapsableSection
         titleElement={
           <span className="font-bold text-lg flex flex-row items-center">
@@ -171,12 +171,12 @@ export function ProcedureForm({
               title="Input"
               topRightElement={<XButton control={control} reset={reset} />}
             >
-              {procedure.node.type === "object" ? (
+              {procedure.node.type === 'object' ? (
                 Object.keys(procedure.node.children).length > 0 && (
                   <ObjectField
                     node={
                       procedure.node as ParsedInputNode & {
-                        type: "object";
+                        type: 'object'
                       }
                     }
                     label={fieldName}
@@ -190,8 +190,8 @@ export function ProcedureForm({
 
               <ProcedureFormButton
                 text={`Execute ${name}`}
-                colorScheme={"neutral"}
-                loading={query.fetchStatus === "fetching" || mutation.isLoading}
+                colorScheme={'neutral'}
+                loading={query.fetchStatus === 'fetching' || mutation.isLoading}
               />
             </FormSection>
           </div>
@@ -210,20 +210,20 @@ export function ProcedureForm({
         </div>
       </CollapsableSection>
     </ProcedureFormContextProvider>
-  );
+  )
 }
 
 function XButton({
   control,
   reset,
 }: {
-  control: Control<any>;
-  reset: () => void;
+  control: Control<any>
+  reset: () => void
 }) {
-  const { isDirty } = useFormState({ control: control });
+  const { isDirty } = useFormState({ control: control })
 
   function onClickClear() {
-    reset();
+    reset()
   }
 
   return (
@@ -234,19 +234,19 @@ function XButton({
         </button>
       )}
     </div>
-  );
+  )
 }
 
 function wrapJsonSchema(jsonSchema: any) {
-  delete jsonSchema["$schema"];
+  delete jsonSchema['$schema']
 
   return {
-    type: "object",
+    type: 'object',
     properties: {
       [ROOT_VALS_PROPERTY_NAME]: jsonSchema,
     },
     required: [],
     additionalProperties: false,
-    $schema: "http://json-schema.org/draft-07/schema#",
-  };
+    $schema: 'http://json-schema.org/draft-07/schema#',
+  }
 }

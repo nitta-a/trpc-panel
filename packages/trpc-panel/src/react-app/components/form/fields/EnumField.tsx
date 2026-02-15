@@ -1,6 +1,6 @@
-import React from "react";
-import { Control, useController } from "react-hook-form";
-import { BaseSelectField } from "./base/BaseSelectField";
+import React from 'react'
+import { type Control, useController } from 'react-hook-form'
+import { BaseSelectField } from './base/BaseSelectField'
 
 export function EnumField({
   name,
@@ -8,15 +8,15 @@ export function EnumField({
   control,
   options,
 }: {
-  name: string;
-  label: string;
-  control: Control<any>;
-  options: string[];
+  name: string
+  label: string
+  control: Control<any>
+  options: string[]
 }) {
   const { field, fieldState } = useController({
     name,
     control,
-  });
+  })
   return (
     <BaseSelectField
       options={options}
@@ -25,5 +25,5 @@ export function EnumField({
       errorMessage={fieldState.error?.message}
       label={label}
     />
-  );
+  )
 }

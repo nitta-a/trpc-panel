@@ -1,22 +1,27 @@
-import React, { MutableRefObject, ReactNode, useEffect, useRef } from "react";
-import { Chevron } from "@src/react-app/components/Chevron";
+import { Chevron } from '@src/react-app/components/Chevron'
 import {
   collapsables,
   useCollapsableIsShowing,
   useSiteNavigationContext,
-} from "@src/react-app/components/contexts/SiteNavigationContext";
+} from '@src/react-app/components/contexts/SiteNavigationContext'
 import {
   backgroundColor,
   solidColorBg,
   solidColorBorder,
-} from "@src/react-app/components/style-utils";
+} from '@src/react-app/components/style-utils'
+import React, {
+  type MutableRefObject,
+  type ReactNode,
+  useEffect,
+  useRef,
+} from 'react'
 
 export type ColorSchemeType =
-  | "query"
-  | "mutation"
-  | "router"
-  | "neutral"
-  | "subscription";
+  | 'query'
+  | 'mutation'
+  | 'router'
+  | 'neutral'
+  | 'subscription'
 export function CollapsableSection({
   titleElement,
   fullPath,
@@ -25,17 +30,17 @@ export function CollapsableSection({
   isRoot,
   focusOnScrollRef,
 }: {
-  titleElement: ReactNode;
-  fullPath: string[];
-  children: ReactNode;
-  sectionType: ColorSchemeType;
-  isRoot?: boolean;
-  focusOnScrollRef?: MutableRefObject<HTMLFormElement | null>;
+  titleElement: ReactNode
+  fullPath: string[]
+  children: ReactNode
+  sectionType: ColorSchemeType
+  isRoot?: boolean
+  focusOnScrollRef?: MutableRefObject<HTMLFormElement | null>
 }) {
-  const { scrollToPathIfMatches } = useSiteNavigationContext();
-  const shown = useCollapsableIsShowing(fullPath);
+  const { scrollToPathIfMatches } = useSiteNavigationContext()
+  const shown = useCollapsableIsShowing(fullPath)
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
     if (shown && containerRef.current) {
       if (scrollToPathIfMatches(fullPath, containerRef.current)) {
@@ -43,27 +48,27 @@ export function CollapsableSection({
         const firstChild =
           focusOnScrollRef &&
           focusOnScrollRef.current &&
-          findFirstFormChildInput(focusOnScrollRef.current);
+          findFirstFormChildInput(focusOnScrollRef.current)
         if (firstChild) {
           setTimeout(() => {
-            firstChild.focus({ preventScroll: true });
-          }, 0);
+            firstChild.focus({ preventScroll: true })
+          }, 0)
         }
       }
     }
-  }, [shown]);
+  }, [shown])
 
   // deals with root router. If it's not collapsable we **simply** render the title element and children
-  const collapsable = fullPath.length > 0;
+  const collapsable = fullPath.length > 0
   return (
     <div
       ref={containerRef}
       className={
-        "flex flex-col drop-shadow-sm " +
+        'flex flex-col drop-shadow-sm ' +
         (collapsable
           ? `${solidColorBorder(sectionType)} ${backgroundColor(sectionType)}`
-          : "") +
-        (!isRoot ? ` border rounded-[0.25rem]` : "")
+          : '') +
+        (!isRoot ? ` border rounded-[0.25rem]` : '')
       }
     >
       {collapsable ? (
@@ -77,8 +82,8 @@ export function CollapsableSection({
           </span>
 
           <Chevron
-            className={"w-4 h-4 mr-2 animate-transform transition-transform"}
-            direction={shown ? "up" : "down"}
+            className={'w-4 h-4 mr-2 animate-transform transition-transform'}
+            direction={shown ? 'up' : 'down'}
           />
         </button>
       ) : (
@@ -87,43 +92,43 @@ export function CollapsableSection({
 
       <div
         className={
-          "flex-col justify-between " +
-          (collapsable ? ` border-t ${solidColorBorder(sectionType)}` : "") +
-          (shown || !collapsable ? " flex" : " hidden")
+          'flex-col justify-between ' +
+          (collapsable ? ` border-t ${solidColorBorder(sectionType)}` : '') +
+          (shown || !collapsable ? ' flex' : ' hidden')
         }
       >
         {children}
       </div>
     </div>
-  );
+  )
 }
 
 export function SectionTypeLabel({
   sectionType,
   className,
 }: {
-  sectionType: ColorSchemeType;
-  className?: string;
+  sectionType: ColorSchemeType
+  className?: string
 }) {
   return (
     <span
       className={
-        "p-1 font-bold rounded-md text-base flex flex-row justify-center w-32 text-light " +
+        'p-1 font-bold rounded-md text-base flex flex-row justify-center w-32 text-light ' +
         solidColorBg(sectionType) +
-        (className ? ` ${className}` : "")
+        (className ? ` ${className}` : '')
       }
     >
       {sectionType.toUpperCase()}
     </span>
-  );
+  )
 }
 
 function findFirstFormChildInput(formElement: HTMLFormElement) {
   for (let i = 0; i < formElement.elements.length; i++) {
-    const child = formElement.elements[i];
-    if (child?.tagName === "input" || child?.tagName === "INPUT") {
-      return child as HTMLInputElement;
+    const child = formElement.elements[i]
+    if (child?.tagName === 'input' || child?.tagName === 'INPUT') {
+      return child as HTMLInputElement
     }
   }
-  return;
+  return
 }

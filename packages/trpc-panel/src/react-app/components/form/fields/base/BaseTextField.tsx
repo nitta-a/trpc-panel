@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes, useRef } from "react";
-import { default as MUITextField } from "@mui/material/TextField";
-import { useEnableInputGlobalHotkeys } from "@src/react-app/components/contexts/HotKeysContext";
+import { default as MUITextField } from '@mui/material/TextField'
+import { useEnableInputGlobalHotkeys } from '@src/react-app/components/contexts/HotKeysContext'
+import React, { type InputHTMLAttributes, useRef } from 'react'
 
 export function BaseTextField({
   value,
@@ -11,19 +11,16 @@ export function BaseTextField({
   fieldId,
   className,
 }: {
-  value: string;
-  onChange: (value: string) => void;
-  errorMessage?: string;
-  label?: string;
-  inputProps?: Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    "value" | "onChange"
-  >;
-  fieldId?: string;
-  className?: string;
+  value: string
+  onChange: (value: string) => void
+  errorMessage?: string
+  label?: string
+  inputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
+  fieldId?: string
+  className?: string
 }) {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  useEnableInputGlobalHotkeys(inputRef, []);
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  useEnableInputGlobalHotkeys(inputRef, [])
   return (
     <MUITextField
       inputRef={inputRef}
@@ -33,17 +30,17 @@ export function BaseTextField({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className={
-        "border border-grey-700 rounded-sm p-2 flex flex-col" +
-        (className ? ` ${className}` : "")
+        'border border-grey-700 rounded-sm p-2 flex flex-col' +
+        (className ? ` ${className}` : '')
       }
       placeholder={label ? `Enter value for ${label}` : undefined}
       {...inputProps}
       color="primary"
       size="small"
-      sx={{ input: { backgroundColor: "white" } }}
+      sx={{ input: { backgroundColor: 'white' } }}
       error={!!errorMessage}
       helperText={errorMessage}
     />
     // {errorMessage && <FieldError errorMessage={errorMessage} />}
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import { Control, useController } from "react-hook-form";
-import React, { useEffect, useState } from "react";
-import { BaseTextField } from "./base/BaseTextField";
-import type { ParsedInputNode } from "@src/parse/parseNodeTypes";
+import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import React, { useEffect, useState } from 'react'
+import { type Control, useController } from 'react-hook-form'
+import { BaseTextField } from './base/BaseTextField'
 
 export function NumberField({
   name,
@@ -9,30 +9,30 @@ export function NumberField({
   label,
   node: inputNode,
 }: {
-  name: string;
-  label: string;
-  control: Control<any>;
-  node: ParsedInputNode;
+  name: string
+  label: string
+  control: Control<any>
+  node: ParsedInputNode
 }) {
-  const [stringValue, setStringValue] = useState("");
+  const [stringValue, setStringValue] = useState('')
 
   const { field, fieldState } = useController({
     control,
     name,
-  });
+  })
 
   function onChange(value: string) {
-    setStringValue(value.replace(/[^\d.-]/g, ""));
+    setStringValue(value.replace(/[^\d.-]/g, ''))
   }
 
   useEffect(() => {
-    const parsed = parseFloat(stringValue);
+    const parsed = parseFloat(stringValue)
     if (isNaN(parsed)) {
-      field.onChange(undefined);
-      return;
+      field.onChange(undefined)
+      return
     }
-    field.onChange(parseFloat(stringValue));
-  }, [stringValue]);
+    field.onChange(parseFloat(stringValue))
+  }, [stringValue])
 
   return (
     <BaseTextField
@@ -40,8 +40,8 @@ export function NumberField({
       value={stringValue}
       errorMessage={fieldState.error?.message}
       label={label}
-      fieldId={inputNode.path.join(".")}
-      inputProps={{ inputMode: "decimal" }}
+      fieldId={inputNode.path.join('.')}
+      inputProps={{ inputMode: 'decimal' }}
     />
-  );
+  )
 }

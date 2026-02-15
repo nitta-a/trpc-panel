@@ -1,11 +1,10 @@
-import React from "react";
-import { LabelHTMLAttributes } from "react";
+import React, { type LabelHTMLAttributes } from 'react'
 
 export function FieldLabel({
-    children,
-    ...props
+  children,
+  ...props
 }: {
-    children: string;
+  children: string
 } & LabelHTMLAttributes<HTMLLabelElement>) {
-    return <label {...props}>{children}</label>;
+  return <label {...props}>{children}</label>
 }

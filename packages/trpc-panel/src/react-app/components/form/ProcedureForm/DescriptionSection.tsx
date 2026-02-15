@@ -1,15 +1,15 @@
-import type { ProcedureExtraData } from "@src/parse/parseProcedure";
-import { FormLabel } from "@src/react-app/components/form/FormLabel";
-import { FormSection } from "@src/react-app/components/form/ProcedureForm/FormSection";
-import React, { ReactNode } from "react";
+import type { ProcedureExtraData } from '@src/parse/parseProcedure'
+import { FormLabel } from '@src/react-app/components/form/FormLabel'
+import { FormSection } from '@src/react-app/components/form/ProcedureForm/FormSection'
+import React, { type ReactNode } from 'react'
 
 export function DocumentationSection({
   extraData,
 }: {
-  extraData: ProcedureExtraData;
+  extraData: ProcedureExtraData
 }) {
-  const hasParams = Object.keys(extraData.parameterDescriptions).length > 0;
-  if (!extraData.description && !hasParams) return null;
+  const hasParams = Object.keys(extraData.parameterDescriptions).length > 0
+  if (!extraData.description && !hasParams) return null
 
   return (
     <FormSection title="Docs">
@@ -36,7 +36,7 @@ export function DocumentationSection({
                         {`${value}`}
                       </td>
                     </tr>
-                  )
+                  ),
                 )}
               </tbody>
             </table>
@@ -44,20 +44,20 @@ export function DocumentationSection({
         )}
       </div>
     </FormSection>
-  );
+  )
 }
 
 function DocumentationSubsection({
   title,
   children,
 }: {
-  title: string;
-  children: ReactNode;
+  title: string
+  children: ReactNode
 }) {
   return (
     <div className="flex flex-col space-y-2">
       <FormLabel>{title}</FormLabel>ƒ
       <span className="text-sm text-gray-500">{children}</span>
     </div>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import React, { ReactNode } from "react";
-import { Control } from "react-hook-form";
-import type { ParsedInputNode } from "@src/parse/parseNodeTypes";
-import { Field } from "@src/react-app/components/form/Field";
-import ObjectIcon from "@mui/icons-material/DataObjectOutlined";
-import { InputGroupContainer } from "../../InputGroupContainer";
+import ObjectIcon from '@mui/icons-material/DataObjectOutlined'
+import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
+import { Field } from '@src/react-app/components/form/Field'
+import React, { type ReactNode } from 'react'
+import type { Control } from 'react-hook-form'
+import { InputGroupContainer } from '../../InputGroupContainer'
 
 export function ObjectField({
   label,
@@ -12,15 +12,15 @@ export function ObjectField({
   topLevel,
   overrideIconElement,
 }: {
-  label: string;
-  control: Control<any>;
-  node: ParsedInputNode & { type: "object" };
-  topLevel?: boolean;
-  overrideIconElement?: ReactNode;
+  label: string
+  control: Control<any>
+  node: ParsedInputNode & { type: 'object' }
+  topLevel?: boolean
+  overrideIconElement?: ReactNode
 }) {
   if (topLevel) {
     return (
-      <div className={"space-y-2 flex-col flex p-1 "}>
+      <div className={'space-y-2 flex-col flex p-1 '}>
         {Object.entries(node.children).map(([name, e]) => (
           <Field
             inputNode={{
@@ -32,7 +32,7 @@ export function ObjectField({
           />
         ))}
       </div>
-    );
+    )
   }
   return (
     <InputGroupContainer
@@ -50,5 +50,5 @@ export function ObjectField({
         />
       ))}
     </InputGroupContainer>
-  );
+  )
 }

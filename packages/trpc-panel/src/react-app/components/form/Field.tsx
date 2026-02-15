@@ -1,27 +1,27 @@
-import { ROOT_VALS_PROPERTY_NAME } from "@src/react-app/components/form/ProcedureForm";
-import React from "react";
-import { Control } from "react-hook-form";
-import { ParsedInputNode } from "../../../parse/parseNodeTypes";
-import { ArrayField } from "./fields/ArrayField";
-import { BooleanField } from "./fields/BooleanField";
-import { DiscriminatedUnionField } from "./fields/DiscriminatedUnionField";
-import { EnumField } from "./fields/EnumField";
-import { LiteralField } from "./fields/LiteralField";
-import { NumberField } from "./fields/NumberField";
-import { ObjectField } from "./fields/ObjectField";
-import { TextField } from "./fields/TextField";
+import { ROOT_VALS_PROPERTY_NAME } from '@src/react-app/components/form/ProcedureForm'
+import React from 'react'
+import type { Control } from 'react-hook-form'
+import type { ParsedInputNode } from '../../../parse/parseNodeTypes'
+import { ArrayField } from './fields/ArrayField'
+import { BooleanField } from './fields/BooleanField'
+import { DiscriminatedUnionField } from './fields/DiscriminatedUnionField'
+import { EnumField } from './fields/EnumField'
+import { LiteralField } from './fields/LiteralField'
+import { NumberField } from './fields/NumberField'
+import { ObjectField } from './fields/ObjectField'
+import { TextField } from './fields/TextField'
 
 export function Field({
   inputNode,
   control,
 }: {
-  inputNode: ParsedInputNode;
-  control: Control<any>;
+  inputNode: ParsedInputNode
+  control: Control<any>
 }) {
-  const label = inputNode.path.join(".");
-  const path = `${ROOT_VALS_PROPERTY_NAME}.${label}`;
+  const label = inputNode.path.join('.')
+  const path = `${ROOT_VALS_PROPERTY_NAME}.${label}`
   switch (inputNode.type) {
-    case "string":
+    case 'string':
       return (
         <TextField
           name={path}
@@ -29,8 +29,8 @@ export function Field({
           node={inputNode}
           label={label}
         />
-      );
-    case "number":
+      )
+    case 'number':
       return (
         <NumberField
           name={path}
@@ -38,10 +38,10 @@ export function Field({
           control={control}
           node={inputNode}
         />
-      );
-    case "object":
-      return <ObjectField label={label} control={control} node={inputNode} />;
-    case "boolean":
+      )
+    case 'object':
+      return <ObjectField label={label} control={control} node={inputNode} />
+    case 'boolean':
       return (
         <BooleanField
           name={path}
@@ -49,8 +49,8 @@ export function Field({
           control={control}
           node={inputNode}
         />
-      );
-    case "enum":
+      )
+    case 'enum':
       return (
         <EnumField
           name={path}
@@ -58,8 +58,8 @@ export function Field({
           control={control}
           options={inputNode.enumValues}
         />
-      );
-    case "array":
+      )
+    case 'array':
       return (
         <ArrayField
           name={path}
@@ -67,8 +67,8 @@ export function Field({
           control={control}
           node={inputNode}
         />
-      );
-    case "discriminated-union":
+      )
+    case 'discriminated-union':
       return (
         <DiscriminatedUnionField
           name={path}
@@ -76,10 +76,10 @@ export function Field({
           control={control}
           node={inputNode}
         />
-      );
-    case "literal":
-      return <LiteralField />;
-    case "unsupported":
-      return null;
+      )
+    case 'literal':
+      return <LiteralField />
+    case 'unsupported':
+      return null
   }
 }
