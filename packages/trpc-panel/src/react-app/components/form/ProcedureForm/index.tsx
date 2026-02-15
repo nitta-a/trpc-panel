@@ -97,6 +97,7 @@ export function ProcedureForm({
     reset: resetForm,
     handleSubmit,
   } = useForm({
+    // Type assertion needed due to incompatibility between ajv-formats and react-hook-form types
     resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as any) as any, {
       formats: fullFormats,
     }),
