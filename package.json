@@ -10,9 +10,9 @@
     "cpy:readme": "cp README.MD packages/trpc-panel/README.md",
     "start:test-app": "node ./packages/test-app/lib/server.js",
     "start:docs": "cd packages/docs && yarn serve",
-    "lint": "biome check .",
-    "format": "biome format --write .",
-    "check": "biome check --write ."
+    "lint": "npx @biomejs/biome check .",
+    "format": "npx @biomejs/biome format --write .",
+    "check": "npx @biomejs/biome check --write ."
   },
   "private": true,
   "devDependencies": {

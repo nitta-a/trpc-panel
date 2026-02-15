@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "biome check .",
+    "lint": "npx @biomejs/biome check .",
     "start": "next start"
   },
   "dependencies": {

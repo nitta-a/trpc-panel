@@ -6,7 +6,19 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "experimentalScannerIgnores": [
+      "**/node_modules/**",
+      "**/lib/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.next/**",
+      "**/coverage/**",
+      "**/out-tsc/**",
+      "**/tmp/**",
+      "**/.cache/**",
+      "**/stats.html"
+    ]
   },
   "formatter": {
     "enabled": true,
