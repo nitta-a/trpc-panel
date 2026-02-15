@@ -33,7 +33,7 @@ function isRouterRecord(obj: unknown): obj is Record<string, unknown> {
   // Check if it's an object with at least one property that looks like a procedure or nested router
   const entries = Object.entries(obj)
   return entries.length > 0 && entries.some(([key, value]) => 
-    !skipSet.has(key) && (typeof value === 'function' || typeof value === 'object')
+    !skipSet.has(key) && (typeof value === 'function' || (typeof value === 'object' && value !== null))
   )
 }
 
@@ -79,7 +79,14 @@ function parseRouter(
   options: TrpcPanelExtraOptions,
 ): ParsedRouter {
   // In v11, iterate over _def.record which contains the actual procedures and routers
-  const record = router._def?.record || {}
+  const record = router._def?.record
+  if (!record) {
+    logParseError(
+      routerPath.join('.'),
+      'Router does not have _def.record property (expected in v11)',
+    )
+    return { children: {}, nodeType: 'router', path: routerPath }
+  }
   return parseRouterRecord(record, routerPath, options)
 }
 
