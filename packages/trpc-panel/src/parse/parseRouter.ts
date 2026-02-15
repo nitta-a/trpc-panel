@@ -1,8 +1,7 @@
-import type { Router as TRPCRouter } from '@trpc/server'
 import type { zodToJsonSchema } from 'zod-to-json-schema'
 import { logParseError } from './parseErrorLogs'
 import { type ParsedProcedure, parseProcedure } from './parseProcedure'
-import { isProcedure, isRouter, type Router } from './routerType'
+import { isRouter, type Router, type RouterDef } from './routerType'
 
 export type JSON7SchemaType = ReturnType<typeof zodToJsonSchema>
 
@@ -22,9 +21,6 @@ export type ParseRouterRefs = {
   path: string[]
 }
 
-// Some things in the router are not procedures, these are those things keys
-const skipSet = new Set(['createCaller', '_def', 'getErrorShape'])
-
 function parseRouter(
   router: Router,
   routerPath: string[],
@@ -32,26 +28,73 @@ function parseRouter(
 ): ParsedRouter {
   const children: ParsedRouterChildren = {}
   var hasChild = false
-  // .procedures contains procedures and routers
-  for (var [procedureOrRouterPath, child] of Object.entries(router)) {
-    if (skipSet.has(procedureOrRouterPath)) continue
-    const newPath = routerPath.concat([procedureOrRouterPath])
-    const parsedNode = (() => {
-      if (isRouter(child)) {
-        return parseRouter(child, newPath, options)
-      }
-      if (isProcedure(child)) {
-        return parseProcedure(child, newPath, options)
-      }
-      return null
-    })()
-    if (!parsedNode) {
-      logParseError(newPath.join('.'), "Couldn't parse node.")
-      continue
+  
+  // In tRPC v11, nested routers are flattened in _def.procedures with dot notation
+  // e.g., "nestedRouter.testQuery" instead of having separate router objects
+  // We need to reconstruct the nested structure
+  
+  const procedures = router._def.procedures
+  const procedureEntries = Object.entries(procedures)
+  
+  // Group procedures by their first path segment
+  const groupedProcedures: Record<string, any[]> = {}
+  
+  for (const [fullPath, procedure] of procedureEntries) {
+    const pathParts = fullPath.split('.')
+    const firstSegment = pathParts[0]!
+    
+    if (!groupedProcedures[firstSegment]) {
+      groupedProcedures[firstSegment] = []
     }
-    hasChild = true
-    children[procedureOrRouterPath] = parsedNode
+    
+    groupedProcedures[firstSegment]!.push({
+      fullPath,
+      pathParts,
+      procedure,
+    })
   }
+  
+  // Process each group
+  for (const [firstSegment, procedures] of Object.entries(groupedProcedures)) {
+    const newPath = routerPath.concat([firstSegment])
+    
+    // If all procedures in this group have only one path part, they're direct children
+    const allDirect = procedures.every(p => p.pathParts.length === 1)
+    
+    if (allDirect) {
+      // Direct procedure
+      const proc = procedures[0].procedure
+      const parsedNode = parseProcedure(proc, newPath, options)
+      if (!parsedNode) {
+        logParseError(newPath.join('.'), "Couldn't parse procedure.")
+        continue
+      }
+      hasChild = true
+      children[firstSegment] = parsedNode
+    } else {
+      // Nested router - reconstruct it
+      const nestedProcedures: Record<string, any> = {}
+      
+      for (const { pathParts, procedure } of procedures) {
+        // Remove the first segment and rejoin
+        const remainingPath = pathParts.slice(1).join('.')
+        nestedProcedures[remainingPath] = procedure
+      }
+      
+      // Create a synthetic router object
+      const syntheticRouter: Router = {
+        _def: {
+          router: true,
+          procedures: nestedProcedures,
+        } as RouterDef,
+      } as Router
+      
+      const parsedNode = parseRouter(syntheticRouter, newPath, options)
+      hasChild = true
+      children[firstSegment] = parsedNode
+    }
+  }
+  
   if (!hasChild)
     logParseError(
       routerPath.join('.'),
@@ -66,7 +109,7 @@ export type TrpcPanelExtraOptions = {
 }
 
 export function parseRouterWithOptions(
-  router: TRPCRouter<any>,
+  router: any,
   parseRouterOptions: TrpcPanelExtraOptions,
 ) {
   if (!isRouter(router)) {
