@@ -29,5 +29,9 @@
       "packages/dev-app"
     ],
     "nohoist": ["**/zod-to-json-schema", "**/zod-to-json-schema/**"]
+  },
+  "resolutions": {
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25"
   }
 }
