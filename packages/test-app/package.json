@@ -31,7 +31,7 @@
   "scripts": {
     "dev": "SERVER_URL=\"http://localhost\" TRPC_PATH=\"trpc\" DEV_PORT=\"4000\" SIMULATE_DELAY=\"true\" nodemon --exec \"node --loader ts-node/esm\" ./src/server.ts",
     "build": "npx tsc --project tsconfig.json",
-    "start": "node ./lib/server"
+    "start": "SERVER_URL=\"http://localhost\" TRPC_PATH=\"trpc\" DEV_PORT=\"4000\" node ./lib/server"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
