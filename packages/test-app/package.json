@@ -4,6 +4,9 @@
   "type": "module",
   "main": "lib/server.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@trpc/client": "^11.10.0",
     "@trpc/server": "^11.10.0",
