@@ -53,13 +53,13 @@ export function ProcedureForm({
   const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
   const [queryInput, setQueryInput] = useState<any>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
+  // @ts-ignore - trpc context type inference issue with generic any router
   const context = trpc.useContext()
 
   function getProcedure() {
-    var cur: typeof trpc | (typeof trpc)[string] = trpc
+    var cur: any = trpc
     for (var p of procedure.pathFromRootRouter) {
       // TODO - Maybe figure out these typings?
-      //@ts-expect-error
       cur = cur[p]
     }
     return cur
@@ -67,7 +67,7 @@ export function ProcedureForm({
 
   const query = (() => {
     const router = getProcedure()
-    //@ts-expect-error
+    // @ts-ignore - dynamic router type
     return router.useQuery(queryInput, {
       enabled: queryEnabled,
       initialData: null,
@@ -86,7 +86,7 @@ export function ProcedureForm({
 
   const mutation = (() => {
     const router = getProcedure()
-    //@ts-expect-error
+    // @ts-ignore - dynamic router type
     return router.useMutation({
       retry: false,
     })

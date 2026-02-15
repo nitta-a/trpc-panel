@@ -58,6 +58,7 @@ function ClientProviders({
 }) {
   const headers = useHeaders()
   const [trpcClient] = useState(() =>
+    // @ts-ignore - trpc client type inference issue with generic any router
     trpc.createClient({
       links: [
         httpBatchLink({
@@ -73,10 +74,13 @@ function ClientProviders({
   )
   const [queryClient] = useState(() => new QueryClient())
 
+  // Cast to any to work around generic router type inference issues
+  const TrpcProvider = (trpc as any).Provider
+
   return (
-    <trpc.Provider queryClient={queryClient} client={trpcClient}>
+    <TrpcProvider queryClient={queryClient} client={trpcClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    </TrpcProvider>
   )
 }
 

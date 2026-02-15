@@ -10,6 +10,7 @@
     "rootDir": "./",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "skipLibCheck": true,
 
     "sourceMap": true,
     "sourceRoot": "/",
