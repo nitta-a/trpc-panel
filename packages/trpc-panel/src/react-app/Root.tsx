@@ -74,9 +74,9 @@ function ClientProviders({
   const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <trpc.Provider queryClient={queryClient} client={trpcClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    <QueryClientProvider client={queryClient}>
+      <trpc.Provider client={trpcClient}>{children}</trpc.Provider>
+    </QueryClientProvider>
   )
 }
 

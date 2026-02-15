@@ -53,7 +53,7 @@ export function ProcedureForm({
   const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
   const [queryInput, setQueryInput] = useState<any>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
-  const context = trpc.useContext()
+  const context = trpc.useUtils()
 
   function getProcedure() {
     var cur: typeof trpc | (typeof trpc)[string] = trpc
