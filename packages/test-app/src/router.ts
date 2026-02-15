@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events'
-import { type inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
+import { initTRPC, TRPCError } from '@trpc/server'
 import type * as trpcExpress from '@trpc/server/adapters/express'
 import { observable } from '@trpc/server/observable'
 import superjson from 'superjson'
@@ -9,10 +9,6 @@ type TRPCMeta = Record<string, unknown>
 type Meta<TMeta = TRPCMeta> = TMeta & {
   cool?: string
 }
-const t = initTRPC
-  .context<ContextType>()
-  .meta<Meta>()
-  .create({ transformer: superjson, isServer: true })
 
 async function createContext(opts: trpcExpress.CreateExpressContextOptions) {
   const authHeader = opts.req.headers.authorization
@@ -23,7 +19,12 @@ async function createContext(opts: trpcExpress.CreateExpressContextOptions) {
   }
 }
 
-type ContextType = inferAsyncReturnType<typeof createContext>
+type ContextType = Awaited<ReturnType<typeof createContext>>
+
+const t = initTRPC
+  .context<ContextType>()
+  .meta<Meta>()
+  .create({ transformer: superjson, isServer: true })
 
 const PostSchema = z.object({
   id: z.string().uuid(),

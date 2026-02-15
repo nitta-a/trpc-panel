@@ -1,4 +1,4 @@
-import type { Router as TRPCRouter } from '@trpc/server'
+import type { AnyRouter as TRPCRouter } from '@trpc/server'
 import type { zodToJsonSchema } from 'zod-to-json-schema'
 import { logParseError } from './parseErrorLogs'
 import { type ParsedProcedure, parseProcedure } from './parseProcedure'

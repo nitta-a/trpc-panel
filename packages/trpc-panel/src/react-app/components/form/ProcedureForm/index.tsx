@@ -191,7 +191,7 @@ export function ProcedureForm({
               <ProcedureFormButton
                 text={`Execute ${name}`}
                 colorScheme={'neutral'}
-                loading={query.fetchStatus === 'fetching' || mutation.isLoading}
+                loading={query.fetchStatus === 'fetching' || mutation.isPending}
               />
             </FormSection>
           </div>
