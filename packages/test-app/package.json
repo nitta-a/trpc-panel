@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.0.6",
     "connect-livereload": "^0.6.1",
     "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
     "express": "^4.18.2",
     "express-cors": "^0.0.3",
     "livereload": "^0.9.3",
@@ -29,9 +30,9 @@
     "zod-to-json-schema": "^3.25.1"
   },
   "scripts": {
-    "dev": "SERVER_URL=\"http://localhost\" TRPC_PATH=\"trpc\" DEV_PORT=\"4000\" SIMULATE_DELAY=\"true\" nodemon --exec \"node --loader ts-node/esm\" ./src/server.ts",
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" ./src/server.ts",
     "build": "npx tsc --project tsconfig.json",
-    "start": "SERVER_URL=\"http://localhost\" TRPC_PATH=\"trpc\" DEV_PORT=\"4000\" node ./lib/server"
+    "start": "node ./lib/server"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",

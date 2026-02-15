@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import { renderTrpcPanel } from "trpc-panel";
 import connectLiveReload from "connect-livereload";
@@ -6,15 +7,13 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import { testRouter } from "./router.js";
 
-const serverUrl = process.env.SERVER_URL;
-const trpcPath = process.env.TRPC_PATH;
-const port = process.env.DEV_PORT;
+// Load environment variables with defaults
+const serverUrl = process.env.SERVER_URL || "http://localhost";
+const trpcPath = process.env.TRPC_PATH || "trpc";
+const port = process.env.DEV_PORT || "4000";
 // to marginally improve local development experience
 const liveReload = process.env.LIVE_RELOAD === "true";
 const simulateDelay = process.env.SIMULATE_DELAY === "true";
-
-if (!serverUrl) throw new Error("No SERVER_URL passed.");
-if (!trpcPath) throw new Error("No TRPC_PATH passed.");
 
 async function createContext(opts: trpcExpress.CreateExpressContextOptions) {
   const authHeader = opts.req.headers["authorization"];
