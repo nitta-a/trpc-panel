@@ -10,7 +10,8 @@ import { useLocalStorage } from '@src/react-app/components/hooks/useLocalStorage
 import { SearchOverlay } from '@src/react-app/components/SearchInputOverlay'
 import type { RenderOptions } from '@src/render'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { type createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
+import { type createTRPCReact } from '@trpc/react-query'
 import { type ReactNode, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import superjson from 'superjson'
@@ -58,7 +59,7 @@ function ClientProviders({
 }) {
   const headers = useHeaders()
   const [trpcClient] = useState(() =>
-    trpc.createClient({
+    createTRPCProxyClient({
       links: [
         httpBatchLink({
           url: options.url,
