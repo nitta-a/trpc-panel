@@ -29,7 +29,7 @@
     "zod-to-json-schema": "^3.25.1"
   },
   "scripts": {
-    "dev": "nodemon --exec SERVER_URL=\"http://localhost\" TRPC_PATH=\"trpc\" DEV_PORT=\"4000\" SIMULATE_DELAY=\"true\" ts-node --project tsconfig.json ./src/server.ts",
+    "dev": "SERVER_URL=\"http://localhost\" TRPC_PATH=\"trpc\" DEV_PORT=\"4000\" SIMULATE_DELAY=\"true\" nodemon --exec \"node --loader ts-node/esm\" ./src/server.ts",
     "build": "npx tsc --project tsconfig.json",
     "start": "node ./lib/server"
   },
