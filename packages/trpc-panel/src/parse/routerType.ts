@@ -12,11 +12,13 @@ export function isZodObject(
 const SharedProcedureDefPropertiesSchema = z.object({
   inputs: z.unknown().array(),
   meta: TRPCPanelMetaSchema.optional(),
+  procedure: z.literal(true),
+  type: z.enum(['query', 'mutation', 'subscription']),
 })
 
 const QueryDefSchema = SharedProcedureDefPropertiesSchema.merge(
   z.object({
-    query: z.literal(true),
+    type: z.literal('query'),
   }),
 )
 
@@ -28,7 +30,7 @@ type QueryDef = z.infer<typeof QueryDefSchema>
 
 const MutationDefSchema = SharedProcedureDefPropertiesSchema.merge(
   z.object({
-    mutation: z.literal(true),
+    type: z.literal('mutation'),
   }),
 )
 
@@ -40,7 +42,7 @@ export type MutationDef = z.infer<typeof MutationDefSchema>
 
 const SubscriptionDefSchema = SharedProcedureDefPropertiesSchema.merge(
   z.object({
-    subscription: z.literal(true),
+    type: z.literal('subscription'),
   }),
 )
 

@@ -1594,18 +1594,17 @@
     postcss "^8.4.41"
     tailwindcss "4.1.18"
 
-"@tanstack/query-core@4.43.0":
-  version "4.43.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.43.0.tgz#e72d9dbab4b1207efe740363b68375b4bdaff1c2"
-  integrity sha512-m1QeUUIpNXDYxmfuuWNFZLky0EwVmbE0hj8ulZ2nIGA1183raJgDCn0IKlxug80NotRqzodxAaoYTKHbE1/P/Q==
+"@tanstack/query-core@5.90.20":
+  version "5.90.20"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.90.20.tgz#e12128e39210715d4ce4fb299c33498ac297771e"
+  integrity sha512-OMD2HLpNouXEfZJWcKeVKUgQ5n+n3A2JFmBaScpNDUqSrQSjiveC7dKMe53uJUg1nDG16ttFPz2xfilz6i2uVg==
 
-"@tanstack/react-query@^4.43.0":
-  version "4.43.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.43.0.tgz#f993211864c2070ba7f764971901bd3e60c886d1"
-  integrity sha512-Lj8luFKHQL27oZbw5T8xdTbsfAPp2+bCtSCa2bAVvIwnvNfRP0hpB1GxfKFgCktat8lPcYBHAu8eMTXzz2sQtQ==
+"@tanstack/react-query@^5.80.3":
+  version "5.90.21"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.90.21.tgz#e0eb40831a76510be438109435b8807ef63ab1b9"
+  integrity sha512-0Lu6y5t+tvlTJMTO7oh5NSpJfpg/5D41LlThfepTixPYkJ0sE2Jj0m0f6yYqujBwIXlId87e234+MxG3D3g7kg==
   dependencies:
-    "@tanstack/query-core" "4.43.0"
-    use-sync-external-store "^1.6.0"
+    "@tanstack/query-core" "5.90.20"
 
 "@testing-library/dom@^8.5.0":
   version "8.20.0"
@@ -1650,25 +1649,25 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
   integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
 
-"@trpc/client@^10.45.4":
-  version "10.45.4"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.45.4.tgz#7f3e0b0deda3c7dd76bc34822a594d1931ecfd58"
-  integrity sha512-ItpH5FMIJFt862kbAgC8hf5NJnDLo0FwEvMEX6zSLCenzWD0UH6H/fvAX1suFo1e0wcAmMhiEU1Tl6xKk/Pd1g==
+"@trpc/client@^11.10.0":
+  version "11.10.0"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-11.10.0.tgz#f8e7e74b8bf072fcd7144b95d4da18b87000334e"
+  integrity sha512-h0s2AwDtuhS8INRb4hlo4z3RKCkarWqlOy+3ffJgrlDxzzW6aLUN+9nDrcN4huPje1Em15tbCOqhIc6oaKYTRw==
 
-"@trpc/next@^10.45.4":
-  version "10.45.4"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.45.4.tgz#20fd9e32cecb1f4b84bbbdefa210736acf90ecbd"
-  integrity sha512-lsuFpZFIf4iFo71fWLS0F5s33fZrvvbblbXffFJBQw20wTQP5fZuZ6hXRbCgiUD+dLsZP1wDMKhky3mqZ5dKgA==
+"@trpc/next@^11.10.0":
+  version "11.10.0"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-11.10.0.tgz#05ea89f3bb918589cadbae5f9b2202c835889574"
+  integrity sha512-IhyJKmXCkImGbvrfUi/TtCWYR+cLylJiWXVLqtkJs/byWK7nA0K+zmCUmbnPgr60gv3qp+X2YZpdapD7fyc5Mg==
 
-"@trpc/react-query@10.45.4", "@trpc/react-query@^10.45.4":
-  version "10.45.4"
-  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.45.4.tgz#6677f0e6aa812f09438d200d805a1b0eb31b2abe"
-  integrity sha512-/JfbkFMztsYbpl94P9TWritMjbHqWxeHz4uwjHM3W2zUcIKT88FiFXVmD/jLitPLrKhi4yAONoaRks5SUm12fQ==
+"@trpc/react-query@11.10.0", "@trpc/react-query@^11.10.0":
+  version "11.10.0"
+  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-11.10.0.tgz#344a15f9a8f0d3c554d1be9032c51a48b66073c0"
+  integrity sha512-SKLpwEMU32mpDTCc3msMxb0fx113x4Jsiw0/t+ENY6AtyvhvDMRF1bpWtoNyY6zpX5wN4JCQMhHef8k0T1rJIw==
 
-"@trpc/server@10.45.4", "@trpc/server@^10.45.4":
-  version "10.45.4"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.45.4.tgz#91ca6848cd3dcdd5163e4bc23cd4a4b55874c8a6"
-  integrity sha512-5MuyK5sDuFVGHOT9EMVHgRjP5I5j3RqGymcb5D47UOp8tzn6LH0g1lEgYrAsOZ12vmk1gpxMw/v/y4xHHK/Qdg==
+"@trpc/server@11.10.0", "@trpc/server@^11.10.0":
+  version "11.10.0"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-11.10.0.tgz#962ea785240e0ba0183fb72d9aacf880675214eb"
+  integrity sha512-zZjTrR6He61e5TiT7e/bQqab/jRcXBZM8Fg78Yoo8uh5pz60dzzbYuONNUCOkafv5ppXVMms4NHYfNZgzw50vg==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -8824,11 +8823,6 @@ use-sync-external-store@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
-
-use-sync-external-store@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.6.0.tgz#b174bfa65cb2b526732d9f2ac0a408027876f32d"
-  integrity sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==
 
 use@^3.1.0:
   version "3.1.1"

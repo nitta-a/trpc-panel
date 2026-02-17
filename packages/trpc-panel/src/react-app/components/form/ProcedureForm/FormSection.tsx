@@ -1,17 +1,12 @@
 import { FormSectionHeader } from '@src/react-app/components/form/ProcedureForm/FormSectionHeader'
-import type { ReactNode } from 'react'
 
-export function FormSection({
-  children,
-  title,
-  topRightElement,
-  titleClassName,
-}: {
-  children: ReactNode
+interface FormSectionProps {
+  children: React.ReactNode
   title: string
-  topRightElement?: ReactNode
+  topRightElement?: React.ReactNode
   titleClassName?: string
-}) {
+}
+export function FormSection({ children, title, topRightElement, titleClassName, }: FormSectionProps) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row justify-between bg-white shadow-sm px-4 py-2">

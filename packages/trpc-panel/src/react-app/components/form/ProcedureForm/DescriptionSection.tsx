@@ -3,11 +3,10 @@ import { FormLabel } from '@src/react-app/components/form/FormLabel'
 import { FormSection } from '@src/react-app/components/form/ProcedureForm/FormSection'
 import type { ReactNode } from 'react'
 
-export function DocumentationSection({
-  extraData,
-}: {
+interface DocumentationSectionProps {
   extraData: ProcedureExtraData
-}) {
+}
+export function DocumentationSection({ extraData, }: DocumentationSectionProps) {
   const hasParams = Object.keys(extraData.parameterDescriptions).length > 0
   if (!extraData.description && !hasParams) return null
 
@@ -47,16 +46,14 @@ export function DocumentationSection({
   )
 }
 
-function DocumentationSubsection({
-  title,
-  children,
-}: {
+interface DocumentationSubsectionProps {
   title: string
   children: ReactNode
-}) {
+}
+function DocumentationSubsection({ title, children, }: DocumentationSubsectionProps) {
   return (
     <div className="flex flex-col space-y-2">
-      <FormLabel>{title}</FormLabel>ƒ
+      <FormLabel>{title}</FormLabel>
       <span className="text-sm text-gray-500">{children}</span>
     </div>
   )

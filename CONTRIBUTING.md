@@ -23,6 +23,22 @@ yarn format
 
 # Check and apply safe fixes
 yarn check
+
+# Type check all packages (without emitting files)
+yarn typecheck
+```
+
+You can also run type checking in individual packages:
+
+```sh
+# Type check trpc-panel package
+cd packages/trpc-panel && yarn typecheck
+
+# Type check test-app package
+cd packages/test-app && yarn typecheck
+
+# Type check dev-app package
+cd packages/dev-app && yarn typecheck
 ```
 
 ### Development App

@@ -26,4 +26,4 @@ Plus you lose type inference on return types of your trpc procedures which is on
 
 ### Can I use `trpc-panel` with `trpc-openapi`?
 
-Yes! If you want to use `trpc-panel`'s awesome UI, you can have a trpc panel on any trpc v10 backend.
+Yes! If you want to use `trpc-panel`'s awesome UI, you can have a trpc panel on any trpc v11 backend.

@@ -13,20 +13,14 @@ import {
   useState,
 } from 'react'
 
-export function useFuzzySort({
-  paths,
-  searchingFor,
-  limit = 50,
-}: {
+interface UseFuzzySortProps {
   paths: string[]
   searchingFor: string
   limit?: number
-}) {
+}
+export function useFuzzySort({ paths, searchingFor, limit = 50 }: UseFuzzySortProps) {
   return useMemo(() => {
-    return fuzzysort.go(searchingFor, paths, {
-      limit,
-      all: true,
-    })
+    return fuzzysort.go(searchingFor, paths, { limit, all: true, })
   }, [paths, searchingFor, limit])
 }
 
@@ -50,11 +44,8 @@ function SearchInput() {
   const finish = useSearch((s) => s.finish)
   const { openAndNavigateTo } = useSiteNavigationContext()
   const paths = useAllPaths()
-  const results = useFuzzySort({
-    paths: paths.pathsArray,
-    searchingFor: searchText,
-  })
-  const [selectedResultIndex, setSelectedResultIndex] = useState<number>(0)
+  const results = useFuzzySort({ paths: paths.pathsArray, searchingFor: searchText })
+  const [selectedResultIndex, setSelectedResultIndex] = useState(0)
 
   const divRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -76,7 +67,7 @@ function SearchInput() {
           event.preventDefault()
           return
         }
-        ;(
+        ; (
           document.activeElement?.parentElement?.nextElementSibling
             ?.children[0] as HTMLElement
         )?.focus()

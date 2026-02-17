@@ -6,7 +6,9 @@ import {
   useMemo,
   useRef,
 } from 'react'
-import { create } from 'zustand'
+import { create, type StoreApi, type UseBoundStore } from 'zustand'
+
+type CollapsablesState = Record<string, boolean>
 
 const Context = createContext<{
   scrollToPathIfMatches: (path: string[], element: Element) => boolean
@@ -24,7 +26,7 @@ function forAllPaths(path: string[], callback: (current: string) => void) {
 }
 
 const collapsablesStore = {
-  current: null as null | ReturnType<typeof create>,
+  current: null as null | UseBoundStore<StoreApi<CollapsablesState>>,
 }
 
 function initialCollapsableStoreValues(allPaths: string[]) {
@@ -37,7 +39,7 @@ function initialCollapsableStoreValues(allPaths: string[]) {
 }
 
 function initCollapsablesStore(allPaths: string[]) {
-  collapsablesStore.current = create<any>(() => ({
+  collapsablesStore.current = create<CollapsablesState>(() => ({
     ...initialCollapsableStoreValues(allPaths),
   }))
 }
@@ -73,7 +75,7 @@ export const collapsables = (() => {
     hide,
     show,
     toggle(path: string[]) {
-      const state = collapsablesStore.current!.getState() as any
+      const state = collapsablesStore.current!.getState()
       if (state[path.join('.')]) {
         hide(path)
       } else {
@@ -81,7 +83,7 @@ export const collapsables = (() => {
       }
     },
     hideAll() {
-      const state = collapsablesStore.current! as any
+      const state = collapsablesStore.current!.getState()
       const newValue: Record<string, boolean> = {}
       for (const path in state) {
         newValue[path] = false
@@ -95,7 +97,7 @@ export function useCollapsableIsShowing(path: string[]) {
   const p = useMemo(() => {
     return path.join('.')
   }, [path.join])
-  return collapsablesStore.current!((s) => (s as any)[p])
+  return collapsablesStore.current!((s) => s[p])
 }
 
 export function SiteNavigationContextProvider({

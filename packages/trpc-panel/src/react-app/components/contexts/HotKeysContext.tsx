@@ -29,7 +29,8 @@ export function HotKeysContextProvider({ children }: { children: ReactNode }) {
   })
 
   const keydownHandler = useCallback(
-    (e: KeyboardEvent) => {
+    (e: Event) => {
+      if (!(e instanceof KeyboardEvent)) return
       const ctrlOrMeta = e.ctrlKey || e.metaKey
       if (e.key.toUpperCase() === 'P' && ctrlOrMeta) {
         toggleSearch()
@@ -42,13 +43,10 @@ export function HotKeysContextProvider({ children }: { children: ReactNode }) {
     <HotKeysContext.Provider
       value={{
         attachEventListeners: (element) => {
-          element?.addEventListener('keydown', keydownHandler as EventListener)
+          element?.addEventListener('keydown', keydownHandler)
         },
         removeEventListeners: (element) => {
-          element?.removeEventListener(
-            'keydown',
-            keydownHandler as EventListener,
-          )
+          element?.removeEventListener('keydown', keydownHandler)
         },
       }}
     >
@@ -65,7 +63,7 @@ export function useHotKeysContext() {
 
 export function useEnableInputGlobalHotkeys(
   ref: MutableRefObject<null | HTMLInputElement>,
-  deps?: any[],
+  deps?: React.DependencyList,
 ) {
   const { attachEventListeners, removeEventListeners } = useHotKeysContext()
   useEffect(() => {

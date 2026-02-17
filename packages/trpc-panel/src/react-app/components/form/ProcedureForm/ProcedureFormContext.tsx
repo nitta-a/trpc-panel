@@ -1,18 +1,16 @@
 import { createContext, type ReactNode, useContext } from 'react'
 
-type ContextType = {
+interface ContextType {
   path: string
 }
 
 const Context = createContext<ContextType | null>(null)
 
-export function ProcedureFormContextProvider({
-  children,
-  path,
-}: {
+interface ProcedureFormContextProviderProps {
   children: ReactNode
   path: string
-}) {
+}
+export function ProcedureFormContextProvider({ children, path, }: ProcedureFormContextProviderProps) {
   return <Context.Provider value={{ path }}>{children}</Context.Provider>
 }
 

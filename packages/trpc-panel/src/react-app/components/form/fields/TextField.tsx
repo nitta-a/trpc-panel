@@ -2,21 +2,14 @@ import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
 import { type Control, useController } from 'react-hook-form'
 import { BaseTextField } from './base/BaseTextField'
 
-export function TextField({
-  name,
-  label,
-  control,
-  node: inputNode,
-}: {
+interface TextFieldProps {
   name: string
   label: string
   control: Control
   node: ParsedInputNode
-}) {
-  const { field, fieldState } = useController({
-    name,
-    control,
-  })
+}
+export function TextField({ name, label, control, node: inputNode, }: TextFieldProps) {
+  const { field, fieldState } = useController({ name, control, })
 
   return (
     <BaseTextField

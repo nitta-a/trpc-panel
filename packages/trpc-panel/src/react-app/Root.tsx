@@ -10,7 +10,7 @@ import { useLocalStorage } from '@src/react-app/components/hooks/useLocalStorage
 import { SearchOverlay } from '@src/react-app/components/SearchInputOverlay'
 import type { RenderOptions } from '@src/render'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { type createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import { httpBatchLink } from '@trpc/react-query'
 import { type ReactNode, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import superjson from 'superjson'
@@ -19,20 +19,24 @@ import { RouterContainer } from './components/RouterContainer'
 import { SideNav } from './components/SideNav'
 import { TopBar } from './components/TopBar'
 
-export function RootComponent({
-  rootRouter,
-  options,
-  trpc,
-}: {
+interface TrpcClientLike {
+  createClient: (options: { links: ReturnType<typeof httpBatchLink>[], transformer?: unknown }) => unknown
+  Provider: (props: { queryClient: QueryClient, client: unknown, children: ReactNode }) => ReactNode
+}
+
+interface RootComponentProps {
   rootRouter: ParsedRouter
   options: RenderOptions
-  trpc: ReturnType<typeof createTRPCReact>
-}) {
+  trpc: unknown
+}
+export function RootComponent(props: RootComponentProps) {
+  const { rootRouter, options, trpc: trpcClient } = props
+
   return (
     <HeadersContextProvider>
       <AllPathsContextProvider rootRouter={rootRouter}>
         <SiteNavigationContextProvider>
-          <ClientProviders trpc={trpc} options={options}>
+          <ClientProviders trpc={trpcClient} options={options}>
             <HotKeysContextProvider>
               <SearchOverlay>
                 <div className="flex flex-col w-full h-full flex-1 relative">
@@ -47,24 +51,20 @@ export function RootComponent({
   )
 }
 
-function ClientProviders({
-  trpc,
-  children,
-  options,
-}: {
-  trpc: ReturnType<typeof createTRPCReact>
-  children: ReactNode
+interface ClientProvidersProps {
+  trpc: unknown
   options: RenderOptions
-}) {
+  children: ReactNode
+}
+function ClientProviders(props: ClientProvidersProps) {
+  const { trpc: trpcClient, children, options, } = props
+
+  const typedTrpcClient = trpcClient as TrpcClientLike
   const headers = useHeaders()
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        httpBatchLink({
-          url: options.url,
-          headers: headers.getHeaders,
-        }),
-      ],
+
+  const [trpcClientInstance] = useState(() =>
+    typedTrpcClient.createClient({
+      links: [httpBatchLink({ url: options.url, headers: headers.getHeaders })],
       transformer: (() => {
         if (options.transformer === 'superjson') return superjson
         return undefined
@@ -74,9 +74,9 @@ function ClientProviders({
   const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <trpc.Provider queryClient={queryClient} client={trpcClient}>
+    <typedTrpcClient.Provider queryClient={queryClient} client={trpcClientInstance}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    </typedTrpcClient.Provider>
   )
 }
 
@@ -90,16 +90,10 @@ function AppInnards({ rootRouter }: { rootRouter: ParsedRouter }) {
     <div className="flex flex-col flex-1 relative">
       <TopBar open={sidebarOpen} setOpen={setSidebarOpen} />
       <div className="flex flex-row flex-1 bg-mainBackground">
-        <SideNav
-          rootRouter={rootRouter}
-          open={sidebarOpen}
-          setOpen={setSidebarOpen}
-        />
+        <SideNav rootRouter={rootRouter} open={sidebarOpen} setOpen={setSidebarOpen} />
         <div
           className="flex flex-col flex-1 items-center overflow-scroll"
-          style={{
-            maxHeight: 'calc(100vh - 4rem)',
-          }}
+          style={{ maxHeight: 'calc(100vh - 4rem)', }}
         >
           <div className="container max-w-6xl p-4 pt-8">
             <RouterContainer router={rootRouter} />

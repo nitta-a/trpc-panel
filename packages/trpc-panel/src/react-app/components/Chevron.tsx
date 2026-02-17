@@ -1,12 +1,10 @@
 import { ChevronIcon } from '@src/react-app/components/icons/ChevronIcon'
 
-export function Chevron({
-  className,
-  direction,
-}: {
+interface ChevronProps {
   className?: string
   direction: 'up' | 'down' | 'right' | 'left'
-}) {
+}
+export function Chevron({ className, direction, }: ChevronProps) {
   return (
     <ChevronIcon
       className={

@@ -54,9 +54,9 @@ export function HeadersPopup() {
   }
 
   function onConfirmClick() {
-    var newErrors: boolean[] = [...errors]
-    var i = 0
-    for (var [headerKey, headerValue] of headers) {
+    const newErrors: boolean[] = [...errors]
+    let i = 0
+    for (const [headerKey, headerValue] of headers) {
       if (!headerKey || !headerValue) {
         newErrors[i] = true
       }

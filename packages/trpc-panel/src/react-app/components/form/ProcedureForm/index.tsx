@@ -6,6 +6,7 @@ import { Field } from '@src/react-app/components/form/Field'
 import { ObjectField } from '@src/react-app/components/form/fields/ObjectField'
 import { DocumentationSection } from '@src/react-app/components/form/ProcedureForm/DescriptionSection'
 import { ProcedureFormContextProvider } from '@src/react-app/components/form/ProcedureForm/ProcedureFormContext'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { defaultFormValuesForNode } from '@src/react-app/components/form/utils'
 import { CloseIcon } from '@src/react-app/components/icons/CloseIcon'
 import { trpc } from '@src/react-app/trpc'
@@ -14,7 +15,7 @@ import { fullFormats } from 'ajv-formats/dist/formats'
 import { useEffect, useRef, useState } from 'react'
 import { type Control, useForm, useFormState } from 'react-hook-form'
 import { z } from 'zod/v3'
-import { Error } from './Error'
+import { Error as ErrorView } from './Error'
 import { FormSection } from './FormSection'
 import { ProcedureFormButton } from './ProcedureFormButton'
 import { RequestResult } from './RequestResult'
@@ -40,6 +41,9 @@ function isTrpcError(error: unknown): error is TRPCErrorType {
 
 export const ROOT_VALS_PROPERTY_NAME = 'vals'
 
+// Re-export from types for backward compatibility
+export type { ProcedureFormData } from '../types'
+
 export function ProcedureForm({
   procedure,
   name,
@@ -49,69 +53,95 @@ export function ProcedureForm({
 }) {
   // null => request was never sent
   // undefined => request successful but nothing returned from procedure
-  const [mutationResponse, setMutationResponse] = useState<any>(null)
+  const [mutationResponse, setMutationResponse] = useState<unknown>(null)
   const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
-  const [queryInput, setQueryInput] = useState<any>(null)
+  const [queryInput, setQueryInput] = useState<unknown>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
-  const context = trpc.useContext()
+  const context = (trpc as unknown as { useUtils: () => unknown }).useUtils()
 
   function getProcedure() {
-    var cur: typeof trpc | (typeof trpc)[string] = trpc
-    for (var p of procedure.pathFromRootRouter) {
-      // TODO - Maybe figure out these typings?
-      //@ts-expect-error
-      cur = cur[p]
+    // Use Record for dynamic property access - more type-safe than 'any'
+    let cur: Record<string, unknown> = trpc as unknown as Record<
+      string,
+      unknown
+    >
+    for (const p of procedure.pathFromRootRouter) {
+      cur = cur[p] as Record<string, unknown>
     }
     return cur
   }
 
   const query = (() => {
     const router = getProcedure()
-    //@ts-expect-error
-    return router.useQuery(queryInput, {
+    // Type assertion for dynamic procedure access
+    const useQuery = (router as Record<string, unknown>).useQuery as (
+      input: unknown,
+      options: {
+        enabled: boolean
+        initialData: null
+        retry: boolean
+        refetchOnWindowFocus: boolean
+      },
+    ) => UseQueryResult<unknown>
+
+    return useQuery(queryInput, {
       enabled: queryEnabled,
       initialData: null,
       retry: false,
       refetchOnWindowFocus: false,
     })
-  })() as UseQueryResult<any>
+  })() as UseQueryResult<unknown>
 
-  function invalidateQuery(input: any) {
-    var cur: any = context
-    for (var p of procedure.pathFromRootRouter) {
-      cur = cur[p]
+  function invalidateQuery(input: unknown) {
+    let cur: Record<string, unknown> = context as unknown as Record<
+      string,
+      unknown
+    >
+    for (const p of procedure.pathFromRootRouter) {
+      cur = cur[p] as Record<string, unknown>
     }
-    cur.invalidate(input)
+    const invalidate = (cur as Record<string, unknown>).invalidate as (
+      input: unknown,
+    ) => void
+    invalidate(input)
   }
 
   const mutation = (() => {
     const router = getProcedure()
-    //@ts-expect-error
-    return router.useMutation({
+    // Type assertion for dynamic procedure access
+    const useMutation = (router as Record<string, unknown>)
+      .useMutation as (options: {
+        retry: boolean
+      }) => UseMutationResult<unknown>
+
+    return useMutation({
       retry: false,
     })
-  })() as UseMutationResult<any>
+  })() as UseMutationResult<unknown>
+
+  const resolverSchema = wrapJsonSchema(
+    procedure.inputSchema as Record<string, unknown>,
+  ) as unknown as Parameters<typeof ajvResolver>[0]
 
   const {
     control,
     reset: resetForm,
     handleSubmit,
-  } = useForm({
-    // Type assertion needed due to incompatibility between ajv-formats and react-hook-form types
-    resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as any) as any, {
-      formats: fullFormats,
-    }),
+  } = useForm<ProcedureFormData>({
+    resolver: ajvResolver(resolverSchema, { formats: fullFormats, }),
     defaultValues: {
-      [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node),
+      [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node) as
+        | Record<string, unknown>
+        | undefined,
     },
   })
 
-  function onSubmit(data: { [ROOT_VALS_PROPERTY_NAME]: any }) {
+  function onSubmit(data: ProcedureFormData) {
     if (procedure.procedureType === 'query') {
       const newData = { ...data }
       setQueryInput(newData[ROOT_VALS_PROPERTY_NAME])
       setQueryEnabled(true)
-      invalidateQuery(data.vals)
+      invalidateQuery(data[ROOT_VALS_PROPERTY_NAME])
     } else {
       mutation
         .mutateAsync(data[ROOT_VALS_PROPERTY_NAME])
@@ -127,11 +157,7 @@ export function ProcedureForm({
     if (shouldReset) {
       resetForm(
         { [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node) },
-        {
-          keepValues: false,
-          keepDirtyValues: false,
-          keepDefaultValues: false,
-        },
+        { keepValues: false, keepDirtyValues: false, keepDefaultValues: false, },
       )
       setShouldReset(false)
     }
@@ -141,10 +167,8 @@ export function ProcedureForm({
     setQueryEnabled(false)
   }
 
-  const data =
-    procedure.procedureType === 'query' ? query.data : mutationResponse
-  const error =
-    procedure.procedureType === 'query' ? query.error : mutation.error
+  const data = procedure.procedureType === 'query' ? query.data : mutationResponse
+  const error = procedure.procedureType === 'query' ? query.error : mutation.error
 
   const fieldName = procedure.node.path.join('.')
 
@@ -192,19 +216,21 @@ export function ProcedureForm({
               <ProcedureFormButton
                 text={`Execute ${name}`}
                 colorScheme={'neutral'}
-                loading={query.fetchStatus === 'fetching' || mutation.isLoading}
+                loading={query.fetchStatus === 'fetching' || mutation.isPending}
               />
             </FormSection>
           </div>
         </form>
         <div className="flex flex-col space-y-4">
-          {data && <RequestResult result={data} />}
+          {data !== undefined && data !== null && (
+            <RequestResult result={data} />
+          )}
           {!data && data !== null && (
             <Response>Successful request but no data was returned</Response>
           )}
           {error &&
             (isTrpcError(error) ? (
-              <Error error={error} />
+              <ErrorView error={error} />
             ) : (
               <Response>{JSON.stringify(error)}</Response>
             ))}
@@ -218,7 +244,7 @@ function XButton({
   control,
   reset,
 }: {
-  control: Control<any>
+  control: Control<Record<string, unknown>>
   reset: () => void
 }) {
   const { isDirty } = useFormState({ control: control })
@@ -238,7 +264,7 @@ function XButton({
   )
 }
 
-function wrapJsonSchema(jsonSchema: any) {
+function wrapJsonSchema(jsonSchema: Record<string, unknown>) {
   delete jsonSchema.$schema
 
   return {
