@@ -11,17 +11,10 @@ export const parseTestRouterInputSchema = z.object({
   id: z.string(),
   age: z.number(),
   expectedAgeOfDeath: z.number().optional(),
-  object: z.object({
-    nestedId: z.string(),
-  }),
+  object: z.object({ nestedId: z.string() }),
   du: z.discriminatedUnion('d', [
-    z.object({
-      d: z.literal('one'),
-      oneProps: z.string(),
-    }),
-    z.object({
-      d: z.literal('two'),
-    }),
+    z.object({ d: z.literal('one'), oneProps: z.string() }),
+    z.object({ d: z.literal('two') }),
   ]),
 })
 
@@ -29,14 +22,8 @@ export const expectedTestRouterInputParsedNode: ObjectNode = {
   type: 'object',
   path: [],
   children: {
-    id: {
-      type: 'string',
-      path: ['id'],
-    },
-    age: {
-      type: 'number',
-      path: ['age'],
-    },
+    id: { type: 'string', path: ['id'] },
+    age: { type: 'number', path: ['age'] },
     expectedAgeOfDeath: {
       type: 'number',
       optional: true,
@@ -46,10 +33,7 @@ export const expectedTestRouterInputParsedNode: ObjectNode = {
       type: 'object',
       path: ['object'],
       children: {
-        nestedId: {
-          type: 'string',
-          path: ['object', 'nestedId'],
-        },
+        nestedId: { type: 'string', path: ['object', 'nestedId'] },
       },
     },
     du: {
@@ -62,26 +46,15 @@ export const expectedTestRouterInputParsedNode: ObjectNode = {
           type: 'object',
           path: ['du'],
           children: {
-            d: {
-              type: 'literal',
-              value: 'one',
-              path: ['du', 'd'],
-            },
-            oneProps: {
-              type: 'string',
-              path: ['du', 'oneProps'],
-            },
+            d: { type: 'literal', value: 'one', path: ['du', 'd'] },
+            oneProps: { type: 'string', path: ['du', 'oneProps'] },
           },
         },
         two: {
           type: 'object',
           path: ['du'],
           children: {
-            d: {
-              type: 'literal',
-              value: 'two',
-              path: ['du', 'd'],
-            },
+            d: { type: 'literal', value: 'two', path: ['du', 'd'] },
           },
         },
       },

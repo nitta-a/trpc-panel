@@ -26,14 +26,16 @@ const storage =
   typeof window !== 'undefined'
     ? localStorage
     : {
-        getItem: (_v: string) => null,
-        setItem: (_s: string) => {},
-        removeItem: (_v: string) => {},
-      }
+      getItem: (_v: string) => null,
+      setItem: (_s: string) => { },
+      removeItem: (_v: string) => { },
+    }
 
 const storedHeaders = storage.getItem(headersLocalStorageKey)
 
-export function HeadersContextProvider({ children }: { children: ReactNode }) {
+export function HeadersContextProvider(props: { children: ReactNode }) {
+  const { children } = props
+
   const [headersPopupShown, setHeadersPopupShown] = useState(false)
   const [saveHeadersToLocalStorage, setSaveHeadersToLocalStorage] = useState(
     !!storedHeaders,
@@ -50,9 +52,7 @@ export function HeadersContextProvider({ children }: { children: ReactNode }) {
   }
 
   function getHeaders() {
-    return {
-      ...globalHeadersRef.current,
-    }
+    return { ...globalHeadersRef.current, }
   }
 
   return (

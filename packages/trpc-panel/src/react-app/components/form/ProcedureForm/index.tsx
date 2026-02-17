@@ -1,12 +1,12 @@
 import { ajvResolver } from '@hookform/resolvers/ajv'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
 import type { ParsedProcedure } from '@src/parse/parseProcedure'
-import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { CollapsableSection } from '@src/react-app/components/CollapsableSection'
 import { Field } from '@src/react-app/components/form/Field'
 import { ObjectField } from '@src/react-app/components/form/fields/ObjectField'
 import { DocumentationSection } from '@src/react-app/components/form/ProcedureForm/DescriptionSection'
 import { ProcedureFormContextProvider } from '@src/react-app/components/form/ProcedureForm/ProcedureFormContext'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
 import { defaultFormValuesForNode } from '@src/react-app/components/form/utils'
 import { CloseIcon } from '@src/react-app/components/icons/CloseIcon'
 import { trpc } from '@src/react-app/trpc'
@@ -15,7 +15,7 @@ import { fullFormats } from 'ajv-formats/dist/formats'
 import { useEffect, useRef, useState } from 'react'
 import { type Control, useForm, useFormState } from 'react-hook-form'
 import { z } from 'zod/v3'
-import { Error } from './Error'
+import { Error as ErrorView } from './Error'
 import { FormSection } from './FormSection'
 import { ProcedureFormButton } from './ProcedureFormButton'
 import { RequestResult } from './RequestResult'
@@ -57,12 +57,14 @@ export function ProcedureForm({
   const [queryEnabled, setQueryEnabled] = useState<boolean>(false)
   const [queryInput, setQueryInput] = useState<unknown>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const context = (trpc as any).useContext()
+  const context = (trpc as unknown as { useUtils: () => unknown }).useUtils()
 
   function getProcedure() {
     // Use Record for dynamic property access - more type-safe than 'any'
-    let cur: Record<string, unknown> = trpc as unknown as Record<string, unknown>
+    let cur: Record<string, unknown> = trpc as unknown as Record<
+      string,
+      unknown
+    >
     for (const p of procedure.pathFromRootRouter) {
       cur = cur[p] as Record<string, unknown>
     }
@@ -81,7 +83,7 @@ export function ProcedureForm({
         refetchOnWindowFocus: boolean
       },
     ) => UseQueryResult<unknown>
-    
+
     return useQuery(queryInput, {
       enabled: queryEnabled,
       initialData: null,
@@ -91,47 +93,55 @@ export function ProcedureForm({
   })() as UseQueryResult<unknown>
 
   function invalidateQuery(input: unknown) {
-    let cur: Record<string, unknown> = context as unknown as Record<string, unknown>
+    let cur: Record<string, unknown> = context as unknown as Record<
+      string,
+      unknown
+    >
     for (const p of procedure.pathFromRootRouter) {
       cur = cur[p] as Record<string, unknown>
     }
-    const invalidate = (cur as Record<string, unknown>).invalidate as (input: unknown) => void
+    const invalidate = (cur as Record<string, unknown>).invalidate as (
+      input: unknown,
+    ) => void
     invalidate(input)
   }
 
   const mutation = (() => {
     const router = getProcedure()
-    // Type assertion for dynamic procedure access  
-    const useMutation = (router as Record<string, unknown>).useMutation as (options: {
-      retry: boolean
-    }) => UseMutationResult<unknown>
-    
+    // Type assertion for dynamic procedure access
+    const useMutation = (router as Record<string, unknown>)
+      .useMutation as (options: {
+        retry: boolean
+      }) => UseMutationResult<unknown>
+
     return useMutation({
       retry: false,
     })
   })() as UseMutationResult<unknown>
+
+  const resolverSchema = wrapJsonSchema(
+    procedure.inputSchema as Record<string, unknown>,
+  ) as unknown as Parameters<typeof ajvResolver>[0]
 
   const {
     control,
     reset: resetForm,
     handleSubmit,
   } = useForm<ProcedureFormData>({
-    // Type assertion needed due to incompatibility between ajv-formats and react-hook-form types
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: ajvResolver(wrapJsonSchema(procedure.inputSchema as any) as any, {
-      formats: fullFormats,
-    }),
+    resolver: ajvResolver(resolverSchema, { formats: fullFormats, }),
     defaultValues: {
-      [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node) as Record<string, unknown> | undefined,
+      [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node) as
+        | Record<string, unknown>
+        | undefined,
     },
   })
 
-  function onSubmit(data: { [ROOT_VALS_PROPERTY_NAME]: unknown }) {
+  function onSubmit(data: ProcedureFormData) {
     if (procedure.procedureType === 'query') {
       const newData = { ...data }
       setQueryInput(newData[ROOT_VALS_PROPERTY_NAME])
       setQueryEnabled(true)
-      invalidateQuery(data.vals)
+      invalidateQuery(data[ROOT_VALS_PROPERTY_NAME])
     } else {
       mutation
         .mutateAsync(data[ROOT_VALS_PROPERTY_NAME])
@@ -147,11 +157,7 @@ export function ProcedureForm({
     if (shouldReset) {
       resetForm(
         { [ROOT_VALS_PROPERTY_NAME]: defaultFormValuesForNode(procedure.node) },
-        {
-          keepValues: false,
-          keepDirtyValues: false,
-          keepDefaultValues: false,
-        },
+        { keepValues: false, keepDirtyValues: false, keepDefaultValues: false, },
       )
       setShouldReset(false)
     }
@@ -161,10 +167,8 @@ export function ProcedureForm({
     setQueryEnabled(false)
   }
 
-  const data =
-    procedure.procedureType === 'query' ? query.data : mutationResponse
-  const error =
-    procedure.procedureType === 'query' ? query.error : mutation.error
+  const data = procedure.procedureType === 'query' ? query.data : mutationResponse
+  const error = procedure.procedureType === 'query' ? query.error : mutation.error
 
   const fieldName = procedure.node.path.join('.')
 
@@ -218,13 +222,15 @@ export function ProcedureForm({
           </div>
         </form>
         <div className="flex flex-col space-y-4">
-          {data !== undefined && data !== null && <RequestResult result={data} />}
+          {data !== undefined && data !== null && (
+            <RequestResult result={data} />
+          )}
           {!data && data !== null && (
             <Response>Successful request but no data was returned</Response>
           )}
           {error &&
             (isTrpcError(error) ? (
-              <Error error={error} />
+              <ErrorView error={error} />
             ) : (
               <Response>{JSON.stringify(error)}</Response>
             ))}

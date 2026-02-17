@@ -4,23 +4,16 @@ import { useEffect, useState } from 'react'
 import { type Control, useController } from 'react-hook-form'
 import { BaseTextField } from './base/BaseTextField'
 
-export function NumberField({
-  name,
-  control,
-  label,
-  node: inputNode,
-}: {
+interface NumberFieldProps {
   name: string
   label: string
   control: Control<ProcedureFormData>
   node: ParsedInputNode
-}) {
+}
+export function NumberField({ name, control, label, node: inputNode, }: NumberFieldProps) {
   const [stringValue, setStringValue] = useState('')
 
-  const { field, fieldState } = useController({
-    control,
-    name,
-  })
+  const { field, fieldState } = useController({ control, name, })
 
   function onChange(value: string) {
     setStringValue(value.replace(/[^\d.-]/g, ''))

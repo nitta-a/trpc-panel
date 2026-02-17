@@ -19,16 +19,19 @@ import { RouterContainer } from './components/RouterContainer'
 import { SideNav } from './components/SideNav'
 import { TopBar } from './components/TopBar'
 
-export function RootComponent({
-  rootRouter,
-  options,
-  trpc: trpcClient,
-}: {
+interface TrpcClientLike {
+  createClient: (options: { links: ReturnType<typeof httpBatchLink>[], transformer?: unknown }) => unknown
+  Provider: (props: { queryClient: QueryClient, client: unknown, children: ReactNode }) => ReactNode
+}
+
+interface RootComponentProps {
   rootRouter: ParsedRouter
   options: RenderOptions
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  trpc: any
-}) {
+  trpc: unknown
+}
+export function RootComponent(props: RootComponentProps) {
+  const { rootRouter, options, trpc: trpcClient } = props
+
   return (
     <HeadersContextProvider>
       <AllPathsContextProvider rootRouter={rootRouter}>
@@ -48,25 +51,20 @@ export function RootComponent({
   )
 }
 
-function ClientProviders({
-  trpc: trpcClient,
-  children,
-  options,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  trpc: any
-  children: ReactNode
+interface ClientProvidersProps {
+  trpc: unknown
   options: RenderOptions
-}) {
+  children: ReactNode
+}
+function ClientProviders(props: ClientProvidersProps) {
+  const { trpc: trpcClient, children, options, } = props
+
+  const typedTrpcClient = trpcClient as TrpcClientLike
   const headers = useHeaders()
+
   const [trpcClientInstance] = useState(() =>
-    trpcClient.createClient({
-      links: [
-        httpBatchLink({
-          url: options.url,
-          headers: headers.getHeaders,
-        }),
-      ],
+    typedTrpcClient.createClient({
+      links: [httpBatchLink({ url: options.url, headers: headers.getHeaders })],
       transformer: (() => {
         if (options.transformer === 'superjson') return superjson
         return undefined
@@ -76,9 +74,9 @@ function ClientProviders({
   const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <trpcClient.Provider queryClient={queryClient} client={trpcClientInstance}>
+    <typedTrpcClient.Provider queryClient={queryClient} client={trpcClientInstance}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpcClient.Provider>
+    </typedTrpcClient.Provider>
   )
 }
 
@@ -92,16 +90,10 @@ function AppInnards({ rootRouter }: { rootRouter: ParsedRouter }) {
     <div className="flex flex-col flex-1 relative">
       <TopBar open={sidebarOpen} setOpen={setSidebarOpen} />
       <div className="flex flex-row flex-1 bg-mainBackground">
-        <SideNav
-          rootRouter={rootRouter}
-          open={sidebarOpen}
-          setOpen={setSidebarOpen}
-        />
+        <SideNav rootRouter={rootRouter} open={sidebarOpen} setOpen={setSidebarOpen} />
         <div
           className="flex flex-col flex-1 items-center overflow-scroll"
-          style={{
-            maxHeight: 'calc(100vh - 4rem)',
-          }}
+          style={{ maxHeight: 'calc(100vh - 4rem)', }}
         >
           <div className="container max-w-6xl p-4 pt-8">
             <RouterContainer router={rootRouter} />

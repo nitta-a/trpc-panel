@@ -1,33 +1,26 @@
 import XIcon from '@mui/icons-material/CloseOutlined'
 import DataArray from '@mui/icons-material/DataArray'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
-import type { ProcedureFormData } from '@src/react-app/components/form/types'
-import { ROOT_VALS_PROPERTY_NAME } from '@src/react-app/components/form/types'
 import { AddItemButton } from '@src/react-app/components/AddItemButton'
 import { FieldError } from '@src/react-app/components/form/fields/FieldError'
+import type { ProcedureFormData } from '@src/react-app/components/form/types'
+import { ROOT_VALS_PROPERTY_NAME } from '@src/react-app/components/form/types'
 import { defaultFormValuesForNode } from '@src/react-app/components/form/utils'
 import { InputGroupContainer } from '@src/react-app/components/InputGroupContainer'
 import { useState } from 'react'
 import { type Control, useController, useWatch } from 'react-hook-form'
 import { Field } from '../Field'
 
-var currentKeyCount = 0
+let currentKeyCount = 0
 
-export function ArrayField({
-  name,
-  label,
-  control,
-  node,
-}: {
+interface ArrayFieldProps {
   name: string
   label: string
   control: Control<ProcedureFormData>
   node: ParsedInputNode & { type: 'array' }
-}) {
-  const { field, fieldState } = useController({
-    name,
-    control,
-  })
+}
+export function ArrayField({ name, label, control, node, }: ArrayFieldProps) {
+  const { field, fieldState } = useController({ name, control, })
   // To make sure text field state dies when they're deleted
   const [textFieldKeys, setTextFieldKeys] = useState<string[]>([])
 
@@ -67,7 +60,7 @@ export function ArrayField({
       iconElement={<DataArray className="mr-1" />}
       title={label}
     >
-      {(field.value as unknown[]).map((_: ParsedInputNode, i: number) => (
+      {(field.value as unknown[]).map((_: unknown, i: number) => (
         <span key={`${i}`} className="flex flex-row items-start">
           <span className="flex flex-1 flex-col">
             <Field

@@ -3,15 +3,12 @@ import type { ColorSchemeType } from '../../CollapsableSection'
 import { SendIcon } from '../../icons/SendIcon'
 import { LoadingSpinner } from './LoadingSpinner'
 
-export function ProcedureFormButton({
-  text,
-  colorScheme,
-  loading,
-}: {
+interface ProcedureFormButtonProps {
   text: string
   colorScheme: ColorSchemeType
   loading: boolean
-}) {
+}
+export function ProcedureFormButton({ text, colorScheme, loading, }: ProcedureFormButtonProps) {
   return (
     <Button
       variant={colorScheme}

@@ -1,14 +1,13 @@
 import type { ReactNode } from 'react'
 
-export function InputGroupContainer({
-  title,
-  iconElement,
-  children,
-}: {
+interface InputGroupContainerProps {
   title: string
   iconElement?: ReactNode
   children: ReactNode
-}) {
+}
+export function InputGroupContainer(props: InputGroupContainerProps) {
+  const { title, iconElement, children } = props
+
   return (
     <div
       className={

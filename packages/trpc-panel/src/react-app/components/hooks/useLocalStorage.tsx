@@ -9,10 +9,7 @@ import {
 
 type SetValue<T> = Dispatch<SetStateAction<T>>
 
-export function useLocalStorage<T>(
-  key: string,
-  initialValue: T,
-): [T, SetValue<T>] {
+export function useLocalStorage<T>(key: string, initialValue: T,): [T, SetValue<T>] {
   // Get from local storage then
   // parse stored json or return initialValue
   const readValue = useCallback((): T => {

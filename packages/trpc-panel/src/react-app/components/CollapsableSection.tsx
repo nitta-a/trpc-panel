@@ -67,6 +67,7 @@ export function CollapsableSection({
     >
       {collapsable ? (
         <button
+          type="button"
           onClick={() => collapsables.toggle(fullPath)}
           className="flex flex-row justify-between items-center p-1 "
         >

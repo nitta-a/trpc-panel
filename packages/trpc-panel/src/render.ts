@@ -34,8 +34,8 @@ type InjectionParam = {
 }
 
 function injectParams(string: string, injectionParams: InjectionParam[]) {
-  var r = string
-  for (var param of injectionParams) {
+  let r = string
+  for (const param of injectionParams) {
     r = injectInString(param.searchFor, r, param.injectString)
   }
   return r
@@ -55,11 +55,7 @@ function injectInString(
 }
 
 // renders value should never change unless the server is restarted, just parse and inject once
-const cache: {
-  val: string | null
-} = {
-  val: null,
-}
+const cache: { val: string | null } = { val: null }
 
 export function renderTrpcPanel(router: any, options: RenderOptions) {
   if (options.cache === true && cache.val) return cache.val

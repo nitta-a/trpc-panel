@@ -24,28 +24,25 @@ function flatten(
   return [...r, [node.pathFromRootRouter.join('.'), colorSchemeType]]
 }
 
-export function AllPathsContextProvider({
-  rootRouter,
-  children,
-}: {
+interface AllPathsContextProviderProps {
   rootRouter: ParsedRouter
   children: ReactNode
-}) {
+}
+export function AllPathsContextProvider(props: AllPathsContextProviderProps) {
+  const { rootRouter, children } = props
+
   const flattened = useMemo(() => flatten(rootRouter), [rootRouter])
   const pathsArray = useMemo(() => {
     return flattened.map((e) => e[0])
-  }, [flattened.map])
+  }, [flattened])
+
   const colorSchemeForNode = useMemo(
     () => Object.fromEntries(flattened),
     [flattened],
   )
+
   return (
-    <Context.Provider
-      value={{
-        pathsArray,
-        colorSchemeForNode,
-      }}
-    >
+    <Context.Provider value={{ pathsArray, colorSchemeForNode, }}    >
       {children}
     </Context.Provider>
   )

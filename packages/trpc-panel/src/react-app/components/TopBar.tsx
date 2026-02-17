@@ -7,14 +7,14 @@ import { useIsMac } from '@src/react-app/components/hooks/useIsMac'
 import { LogoSvg } from '@src/react-app/components/LogoSvg'
 import type React from 'react'
 
-export function TopBar({
-  open,
-  setOpen,
-}: {
+interface TopBarProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+}
+export function TopBar(props: TopBarProps) {
+  const { open, setOpen } = props
   const { setHeadersPopupShown } = useHeadersContext()
+
   return (
     <div className="w-full px-4 pr-8 flex flex-row justify-between items-center position-fixed left-0 h-16 right-0 top-0 bg-gray-50 drop-shadow-sm bg-actuallyWhite border-b border-b-panelBorder">
       <div className="flex flex-row items-center gap-4">
@@ -37,6 +37,7 @@ export function TopBar({
       </div>
       <RouterSearchTooltip />
       <button
+        type="button"
         onClick={() => setHeadersPopupShown(true)}
         className="border border-neutralSolidTransparent py-2 px-4 text-neutralText font-bold rounded-sm shadow-sm"
       >
@@ -54,7 +55,9 @@ export function RouterSearchTooltip() {
 
   const isMac = useIsMac()
   const helperText = isMac ? '⌘ + P' : 'Ctrl + P'
+
   if (searchOpen) return null
+
   return (
     <button
       onClick={() => setSearchOpen(true)}
