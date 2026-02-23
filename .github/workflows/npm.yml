@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-          scope: "@nia"
+          scope: "@nittaa"
       - name: Setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -40,7 +40,7 @@ jobs:
           cd packages/trpc-panel
           # GitHub Release タグ名から先頭の 'v' を除いてバージョンを取得
           VERSION=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
-          echo "publishing @nia/trpc-panel@${VERSION}"
+          echo "publishing @nittaa/trpc-panel@${VERSION}"
           yarn publish --access public --new-version "${VERSION}"
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { renderTrpcPanel } from '@nia/trpc-panel'
+import { renderTrpcPanel } from '@nittaa/trpc-panel'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import connectLiveReload from 'connect-livereload'
 import cors from 'cors'

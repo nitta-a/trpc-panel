@@ -1,5 +1,5 @@
 {
-  "name": "@nia/trpc-panel",
+  "name": "@nittaa/trpc-panel",
   "version": "1.0.0",
   "description": "UI for testing tRPC backends",
   "publishConfig": {
