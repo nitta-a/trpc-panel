@@ -1,6 +1,6 @@
 # tRPC.panel()
 
-> **Note:** This is a fork of [trpc-panel](https://github.com/iway1/trpc-panel), published as [`@nia/trpc-panel`](https://www.npmjs.com/package/@nia/trpc-panel).
+> **Note:** This is a fork of [trpc-panel](https://github.com/iway1/trpc-panel), published as [`@nittaa/trpc-panel`](https://www.npmjs.com/package/@nittaa/trpc-panel).
 > Original work by iway1 and contributors.
 
 Probably the easiest and cheapest way to build a testing UI and documentation for your tRPC endpoints. tRPC panel automatically generates a UI for manually testing your tRPC backend with 0 overhead:
@@ -28,13 +28,13 @@ Check out our [test app](https://app.trpcpanel.io)
 Install with your preferred package manager:
 
 ```sh
-yarn add @nia/trpc-panel
+yarn add @nittaa/trpc-panel
 ```
 
 render your panel and return it from your backend (express example):
 
 ```js
-import { renderTrpcPanel } from "@nia/trpc-panel";
+import { renderTrpcPanel } from "@nittaa/trpc-panel";
 // ...
 app.use("/panel", (_, res) => {
   return res.send(
@@ -43,7 +43,7 @@ app.use("/panel", (_, res) => {
 });
 ```
 
-`@nia/trpc-panel` just renders as a string, so it can be used with any backend.
+`@nittaa/trpc-panel` just renders as a string, so it can be used with any backend.
 
 ## NextJS / create-t3-app example
 
@@ -51,7 +51,7 @@ In Nextjs you'd want to create an api route somewhere like `src/pages/api/panel.
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from "next";
-import { renderTrpcPanel } from "@nia/trpc-panel";
+import { renderTrpcPanel } from "@nittaa/trpc-panel";
 import { appRouter } from "../../server/api/root";
 
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
@@ -80,7 +80,7 @@ Documentation is opt-in, meaning you only need to set it up if you want to use i
 
 ```ts
 import { initTRPC } from "@trpc/server";
-import { TRPCPanelMeta } from "@nia/trpc-panel";
+import { TRPCPanelMeta } from "@nittaa/trpc-panel";
 
 const t = initTRPC.meta<TRPCPanelMeta>().create();
 ```
@@ -133,7 +133,7 @@ app.use("/panel", (_, res) => {
 
 ## Contributing
 
-`@nia/trpc-panel` welcomes and encourages open source contributions. Please see our [contributing](./CONTRIBUTING.md) guide for information on how to develop locally.
+`@nittaa/trpc-panel` welcomes and encourages open source contributions. Please see our [contributing](./CONTRIBUTING.md) guide for information on how to develop locally.
 
 ## Limitations
 

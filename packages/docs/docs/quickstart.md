@@ -7,7 +7,7 @@ Just install with your preferred package manager:
 And then render the panel:
 
 ```js
-import { renderTrpcPanel } from "@nia/trpc-panel";
+import { renderTrpcPanel } from "@nittaa/trpc-panel";
 // ...
 app.use("/panel", (_, res) => {
     return res.send(
