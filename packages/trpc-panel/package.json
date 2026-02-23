@@ -1,7 +1,10 @@
 {
-  "name": "trpc-panel",
-  "version": "1.0.2",
+  "name": "@nia/trpc-panel",
+  "version": "1.0.0",
   "description": "UI for testing tRPC backends",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/src/index.d.ts",
