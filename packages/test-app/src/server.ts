@@ -1,10 +1,10 @@
 import 'dotenv/config'
+import { renderTrpcPanel } from '@nia/trpc-panel'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import connectLiveReload from 'connect-livereload'
 import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
-import { renderTrpcPanel } from 'trpc-panel'
 import { testRouter } from './router.js'
 
 // Load environment variables with defaults

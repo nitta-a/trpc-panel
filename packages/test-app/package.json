@@ -22,7 +22,7 @@
     "open": "^8.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "trpc-panel": "*",
+    "@nia/trpc-panel": "*",
     "tsx": "^4.19.2",
     "tsconfig-paths": "^4.1.0",
     "ws": "^8.19.0",
