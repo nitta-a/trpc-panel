@@ -1,3 +1,3 @@
-import type { ZodFirstPartyTypeKind, ZodTypeDef } from 'zod/v3'
+import type { core } from 'zod'
 
-export type ZodDefWithType = ZodTypeDef & { typeName: ZodFirstPartyTypeKind }
+export type ZodDefWithType = core.$ZodTypeDef & { type: string }

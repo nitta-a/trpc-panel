@@ -1,4 +1,4 @@
-import { z } from 'zod/v3'
+import { z } from 'zod'
 import type { ArrayNode, ObjectNode } from '../../../parseNodeTypes'
 import { defaultReferences } from '../../defaultReferences'
 import { parseZodArrayDef } from '../../zod/parsers/parseZodArrayDef'

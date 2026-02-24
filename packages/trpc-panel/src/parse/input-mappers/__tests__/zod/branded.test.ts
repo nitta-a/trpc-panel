@@ -1,4 +1,4 @@
-import { type ZodBrandedDef, type ZodType, z } from 'zod/v3'
+import { type ZodType, z } from 'zod'
 import type { ParsedInputNode } from '../../../parseNodeTypes'
 import { defaultReferences } from '../../defaultReferences'
 import { parseZodBrandedDef } from '../../zod/parsers/parseZodBrandedDef'
@@ -26,7 +26,7 @@ describe('Parsed ZodBranded', () => {
     ]
     for (var testCase of testCases) {
       const parsed = parseZodBrandedDef(
-        testCase.zodType._def as unknown as ZodBrandedDef<any>,
+        testCase.zodType._def,
         defaultReferences(),
       )
       expect(parsed).toStrictEqual(testCase.node)

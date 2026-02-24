@@ -1,8 +1,8 @@
 import type { LiteralNode, ParseReferences } from '@src/parse/parseNodeTypes'
-import type { ZodVoidDef } from 'zod/v3'
+import type { core } from 'zod'
 
 export function parseZodVoidDef(
-  _: ZodVoidDef,
+  _: core.$ZodVoidDef,
   refs: ParseReferences,
 ): LiteralNode {
   return {

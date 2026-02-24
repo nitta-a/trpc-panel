@@ -1,7 +1,7 @@
 import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
 import { parseZodUndefinedDef } from '@src/parse/input-mappers/zod/parsers/parseZodUndefinedDef'
 import type { LiteralNode } from '@src/parse/parseNodeTypes'
-import { z } from 'zod/v3'
+import { z } from 'zod'
 
 describe('Parse ZodUndefined', () => {
   it('should parse zod undefined as a literal with value undefined', () => {

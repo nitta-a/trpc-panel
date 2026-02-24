@@ -3,7 +3,7 @@ import type {
   ParsedInputNode,
   ParseReferences,
 } from '@src/parse/parseNodeTypes'
-import { type AnyZodObject, z } from 'zod/v3'
+import { type ZodObject, z } from 'zod'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { zodSelectorFunction } from './input-mappers/zod/selector'
 import type {
@@ -35,7 +35,7 @@ export type ParsedProcedure = {
 type SupportedInputType = 'zod'
 
 const inputParserMap = {
-  zod: (zodObject: AnyZodObject, refs: ParseReferences) => {
+  zod: (zodObject: ZodObject, refs: ParseReferences) => {
     return zodSelectorFunction(zodObject._def, refs)
   },
 }
@@ -64,7 +64,7 @@ function nodeAndInputSchemaFromInputs(
   if (!inputs.length) {
     return {
       parseInputResult: 'success',
-      schema: zodToJsonSchema(emptyZodObject, {
+      schema: zodToJsonSchema(emptyZodObject as any, {
         errorMessages: true,
         $refStrategy: 'none',
       }),
@@ -110,9 +110,14 @@ export function parseProcedure(
   }
   const nodeAndInput = nodeAndInputSchemaFromInputs(inputs, path, options, {
     addDescriptionIfExists: (def, refs) => {
-      if (def.description) {
+      if (
+        def !== null &&
+        typeof def === 'object' &&
+        'description' in def &&
+        typeof (def as { description: unknown }).description === 'string'
+      ) {
         parseExtraData.parameterDescriptions[refs.path.join('.')] =
-          def.description
+          (def as { description: string }).description
       }
     },
   })

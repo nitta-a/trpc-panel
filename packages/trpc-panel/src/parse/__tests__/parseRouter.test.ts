@@ -19,7 +19,7 @@ describe('Parse TRPC Router', () => {
         testQuery: {
           nodeType: 'procedure',
           node: expectedTestRouterInputParsedNode,
-          inputSchema: zodToJsonSchema(parseTestRouterInputSchema),
+          inputSchema: zodToJsonSchema(parseTestRouterInputSchema as any),
           procedureType: 'query',
           pathFromRootRouter: ['testQuery'],
           extraData: {
@@ -29,7 +29,7 @@ describe('Parse TRPC Router', () => {
         testMutation: {
           nodeType: 'procedure',
           node: expectedTestRouterInputParsedNode,
-          inputSchema: zodToJsonSchema(parseTestRouterInputSchema),
+          inputSchema: zodToJsonSchema(parseTestRouterInputSchema as any),
           procedureType: 'mutation',
           pathFromRootRouter: ['testMutation'],
           extraData: {
@@ -54,7 +54,7 @@ describe('Parse TRPC Router', () => {
             testQuery: {
               nodeType: 'procedure',
               node: expectedTestRouterInputParsedNode,
-              inputSchema: zodToJsonSchema(parseTestRouterInputSchema),
+              inputSchema: zodToJsonSchema(parseTestRouterInputSchema as any),
               procedureType: 'query',
               pathFromRootRouter: ['nestedRouter', 'testQuery'],
               extraData: {
@@ -64,7 +64,7 @@ describe('Parse TRPC Router', () => {
             testMutation: {
               nodeType: 'procedure',
               node: expectedTestRouterInputParsedNode,
-              inputSchema: zodToJsonSchema(parseTestRouterInputSchema),
+              inputSchema: zodToJsonSchema(parseTestRouterInputSchema as any),
               procedureType: 'mutation',
               pathFromRootRouter: ['nestedRouter', 'testMutation'],
               extraData: {

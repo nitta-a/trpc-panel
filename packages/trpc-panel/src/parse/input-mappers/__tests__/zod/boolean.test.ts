@@ -1,4 +1,4 @@
-import { z } from 'zod/v3'
+import { z } from 'zod'
 import type { BooleanNode } from '../../../parseNodeTypes'
 import { defaultReferences } from '../../defaultReferences'
 import { parseZodBooleanFieldDef } from '../../zod/parsers/parseZodBooleanFieldDef'

@@ -1,10 +1,8 @@
 import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
-import {
-  parseZodDiscriminatedUnionDef,
-  type ZodDiscriminatedUnionDefUnversioned,
-} from '@src/parse/input-mappers/zod/parsers/parseZodDiscriminatedUnionDef'
+import { parseZodDiscriminatedUnionDef } from '@src/parse/input-mappers/zod/parsers/parseZodDiscriminatedUnionDef'
 import type { DiscriminatedUnionNode } from '@src/parse/parseNodeTypes'
-import { z } from 'zod/v3'
+import type { core } from 'zod'
+import { z } from 'zod'
 
 describe('Parse Zod Discriminated Union', () => {
   //write test
@@ -58,7 +56,7 @@ describe('Parse Zod Discriminated Union', () => {
       }),
     ])
     const parsedZod = parseZodDiscriminatedUnionDef(
-      zodSchema._def as unknown as ZodDiscriminatedUnionDefUnversioned,
+      zodSchema._def as unknown as core.$ZodDiscriminatedUnionDef,
       defaultReferences(),
     )
     expect(parsedZod).toStrictEqual(expected)

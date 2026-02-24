@@ -1,4 +1,4 @@
-import type { ZodTypeDef } from 'zod/v3'
+import type { core } from 'zod'
 import type { ZodDiscriminatedUnionDefUnversioned } from './input-mappers/zod/parsers/parseZodDiscriminatedUnionDef'
 import type { TrpcPanelExtraOptions } from './parseRouter'
 
@@ -7,7 +7,7 @@ export type SharedInputNodeProperties = {
   optional?: true
 }
 
-type InputNodeTypes = ZodTypeDef | ZodDiscriminatedUnionDefUnversioned
+type InputNodeTypes = core.$ZodTypeDef | ZodDiscriminatedUnionDefUnversioned
 
 export type ArrayNode = {
   type: 'array'
@@ -66,7 +66,7 @@ export type ParsedInputNode =
 
 export type AddDataFunctions = {
   addDescriptionIfExists: (
-    def: { description?: string },
+    def: unknown,
     refs: ParseReferences,
   ) => void
 }
