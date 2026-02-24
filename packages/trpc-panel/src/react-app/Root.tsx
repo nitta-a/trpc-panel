@@ -20,7 +20,7 @@ import { SideNav } from './components/SideNav'
 import { TopBar } from './components/TopBar'
 
 interface TrpcClientLike {
-  createClient: (options: { links: ReturnType<typeof httpBatchLink>[], transformer?: unknown }) => unknown
+  createClient: (options: { links: ReturnType<typeof httpBatchLink>[] }) => unknown
   Provider: (props: { queryClient: QueryClient, client: unknown, children: ReactNode }) => ReactNode
 }
 
@@ -64,11 +64,11 @@ function ClientProviders(props: ClientProvidersProps) {
 
   const [trpcClientInstance] = useState(() =>
     typedTrpcClient.createClient({
-      links: [httpBatchLink({ url: options.url, headers: headers.getHeaders })],
-      transformer: (() => {
-        if (options.transformer === 'superjson') return superjson
-        return undefined
-      })(),
+      links: [httpBatchLink({
+        url: options.url,
+        headers: headers.getHeaders,
+        transformer: options.transformer === 'superjson' ? superjson : undefined,
+      })],
     }),
   )
   const [queryClient] = useState(() => new QueryClient())
