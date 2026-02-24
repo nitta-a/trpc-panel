@@ -35,7 +35,7 @@ jobs:
       - name: Copy Readme
         run: |
           yarn cpy:readme
-      - name: Publish with yarn
+      - name: Publish with npm
         run: |
           cd packages/trpc-panel
           # GitHub Release タグ名から先頭の 'v' を除いてバージョンを取得
