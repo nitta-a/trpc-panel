@@ -12,7 +12,9 @@ export const parseZodObjectDef: ParseFunction<
   ZodObjectDef,
   ObjectNode | UnsupportedNode
 > = (def, refs) => {
-  const shape = def.shape()
+  // Zod v3 stores shape as a function; Zod v4 stores it as a direct object
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const shape = typeof def.shape === 'function' ? def.shape() : (def as any).shape
   const children: { [propertyName: string]: ParsedInputNode } = {}
   for (var propertyName of Object.keys(shape)) {
     const node = zodSelectorFunction(shape[propertyName]!._def, {

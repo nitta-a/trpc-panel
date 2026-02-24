@@ -10,5 +10,8 @@ export function parseZodPromiseDef(
   refs: ParseReferences,
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)
-  return zodSelectorFunction(def.type._def, refs)
+  // Zod v3 stores inner schema in def.type; Zod v4 stores it in def.innerType
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const innerSchema = (def as any).innerType ?? def.type
+  return zodSelectorFunction(innerSchema._def, refs)
 }

@@ -18,6 +18,43 @@ import {
   type Procedure,
 } from './routerType'
 
+/**
+ * Check if a schema is a Zod v4 schema (uses _def.type instead of _def.typeName)
+ */
+function isZodV4Schema(schema: unknown): boolean {
+  return (
+    schema !== null &&
+    typeof schema === 'object' &&
+    '_def' in schema &&
+    typeof (schema as Record<string, unknown>)._def === 'object' &&
+    'type' in ((schema as Record<string, unknown>)._def as object) &&
+    !('typeName' in ((schema as Record<string, unknown>)._def as object))
+  )
+}
+
+/**
+ * Convert a schema to JSON Schema format, supporting both Zod v3 and Zod v4
+ */
+function schemaToJsonSchema(schema: unknown): ReturnType<typeof zodToJsonSchema> {
+  if (isZodV4Schema(schema)) {
+    // Zod v4 has a built-in toJSONSchema method
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const v4schema = schema as any
+    if (typeof v4schema.toJSONSchema === 'function') {
+      try {
+        return v4schema.toJSONSchema() as ReturnType<typeof zodToJsonSchema>
+      } catch (_) {
+        // Some types (e.g. void) can't be represented in JSON Schema; return empty schema
+        return {}
+      }
+    }
+  }
+  return zodToJsonSchema(schema as AnyZodObject, {
+    errorMessages: true,
+    $refStrategy: 'none',
+  })
+}
+
 export type ProcedureExtraData = {
   parameterDescriptions: { [path: string]: string }
   description?: string
@@ -86,10 +123,7 @@ function nodeAndInputSchemaFromInputs(
 
   return {
     parseInputResult: 'success',
-    schema: zodToJsonSchema(input as any, {
-      errorMessages: true,
-      $refStrategy: 'none',
-    }), //
+    schema: schemaToJsonSchema(input),
     node: zodSelectorFunction((input as any)._def, {
       path: [],
       options,

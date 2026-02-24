@@ -7,8 +7,10 @@ export const parseZodArrayDef: ParseFunction<ZodArrayDef, ArrayNode> = (
   def,
   refs,
 ) => {
-  const { type } = def
-  const childType = zodSelectorFunction(type._def, { ...refs, path: [] })
+  // Zod v3 stores the element as def.type; Zod v4 stores it as def.element
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const element = (def as any).element ?? def.type
+  const childType = zodSelectorFunction(element._def, { ...refs, path: [] })
   refs.addDataFunctions.addDescriptionIfExists(def, refs)
   return {
     type: 'array',

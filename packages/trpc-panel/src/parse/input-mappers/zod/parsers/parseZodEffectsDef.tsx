@@ -10,5 +10,8 @@ export function parseZodEffectsDef(
   refs: ParseReferences,
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)
-  return zodSelectorFunction(def.schema._def, refs)
+  // Zod v3 effects store the input schema in def.schema; Zod v4 pipe stores it in def.in
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const innerSchema = def.schema ?? (def as any).in
+  return zodSelectorFunction(innerSchema._def, refs)
 }
