@@ -1,8 +1,8 @@
 import type {
   ParsedInputNode,
   ParseReferences,
-} from '@src/parse/parseNodeTypes'
-import { nodePropertiesFromRef } from '@src/parse/utils'
+} from '../../../parseNodeTypes'
+import { nodePropertiesFromRef } from '../../../utils'
 import type { core } from 'zod'
 
 export function parseZodUndefinedDef(

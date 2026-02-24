@@ -1,4 +1,4 @@
-import { nodePropertiesFromRef } from '@src/parse/utils'
+import { nodePropertiesFromRef } from '../../../utils'
 import type { core } from 'zod'
 import type { LiteralNode, ParseFunction } from '../../../parseNodeTypes'
 
