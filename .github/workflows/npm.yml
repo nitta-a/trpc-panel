@@ -41,6 +41,9 @@ jobs:
           # GitHub Release タグ名から先頭の 'v' を除いてバージョンを取得
           VERSION=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
           echo "publishing @nittaa/trpc-panel@${VERSION}"
-          yarn publish --access public --new-version "${VERSION}"
+          # package.json のバージョンを直接書き換え（git commitなし）
+          npm version "${VERSION}" --no-git-tag-version
+          # npm publish に変更（yarn publishのgit操作問題を回避）
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
