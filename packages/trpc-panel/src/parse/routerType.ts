@@ -1,4 +1,4 @@
-import { TRPCPanelMetaSchema } from '@src/meta'
+import { TRPCPanelMetaSchema } from '../meta'
 import { z } from 'zod'
 
 const ZodObjectSchema = z.object({})

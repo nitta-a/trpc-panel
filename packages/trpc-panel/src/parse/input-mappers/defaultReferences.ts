@@ -1,4 +1,4 @@
-import type { ParseReferences } from '@src/parse/parseNodeTypes'
+import type { ParseReferences } from '../parseNodeTypes'
 
 export function defaultReferences(): ParseReferences {
   return {

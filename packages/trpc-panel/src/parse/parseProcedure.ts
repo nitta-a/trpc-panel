@@ -2,7 +2,7 @@ import type {
   AddDataFunctions,
   ParsedInputNode,
   ParseReferences,
-} from '@src/parse/parseNodeTypes'
+} from './parseNodeTypes'
 import { type ZodObject, z } from 'zod'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { zodSelectorFunction } from './input-mappers/zod/selector'
