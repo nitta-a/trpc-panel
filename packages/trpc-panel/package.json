@@ -1,6 +1,6 @@
 {
   "name": "@nittaa/trpc-panel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "UI for testing tRPC backends",
   "publishConfig": {
     "access": "public"
