@@ -3,10 +3,10 @@ import type {
   ParseReferences,
 } from '@src/parse/parseNodeTypes'
 import { nodePropertiesFromRef } from '@src/parse/utils'
-import type { ZodBigIntDef } from 'zod/v3'
+import type { core } from 'zod'
 
 export function parseZodBigIntDef(
-  def: ZodBigIntDef,
+  def: core.$ZodBigIntDef,
   refs: ParseReferences,
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)

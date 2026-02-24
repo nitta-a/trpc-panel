@@ -1,7 +1,7 @@
 import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
 import { parseZodLiteralDef } from '@src/parse/input-mappers/zod/parsers/parseZodLiteralDef'
 import type { LiteralNode } from '@src/parse/parseNodeTypes'
-import { z } from 'zod/v3'
+import { z } from 'zod'
 
 describe('Parse ZodLiteral', () => {
   it('should parse a zod literal for each possible type', () => {

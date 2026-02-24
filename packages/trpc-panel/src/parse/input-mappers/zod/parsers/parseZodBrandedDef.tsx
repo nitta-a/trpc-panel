@@ -3,12 +3,12 @@ import type {
   ParsedInputNode,
   ParseReferences,
 } from '@src/parse/parseNodeTypes'
-import type { AnyZodObject, ZodBrandedDef } from 'zod/v3'
+import type { ZodType } from 'zod'
 
 export function parseZodBrandedDef(
-  def: ZodBrandedDef<AnyZodObject>,
+  def: ZodType['_def'],
   refs: ParseReferences,
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)
-  return zodSelectorFunction(def.type._def, refs)
+  return zodSelectorFunction(def, refs)
 }

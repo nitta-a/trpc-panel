@@ -1,7 +1,7 @@
 import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
 import { parseZodDefaultDef } from '@src/parse/input-mappers/zod/parsers/parseZodDefaultDef'
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
-import { z } from 'zod/v3'
+import { z } from 'zod'
 
 describe('Parse ZodDefault', () => {
   it('should parse zod number with default as number', () => {

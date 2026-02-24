@@ -1,4 +1,4 @@
-import { z } from 'zod/v3'
+import { z } from 'zod'
 import type { NumberNode } from '../../../parseNodeTypes'
 import { defaultReferences } from '../../defaultReferences'
 import { parseZodBigIntDef } from '../../zod/parsers/parseZodBigIntDef'

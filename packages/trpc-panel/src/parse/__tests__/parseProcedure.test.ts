@@ -8,7 +8,7 @@ import {
 import { testSchemas } from '@src/parse/__tests__/utils/schemas'
 import { type ParsedProcedure, parseProcedure } from '@src/parse/parseProcedure'
 import type { Procedure } from '@src/parse/routerType'
-import { z } from 'zod/v3'
+import { z } from 'zod'
 import zodToJsonSchema from 'zod-to-json-schema'
 
 describe('Parse TRPC Procedure', () => {
@@ -61,7 +61,7 @@ describe('Parse TRPC Procedure', () => {
     })
     const expected: ParsedProcedure = {
       nodeType: 'procedure',
-      inputSchema: zodToJsonSchema(inputSchema),
+      inputSchema: zodToJsonSchema(inputSchema as any),
       pathFromRootRouter: ['testQuery'],
       procedureType: 'query',
       extraData: {

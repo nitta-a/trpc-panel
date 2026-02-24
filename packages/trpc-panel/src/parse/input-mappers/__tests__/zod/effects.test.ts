@@ -1,7 +1,7 @@
 import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
 import { parseZodEffectsDef } from '@src/parse/input-mappers/zod/parsers/parseZodEffectsDef'
 import type { StringNode } from '@src/parse/parseNodeTypes'
-import { z } from 'zod/v3'
+import { z } from 'zod'
 
 describe('Parse ZodEffects', () => {
   it('should parse a zod effects string as an string', () => {

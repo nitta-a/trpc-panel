@@ -1,8 +1,8 @@
 import type { ParsedInputNode } from '@src/parse/parseNodeTypes'
-import { type ZodSchema, z } from 'zod/v3'
+import { type ZodType, z } from 'zod'
 
 export const testEnumValues = ['a', 'b', 'c'] as const
-export const testSchemas: { schema: ZodSchema; parsed: ParsedInputNode }[] = [
+export const testSchemas: { schema: ZodType; parsed: ParsedInputNode }[] = [
   { schema: z.string(), parsed: { type: 'string', path: ['0'] } },
   { schema: z.number(), parsed: { type: 'number', path: ['1'] } },
   { schema: z.boolean(), parsed: { type: 'boolean', path: ['2'] } },

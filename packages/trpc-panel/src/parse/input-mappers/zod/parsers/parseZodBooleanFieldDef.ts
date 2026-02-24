@@ -1,9 +1,9 @@
 import { nodePropertiesFromRef } from '@src/parse/utils'
-import type { ZodBooleanDef } from 'zod/v3'
+import type { core } from 'zod'
 import type { BooleanNode, ParseFunction } from '../../../parseNodeTypes'
 
 export const parseZodBooleanFieldDef: ParseFunction<
-  ZodBooleanDef,
+  core.$ZodBooleanDef,
   BooleanNode
 > = (def, refs) => {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)

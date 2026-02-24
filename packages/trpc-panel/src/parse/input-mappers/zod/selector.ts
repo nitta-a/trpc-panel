@@ -1,5 +1,4 @@
 import { parseZodBigIntDef } from '@src/parse/input-mappers/zod/parsers/parseZodBigIntDef'
-import { parseZodBrandedDef } from '@src/parse/input-mappers/zod/parsers/parseZodBrandedDef'
 import { parseZodDefaultDef } from '@src/parse/input-mappers/zod/parsers/parseZodDefaultDef'
 import { parseZodEffectsDef } from '@src/parse/input-mappers/zod/parsers/parseZodEffectsDef'
 import { parseZodNullableDef } from '@src/parse/input-mappers/zod/parsers/parseZodNullableDef'
@@ -7,33 +6,11 @@ import { parseZodNullDef } from '@src/parse/input-mappers/zod/parsers/parseZodNu
 import { parseZodOptionalDef } from '@src/parse/input-mappers/zod/parsers/parseZodOptionalDef'
 import { parseZodPromiseDef } from '@src/parse/input-mappers/zod/parsers/parseZodPromiseDef'
 import { parseZodUndefinedDef } from '@src/parse/input-mappers/zod/parsers/parseZodUndefinedDef'
-import {
-  type ZodArrayDef,
-  type ZodBigIntDef,
-  type ZodBooleanDef,
-  type ZodBrandedDef,
-  type ZodDefaultDef,
-  type ZodEffectsDef,
-  type ZodEnumDef,
-  ZodFirstPartyTypeKind,
-  type ZodLiteralDef,
-  type ZodNullableDef,
-  type ZodNullDef,
-  type ZodNumberDef,
-  type ZodObjectDef,
-  type ZodOptionalDef,
-  type ZodPromiseDef,
-  type ZodStringDef,
-  type ZodUndefinedDef,
-  type ZodVoidDef,
-} from 'zod/v3'
+import type { core } from 'zod'
 import type { ParserSelectorFunction } from '../../parseNodeTypes'
 import { parseZodArrayDef } from './parsers/parseZodArrayDef'
 import { parseZodBooleanFieldDef } from './parsers/parseZodBooleanFieldDef'
-import {
-  parseZodDiscriminatedUnionDef,
-  type ZodDiscriminatedUnionDefUnversioned,
-} from './parsers/parseZodDiscriminatedUnionDef'
+import { parseZodDiscriminatedUnionDef } from './parsers/parseZodDiscriminatedUnionDef'
 import { parseZodEnumDef } from './parsers/parseZodEnumDef'
 import { parseZodLiteralDef } from './parsers/parseZodLiteralDef'
 import { parseZodNumberDef } from './parsers/parseZodNumberDef'
@@ -46,51 +23,48 @@ export const zodSelectorFunction: ParserSelectorFunction<ZodDefWithType> = (
   def,
   references,
 ) => {
-  // const optional = isZodOptional(zodAny);
-  // const unwrappedOptional = optional ? zodAny._def.innerType : zodAny;
   // Please keep these in alphabetical order
-  switch (def.typeName) {
-    case ZodFirstPartyTypeKind.ZodArray:
-      return parseZodArrayDef(def as ZodArrayDef, references)
-    case ZodFirstPartyTypeKind.ZodBoolean:
-      return parseZodBooleanFieldDef(def as ZodBooleanDef, references)
-    case ZodFirstPartyTypeKind.ZodDiscriminatedUnion:
-      return parseZodDiscriminatedUnionDef(
-        // Zod had some type changes between 3.19 -> 3.20 and we want to support both, not sure there's a way
-        // to avoid this.
-        def as unknown as ZodDiscriminatedUnionDefUnversioned,
-        references,
-      )
-    case ZodFirstPartyTypeKind.ZodEnum:
-      return parseZodEnumDef(def as ZodEnumDef, references)
-    case ZodFirstPartyTypeKind.ZodLiteral:
-      return parseZodLiteralDef(def as ZodLiteralDef, references)
-    case ZodFirstPartyTypeKind.ZodNumber:
-      return parseZodNumberDef(def as ZodNumberDef, references)
-    case ZodFirstPartyTypeKind.ZodObject:
-      return parseZodObjectDef(def as ZodObjectDef, references)
-    case ZodFirstPartyTypeKind.ZodOptional:
-      return parseZodOptionalDef(def as ZodOptionalDef, references)
-    case ZodFirstPartyTypeKind.ZodString:
-      return parseZodStringDef(def as ZodStringDef, references)
-    case ZodFirstPartyTypeKind.ZodNullable:
-      return parseZodNullableDef(def as ZodNullableDef, references)
-    case ZodFirstPartyTypeKind.ZodBigInt:
-      return parseZodBigIntDef(def as ZodBigIntDef, references)
-    case ZodFirstPartyTypeKind.ZodBranded:
-      return parseZodBrandedDef(def as ZodBrandedDef<any>, references)
-    case ZodFirstPartyTypeKind.ZodDefault:
-      return parseZodDefaultDef(def as ZodDefaultDef, references)
-    case ZodFirstPartyTypeKind.ZodEffects:
-      return parseZodEffectsDef(def as ZodEffectsDef, references)
-    case ZodFirstPartyTypeKind.ZodNull:
-      return parseZodNullDef(def as ZodNullDef, references)
-    case ZodFirstPartyTypeKind.ZodPromise:
-      return parseZodPromiseDef(def as ZodPromiseDef, references)
-    case ZodFirstPartyTypeKind.ZodUndefined:
-      return parseZodUndefinedDef(def as ZodUndefinedDef, references)
-    case ZodFirstPartyTypeKind.ZodVoid:
-      return parseZodVoidDef(def as ZodVoidDef, references)
+  switch (def.type) {
+    case 'array':
+      return parseZodArrayDef(def as core.$ZodArrayDef, references)
+    case 'bigint':
+      return parseZodBigIntDef(def as core.$ZodBigIntDef, references)
+    case 'boolean':
+      return parseZodBooleanFieldDef(def as core.$ZodBooleanDef, references)
+    case 'default':
+      return parseZodDefaultDef(def as core.$ZodDefaultDef, references)
+    case 'enum':
+      return parseZodEnumDef(def as core.$ZodEnumDef, references)
+    case 'literal':
+      return parseZodLiteralDef(def as core.$ZodLiteralDef<any>, references)
+    case 'null':
+      return parseZodNullDef(def as core.$ZodNullDef, references)
+    case 'nullable':
+      return parseZodNullableDef(def as core.$ZodNullableDef, references)
+    case 'number':
+      return parseZodNumberDef(def as core.$ZodNumberDef, references)
+    case 'object':
+      return parseZodObjectDef(def as core.$ZodObjectDef, references)
+    case 'optional':
+      return parseZodOptionalDef(def as core.$ZodOptionalDef, references)
+    case 'pipe':
+      return parseZodEffectsDef(def as core.$ZodPipeDef, references)
+    case 'promise':
+      return parseZodPromiseDef(def as core.$ZodPromiseDef, references)
+    case 'string':
+      return parseZodStringDef(def as core.$ZodStringDef, references)
+    case 'undefined':
+      return parseZodUndefinedDef(def as core.$ZodUndefinedDef, references)
+    case 'union':
+      if ('discriminator' in def) {
+        return parseZodDiscriminatedUnionDef(
+          def as core.$ZodDiscriminatedUnionDef,
+          references,
+        )
+      }
+      return { type: 'unsupported', path: references.path }
+    case 'void':
+      return parseZodVoidDef(def as core.$ZodVoidDef, references)
   }
   return { type: 'unsupported', path: references.path }
 }

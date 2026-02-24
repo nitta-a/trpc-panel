@@ -3,10 +3,10 @@ import type {
   ParseReferences,
 } from '@src/parse/parseNodeTypes'
 import { nodePropertiesFromRef } from '@src/parse/utils'
-import type { ZodUndefinedDef } from 'zod/v3'
+import type { core } from 'zod'
 
 export function parseZodUndefinedDef(
-  def: ZodUndefinedDef,
+  def: core.$ZodUndefinedDef,
   refs: ParseReferences,
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)

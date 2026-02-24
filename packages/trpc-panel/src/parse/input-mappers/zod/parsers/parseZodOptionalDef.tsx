@@ -1,12 +1,12 @@
-import type { ZodOptionalDef } from 'zod/v3'
+import { type ZodType, type core } from 'zod'
 import type { ParsedInputNode, ParseFunction } from '../../../parseNodeTypes'
 import { zodSelectorFunction } from '../selector'
 
 export const parseZodOptionalDef: ParseFunction<
-  ZodOptionalDef,
+  core.$ZodOptionalDef,
   ParsedInputNode
 > = (def, refs) => {
-  const parsedInner = zodSelectorFunction(def.innerType._def, refs)
+  const parsedInner = zodSelectorFunction((def.innerType as ZodType)._def, refs)
   refs.addDataFunctions.addDescriptionIfExists(def, refs)
   return {
     ...parsedInner,

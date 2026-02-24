@@ -3,12 +3,12 @@ import type {
   ParsedInputNode,
   ParseReferences,
 } from '@src/parse/parseNodeTypes'
-import type { ZodNullableDef } from 'zod/v3'
+import { type ZodType, type core } from 'zod'
 
 export function parseZodNullableDef(
-  def: ZodNullableDef,
+  def: core.$ZodNullableDef,
   refs: ParseReferences,
 ): ParsedInputNode {
   refs.addDataFunctions.addDescriptionIfExists(def, refs)
-  return zodSelectorFunction(def.innerType._def, refs)
+  return zodSelectorFunction((def.innerType as ZodType)._def, refs)
 }

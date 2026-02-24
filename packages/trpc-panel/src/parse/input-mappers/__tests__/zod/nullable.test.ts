@@ -1,7 +1,7 @@
 import { defaultReferences } from '@src/parse/input-mappers/defaultReferences'
 import { parseZodNullableDef } from '@src/parse/input-mappers/zod/parsers/parseZodNullableDef'
 import type { NumberNode } from '@src/parse/parseNodeTypes'
-import { z } from 'zod/v3'
+import { z } from 'zod'
 
 describe('Parse ZodNullable', () => {
   it("should parse a nullable as it's underlying type", () => {
