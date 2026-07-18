@@ -25,7 +25,7 @@
     "@nittaa/trpc-panel": "*",
     "tsx": "^4.19.2",
     "tsconfig-paths": "^4.1.0",
-    "ws": "^8.19.0",
+    "ws": "^8.21.0",
     "zod": "^4.3.6",
     "zod-to-json-schema": "^3.25.1"
   },
