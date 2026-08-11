@@ -19,7 +19,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.15",
     "@tsconfig/docusaurus": "^1.0.6",
-    "nx": "22.5.1",
+    "nx": "22.7.8",
     "typescript": "^5.9.3"
   },
   "workspaces": {
@@ -35,6 +35,18 @@
   },
   "resolutions": {
     "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25"
+    "@types/react-dom": "^18.2.25",
+    "axios": "^1.18.0",
+    "brace-expansion": "^5.0.9",
+    "braces": "^3.0.3",
+    "body-parser": "^2.3.0",
+    "form-data": "^4.0.6",
+    "micromatch": "^4.0.8",
+    "path-to-regexp": "^8.4.0",
+    "picomatch": "^2.3.2",
+    "postcss": "^8.5.23",
+    "qs": "^6.15.2",
+    "sharp": "^0.35.3",
+    "yaml": "^2.8.1"
   }
 }
